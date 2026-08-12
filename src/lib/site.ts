@@ -13,7 +13,10 @@ export const site = {
   shortName: "SKILLZ",
   role: "DJ · TURNTABLIST · PRODUCER",
 
-  /** Hero background photograph — the approved SKY_0104 source image. */
+  /** Approved hero artwork — locked visual master. */
+  heroReference: "/assets/skillz-hero-approved-reference.png" as string | null,
+
+  /** Authentic source photograph retained for future live reconstruction. */
   heroBackground: "/assets/sky-0104.jpg" as string | null,
 
   /** Foreground figure — transparent cutout of Skillz, layered over the type. */
