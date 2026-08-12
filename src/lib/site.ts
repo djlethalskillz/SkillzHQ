@@ -13,8 +13,11 @@ export const site = {
   shortName: "SKILLZ",
   role: "DJ · TURNTABLIST · PRODUCER",
 
-  /** Approved hero artwork — locked visual master. */
+  /** Approved hero artwork — locked visual master (Reference Lock V1). */
   heroReference: "/assets/skillz-hero-approved-reference.png" as string | null,
+
+  /** Hero 2 subject master — transparent-field PNG composed per Hero 2 Reference. */
+  hero2Master: "/assets/skillz-hero2-master.png" as string | null,
 
   /** Authentic source photograph retained for future live reconstruction. */
   heroBackground: "/assets/sky-0104.jpg" as string | null,
