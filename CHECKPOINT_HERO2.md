@@ -2,6 +2,7 @@
 
 Date: 2026-08-12
 Current commit: `c9fdeeb` — "Hero 2 controlled replacement: compose master subject with SKILLZ type per Hero 2 Reference"
+HEAD: `3301f44` — "add Hero 2 checkpoint/handoff note" (this note; tree clean)
 
 ## History
 
@@ -59,6 +60,18 @@ The MASTER PNG is NOT actually transparent — RGB on a clean pure-white studio 
 
 - `site.bookingEmail: null` → booking CTA shows "Booking destination — coming online."
 - `site.media.youtube / spotify: null` → Watch / Listen show "Available soon"
+
+## Visual refinement areas (tomorrow — controlled pass only)
+
+User-inspected 2026-08-12 evening: implementation substantially better than prior, but requires visual refinement. Known areas to review (do NOT redesign — refine only):
+
+- Subject scale/head prominence vs Hero 2 Reference (head 22.7% of frame width vs ref 20.5%; subject body asymmetry differs from reference crop)
+- Tonal feel: reference face zone reads darker/grittier (47.5% black) than the master render (20.2% black); master is rendered as-provided, unmodified
+- SKILLZ type band and its overlap with the subject
+- Copy (EOTO / supporting / ENTER THE HQ) placement and scale relative to the new subject
+- Any other visual deltas the user flags against `skillz-hero2-reference.png`
+
+Constraints that remain locked: master file untouched, face untouched, no new images, CSS/layout-only adjustments, black/white/yellow only, existing sections and behavior preserved.
 
 ## Resume from this checkpoint
 
