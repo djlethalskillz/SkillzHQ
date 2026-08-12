@@ -1,0 +1,113 @@
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <RootLayout>
+                        <html lang="en" className="anton_3de2...">
+                          <body className="min-h-full...">
+                            <a>
+                            <Header>
+                            ...
+                              <div className="mx-auto fl...">
+                                <div>
+                                <LinkComponent>
+                                  <LinkComponent href="#what-i-do" className="group mb-5...">
+                                    <a
++                                     className="group mb-5 shrink-0 text-lg uppercase tracking-[0.4em] text-white/85 ..."
+-                                     className="group mb-5 shrink-0 text-lg uppercase tracking-[0.4em] text-white/85 ..."
+                                      ref={function}
+                                      onClick={function onClick}
+                                      onMouseEnter={function onMouseEnter}
+                                      onTouchStart={function onTouchStart}
+                                      href="#what-i-do"
+                                    >
+                            <Footer>
+                              <footer className="border-t b...">
+                                <div className="mx-auto w-...">
+                                  <div className="flex flex-...">
+                                    <div>
+                                    <nav className="flex flex-..." aria-label="Footer">
+                                      <LinkComponent>
+                                        <LinkComponent href="#what-i-do" className="transition...">
+                                          <a
++                                           className="transition-colors hover:text-white"
+-                                           className="transition-colors hover:text-white keychainify-checked"
+                                            ref={function}
+                                            onClick={function onClick}
+                                            onMouseEnter={function onMouseEnter}
+                                            onTouchStart={function onTouchStart}
+                                            href="#what-i-do"
+                                          >
++                                           What I Do
+                                      <LinkComponent>
+                                        <LinkComponent href="#workshops..." className="transition...">
+                                          <a
++                                           className="transition-colors hover:text-white"
+-                                           className="transition-colors hover:text-white keychainify-checked"
+                                            ref={function}
+                                            onClick={function onClick}
+                                            onMouseEnter={function onMouseEnter}
+                                            onTouchStart={function onTouchStart}
+                                            href="#workshops-speaking"
+                                          >
++                                           Workshops / Speaking
+                                      <LinkComponent>
+                                        <LinkComponent href="#watch-listen" className="transition...">
+                                          <a
++                                           className="transition-colors hover:text-white"
+-                                           className="transition-colors hover:text-white keychainify-checked"
+                                            ref={function}
+                                            onClick={function onClick}
+                                            onMouseEnter={function onMouseEnter}
+                                            onTouchStart={function onTouchStart}
+                                            href="#watch-listen"
+                                          >
++                                           Watch / Listen
+                                      <LinkComponent>
+                                        <LinkComponent href="#book" className="rounded-fu...">
+                                          <a
++                                           className="rounded-full bg-accent px-6 py-3 font-semibold uppercase tracki..."
+-                                           className="rounded-full bg-accent px-6 py-3 font-semibold uppercase tracki..."
+                                            ref={function}
+                                            onClick={function onClick}
+                                            onMouseEnter={function onMouseEnter}
+                                            onTouchStart={function onTouchStart}
+                                            href="#book"
+                                          >
++                                           Book Skillz
+                                  <div className="mt-12 flex...">
+                                    <p>
+                                    <a
+                                      href="#landing"
++                                     className="transition-colors hover:text-white"
+-                                     className="transition-colors hover:text-white keychainify-checked"
+                                    >
++                                     Back to top
+                  ...
+ 
+    at <unknown> (chrome-extension://mnkbccinkbalkmmnmbcicdobcmgggmfc/assets/js/bundle.js:2:802485)
+    at m (chrome-extension://mnkbccinkbalkmmnmbcicdobcmgggmfc/assets/js/bundle.js:2:802603)
+    at r (chrome-extension://mnkbccinkbalkmmnmbcicdobcmgggmfc/assets/js/bundle.js:2:801546) (chrome-extension://mnkbccinkbalkmmnmbcicdobcmgggmfc/assets/js/bundle.js:2:802485)
