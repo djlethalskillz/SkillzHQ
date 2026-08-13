@@ -59,7 +59,7 @@ export function Hero() {
         </filter>
       </svg>
 
-      <div className="relative mx-auto w-full max-w-[1448px] aspect-[4/3] overflow-hidden">
+      <div className="relative mx-auto w-full max-w-[1448px] aspect-[1.44] overflow-hidden">
         {/* SKILLZ — one continuous giant word, behind the subject.
             Reference: gray-white distressed letters, band y 17–63%, x 9.4–91.2%
             (measured: word ink x 9.4–91.2, Z fully visible, subject in front). */}
@@ -69,7 +69,7 @@ export function Hero() {
         >
           <span
             aria-hidden
-            className="texture-text absolute left-[8.4%] top-[16%] w-[83.5%] text-[clamp(7rem,51.3vw,46.1rem)]"
+            className="texture-text absolute left-[9%] top-[11%] origin-top-left scale-x-[0.76] text-[clamp(12rem,43vw,39rem)]"
           >
             Skillz
           </span>
@@ -78,7 +78,7 @@ export function Hero() {
         {/* DJ LETHAL — white DJ + yellow LETHAL, top-left (ref x 10–32%, y 9.6–15.7%) */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-[10%] top-[9.5%] z-30 flex items-baseline gap-[0.3em] font-display text-[clamp(1.9rem,5.3vw,5.3rem)] uppercase leading-none"
+          className="pointer-events-none absolute left-[9.8%] top-[4%] z-30 flex items-baseline gap-[0.3em] font-display text-[clamp(1.9rem,4.8vw,4.6rem)] uppercase leading-none"
         >
           <span className="text-white">DJ</span>
           <span className="tracking-[0.05em] text-accent">LETHAL</span>
@@ -95,7 +95,7 @@ export function Hero() {
             head center x ≈ 45.5% (ref ≈ 45%), body bottom ≈ 92% (ref ≈ 94%).
             Face untouched; tone via brightness only (no contrast). */}
         <div
-          className="pointer-events-none absolute left-[1.3%] top-[-0.5%] z-20 aspect-[4/3] w-[95.8%] overflow-hidden"
+          className="pointer-events-none absolute left-[-1%] top-[-10%] z-20 aspect-[4/3] w-[112%] overflow-hidden"
           aria-hidden="true"
         >
           {site.hero2Master ? (
@@ -104,7 +104,7 @@ export function Hero() {
               alt=""
               priority
               fill
-              sizes="(max-width: 1448px) 96vw, 1390px"
+              sizes="(max-width: 1448px) 112vw, 1622px"
               className="object-cover"
               style={{ filter: "url(#hero2-white-key) brightness(0.85)" }}
             />
@@ -112,7 +112,7 @@ export function Hero() {
         </div>
 
         {/* Editorial copy — bottom-left, ref EOTO y 68.6–78.5% + supporting values y 82.7–90% */}
-        <div className="absolute bottom-[9.15%] left-[6%] z-30 md:left-[8%]">
+        <div className="absolute bottom-[9%] left-[6%] z-30 md:bottom-[-3%] md:left-[9%]">
           <p className="font-hand text-[clamp(2.25rem,5.3vw,5.3rem)] leading-[0.75] text-accent">
             Each One <span className="block">Teach One</span>
           </p>
