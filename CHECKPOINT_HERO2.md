@@ -1,8 +1,7 @@
 # SkillzHQ V1 — Hero 2 Checkpoint (Clean Production State)
 
-Date: 2026-08-12
-Current commit: `c9fdeeb` — "Hero 2 controlled replacement: compose master subject with SKILLZ type per Hero 2 Reference"
-HEAD: `3301f44` — "add Hero 2 checkpoint/handoff note" (this note; tree clean)
+Date: 2026-08-13
+Current commit: `533e836` — "Hero 2 visual refinement: match reference yellow/white balance and type scale" (tree clean)
 
 ## History
 
@@ -11,73 +10,85 @@ HEAD: `3301f44` — "add Hero 2 checkpoint/handoff note" (this note; tree clean)
 | `825833d` | Initial commit from Create Next App |
 | `1157b71` | Checkpoint: pre-reference-lock-v1 state (CSS reconstruction hero) |
 | `716cbb5` | Apply Reference Lock V1: approved hero artwork as canonical visual master |
-| `c9fdeeb` | **Hero 2 controlled replacement (current)** |
+| `c9fdeeb` | Hero 2 controlled replacement: compose master subject with SKILLZ type per Hero 2 Reference |
+| `3301f44` | Add Hero 2 checkpoint/handoff note |
+| `4ce2373` | Checkpoint: add visual refinement areas for tomorrow's controlled pass |
+| `533e836` | **Hero 2 visual refinement (current)** — controlled pass, CSS/layout only |
 
 Working tree: clean.
 
 ## Files changed in this checkpoint
 
-- `src/components/hero.tsx` — rebuilt around the Hero 2 MASTER subject + giant SKILLZ type
-- `src/lib/site.ts` — added `hero2Master` config key
-- `public/assets/skillz-hero2-master.png` — new (4624×3468)
-- `public/assets/skillz-hero2-reference.png` — new (1448×1086)
+- `src/components/hero.tsx` — controlled refinement of the Hero 2 composition
+- `src/app/globals.css` — `texture-text` fill grayed (#d2d2d2) to match reference letter tone
 
 ## Assets
 
-- **Subject:** `public/assets/skillz-hero2-master.png` (source: `_Claude_References/DJ Lethal Skillz Hero 2 MASTER.png`)
+- **Subject:** `public/assets/skillz-hero2-master.png` (source: `_Claude_References/DJ Lethal Skillz Hero 2 MASTER.png`) — UNTOUCHED
 - **Composition spec:** `public/assets/skillz-hero2-reference.png` (source: `_Claude_References/DJ Lethal Skillz Hero 2 Reference.png`)
 - Historical artifacts preserved: `skillz-hero-approved-reference.png` (Reference Lock V1), `sky-0104.jpg` (authentic source photo), `skillz-cutout.png` (unused)
 
-## White-background keying
+## White-background keying (unchanged)
 
-The MASTER PNG is NOT actually transparent — RGB on a clean pure-white studio field (no alpha channel; verified with PIL). Per the "CSS/layout only" constraint, the white field is keyed out at render time, source untouched:
+MASTER PNG has no alpha (RGB on pure-white studio field). Keyed at render time, source untouched:
+inline SVG `#hero2-white-key` (feColorMatrix luminance→alpha + feComponentTransfer table) + now
+`brightness(0.72) contrast(1.15)` for tonal match to the reference (face zone mean luminance 119 → 96; ref ≈ 80).
 
-- Inline SVG filter `#hero2-white-key` in `hero.tsx`: `feColorMatrix` (luminance → alpha) + `feComponentTransfer` threshold table (`1 ... 1 0 0`) → alpha 1 below lum≈224, 0 at 255.
-- Face survives: face luminance p99 = 190, only sparse glare >224 is cut.
-- Verified: above-head band 100% black, zero white residue; head zone 76.8% skin / 0.4% white.
+## Composition mapping (refined 2026-08-13, measured against Hero 2 Reference)
 
-## Composition mapping (measured against Hero 2 Reference, 4:3)
+Reference element map (measured from pixels, 1448×1086):
 
-- Hero frame: `aspect-[4/3]`, `max-w-[1448px]`, black field, yellow marquee below
-- Subject box: width 101.9% of frame, aspect 4:3, top −7.7%, left +2.6% → head top ≈9%, head center ≈49.6% of frame (reference face: y 9–30%, x 39.5–60%)
-- SKILLZ: Anton 596px desktop (clamp 41.4vw), white distressed treatment, cap band ≈ y 20–65%, spans x 2–98%, layered BEHIND the subject
-- EOTO (Caveat yellow) + supporting copy bottom-left; ENTER THE HQ → bottom-right; CTA scrolls to `#what-i-do`
+| Element | Reference | Render |
+| ------- | --------- | ------ |
+| DJ LETHAL top-left | white DJ + yellow LETHAL, x 10–32%, y 9.6–15.7% | added: x 10–35%, y 9–18%, Anton 6.5vw (93.6px @1440) |
+| Yellow bar top-right | solid #ffe600-ish, x 89–98%, y 1.5–5.4% | added: x 89–98%, y 1–5%, bg-accent |
+| SKILLZ band | gray-white distressed letters (lum ≈ 130–220, avg ≈ 182), x 10–88%, y 17–64% | x 10–88%, y 15–67%, #d2d2d2 fill × grain (avg ≈ 178) |
+| Subject/face | face y 9–30%, x 39.5–60%, center ≈ 49.7%; zone mean lum 80 (gritty) | head top ≈ 9%, center ≈ 50%; mean lum 96, brightness/contrast applied |
+| EOTO | yellow handwritten, x 8–22%, y 68–80% | x 6%, y 72% (unchanged) |
+| ENTER THE HQ | white text y 83.6–85.3%, yellow arrow x 88.8–91.2% | y ≈ 83%, arrow x ≈ 88–92% (nudged) |
+| Marquee strip | yellow strip INSIDE frame bottom, y 94.8–98.9% | moved inside frame bottom edge (was below frame), text-xl |
+| Color balance | black 57.2% / white 2.5% / yellow 5.5% | black 64.2% / white 0.3% / yellow 5.1% |
 
-## QA results
+Notes:
+- "White 0.3% vs 2.5%" — detector artifact: reference letters carry sparse 210+ luminance
+  highlight fragments from distress texture; render uses flat gray fill. Letter AVERAGE
+  luminance matches (≈ 178–182).
+- Face median darkness (ref 30 vs render 118) is photo-intrinsic; pushing further crushes
+  highlights. Mean closed 119 → 96 (ref 80).
+- Head width 22.7% vs ref 20.5% — photo-intrinsic, accepted.
 
-- **Desktop 1440×900:** no overflow; black 62% / white 16.6% / yellow 0.5%; marquee below fold (same as Reference Lock V1)
-- **Responsive 1024×768 / 390×844:** no overflow, no clipping, proportions scale; marquee on-screen on mobile (y361); mobile menu opens; CTA intact
+## QA results (this pass)
+
+- **Desktop 1440×900:** no overflow; marquee strip at frame bottom edge (below fold at 900px, same as prior)
+- **Responsive 1024×768 / 390×844:** no overflow, no clipping; subject/SKILLZ/DJ LETHAL scale proportionally;
+  EOTO at y41% on mobile (block taller relative to short frame) — below face, no overlap; marquee on-screen on mobile
 - **Lint:** clean
-- **Build:** clean, static prerender (one TS null-guard fix applied during this checkpoint)
-- **Browser:** all 5 sections intact (landing, what-i-do, workshops-speaking, book, watch-listen); CTA scrolls correctly; zero console/page errors
-- **Screenshots** (dev only, not committed): `qa-h2-1440/1024/390.png` were captured then removed
+- **Build:** clean, static prerender (`npm run build` + `npm run start` smoke)
+- **Browser (dev + prod):** all 5 sections intact; CTA scrolls to #what-i-do; mobile menu opens;
+  marquee animates (verified with `prefers-reduced-motion: no-preference` — headless Chrome defaults to reduce);
+  zero console/page errors
+- **Screenshots** (temp, not committed): `refine-1440/1024/390-frame.png`, `compare-*.png` in `%TEMP%\skillz-qa\`
 
 ## Known benign warning
 
-`REQFAIL: /assets/each-one-teach-one-hero.mp4 net::ERR_ABORTED` — browser-cancelled `preload="metadata"` probe on the Workshops video (user-initiated playback, `controls`). Not an application error. Present before this checkpoint.
+`REQFAIL: /assets/each-one-teach-one-hero.mp4 net::ERR_ABORTED` — browser-cancelled `preload="metadata"` probe on the Workshops video. Not an application error. Present since before Hero 2.
 
 ## Remaining placeholders (unchanged)
 
 - `site.bookingEmail: null` → booking CTA shows "Booking destination — coming online."
 - `site.media.youtube / spotify: null` → Watch / Listen show "Available soon"
 
-## Visual refinement areas (tomorrow — controlled pass only)
+## Remaining limitations (accepted)
 
-User-inspected 2026-08-12 evening: implementation substantially better than prior, but requires visual refinement. Known areas to review (do NOT redesign — refine only):
-
-- Subject scale/head prominence vs Hero 2 Reference (head 22.7% of frame width vs ref 20.5%; subject body asymmetry differs from reference crop)
-- Tonal feel: reference face zone reads darker/grittier (47.5% black) than the master render (20.2% black); master is rendered as-provided, unmodified
-- SKILLZ type band and its overlap with the subject
-- Copy (EOTO / supporting / ENTER THE HQ) placement and scale relative to the new subject
-- Any other visual deltas the user flags against `skillz-hero2-reference.png`
-
-Constraints that remain locked: master file untouched, face untouched, no new images, CSS/layout-only adjustments, black/white/yellow only, existing sections and behavior preserved.
+- SKILLZ letters are flat gray-white vs reference's per-pixel distressed highlights (CSS-only constraint; no new assets)
+- Face zone darker/grittier in reference (photo lighting intrinsic); render matches mean luminance, not median
+- Head width 22.7% vs ref 20.5% (photo-intrinsic)
+- Top-right yellow bar is a solid shape; reference bar may carry small text (unreadable at asset resolution) — left plain to avoid inventing content
 
 ## Resume from this checkpoint
 
 ```bash
 cd C:\Users\djlet\Skillz-V1-Website
-git checkout c9fdeeb        # or just work from master (tree is clean at this commit)
 npm install                 # if node_modules missing
 npm run dev                 # dev server → http://localhost:3000
 ```
@@ -89,6 +100,6 @@ npm run lint
 npm run build
 ```
 
-Visual QA: headless Chrome screenshot at 1440×900 (see `C:\Users\djlet\AppData\Local\Temp\skillz-qa\` for the puppeteer QA scripts used this session; `puppeteer-core` is a devDependency).
+Visual QA: headless Chrome screenshot at 1440×900 (see `C:\Users\djlet\AppData\Local\Temp\skillz-qa\` for the puppeteer/PIL scripts; `puppeteer-core` is a devDependency).
 
-Do NOT redesign the Hero 2 composition without an explicit new directive.
+Do NOT redesign the Hero 2 composition without an explicit new directive. Master file, face, and all approved assets remain locked; only CSS/layout adjustments are permitted.
