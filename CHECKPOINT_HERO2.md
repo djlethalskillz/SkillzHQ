@@ -1,7 +1,7 @@
 # SkillzHQ V1 — Hero 2 Checkpoint (Clean Production State)
 
 Date: 2026-08-13
-Current commit: `0a1f0e3` — "Hero 2 iteration 2: subject scale/position, SKILLZ band, tone, copy placement per user review" (tree clean)
+Current commit: `578634f` — "Hero 2 iteration 2: subject scale/position, SKILLZ band, tone, copy placement per user review" (tree clean)
 
 ## History
 
@@ -15,7 +15,7 @@ Current commit: `0a1f0e3` — "Hero 2 iteration 2: subject scale/position, SKILL
 | `4ce2373` | Checkpoint: add visual refinement areas for tomorrow's controlled pass |
 | `533e836` | Hero 2 visual refinement: match reference yellow/white balance and type scale |
 | `8130937` | Hero 2 iteration 1: DJ LETHAL + yellow bar, SKILLZ enlargement, marquee inside frame |
-| `0a1f0e3` | **Hero 2 iteration 2 (current)** — corrections per user review: subject scale/position, SKILLZ band, tone, copy placement |
+| `578634f` | **Hero 2 iteration 2 (current)** — corrections per user review: subject scale/position, SKILLZ band, tone, copy placement |
 
 Working tree: clean.
 
