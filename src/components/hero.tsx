@@ -58,18 +58,34 @@ export function Hero() {
       </svg>
 
       <div className="relative mx-auto w-full max-w-[1448px] aspect-[4/3] overflow-hidden">
-        {/* SKILLZ — one continuous giant word, behind the subject */}
+        {/* SKILLZ — one continuous giant word, behind the subject.
+            Reference: gray-white distressed letters, band y 17–64%, x 10–88%. */}
         <h1
           aria-label="Skillz"
           className="pointer-events-none absolute inset-0 z-10 font-display uppercase leading-[0.82] tracking-[-0.01em]"
         >
           <span
             aria-hidden
-            className="texture-text absolute left-[2%] top-[20%] w-[96%] text-[clamp(6rem,41.4vw,37.25rem)]"
+            className="texture-text absolute left-[10%] top-[15%] w-[78%] text-[clamp(7rem,48vw,43.25rem)]"
           >
             Skillz
           </span>
         </h1>
+
+        {/* DJ LETHAL — white DJ + yellow LETHAL, top-left (ref x 10–32%, y 9.6–15.7%) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-[10%] top-[9.5%] z-30 flex items-baseline gap-[0.3em] font-display text-[clamp(2rem,6.5vw,6.5rem)] uppercase leading-none"
+        >
+          <span className="text-white">DJ</span>
+          <span className="text-accent">LETHAL</span>
+        </div>
+
+        {/* Yellow bar — top-right (ref x 89–98%, y 1.5–5.4%) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-[2%] top-[1.5%] z-30 h-[4%] w-[9%] bg-accent"
+        />
 
         {/* Subject — Hero 2 MASTER, white field keyed out in CSS.
             Box: w 101.9% of frame, aspect 4:3, top -7.7% (head top ≈ 9%),
@@ -87,7 +103,7 @@ export function Hero() {
               fill
               sizes="(max-width: 1448px) 102vw, 1480px"
               className="object-cover"
-              style={{ filter: "url(#hero2-white-key)" }}
+              style={{ filter: "url(#hero2-white-key) brightness(0.72) contrast(1.15)" }}
             />
           ) : null}
         </div>
@@ -108,10 +124,10 @@ export function Hero() {
           </div>
         </div>
 
-        {/* CTA — bottom-right, approved placement */}
+        {/* CTA — bottom-right, ref text y 83.6–85.3%, arrow x 88.8–91.2% */}
         <Link
           href="#what-i-do"
-          className="group absolute bottom-[10%] right-[4%] z-30 text-base uppercase tracking-[0.4em] text-white/85 transition-colors hover:text-white md:right-[6%] md:text-lg"
+          className="group absolute bottom-[14%] right-[8%] z-30 text-base uppercase tracking-[0.4em] text-white/85 transition-colors hover:text-white md:text-lg"
         >
           Enter the HQ
           <span className="ml-2 inline-block text-accent transition-transform group-hover:translate-x-1">
@@ -126,15 +142,9 @@ export function Hero() {
           <p>Culture. Education. Turntablism. Legacy. Worldwide.</p>
           <p>Enter the HQ.</p>
         </div>
-      </div>
-
+      {/* Yellow marquee strip — bottom edge inside the frame (ref y 94.8–98.9%) */}
       <div
-        className="grain pointer-events-none absolute inset-0 z-40 opacity-[0.12] mix-blend-overlay"
-        aria-hidden="true"
-      />
-
-      <div
-        className="relative z-50 overflow-hidden border-t border-black bg-accent py-4"
+        className="absolute bottom-0 left-0 right-0 z-50 overflow-hidden bg-accent py-2.5"
         aria-hidden="true"
       >
         <div className="animate-marquee flex w-max">
@@ -147,7 +157,7 @@ export function Hero() {
               {marqueeItems.map((item) => (
                 <span
                   key={`${copy}-${item}`}
-                  className="flex items-center gap-8 pr-8 font-display text-2xl uppercase tracking-wider text-black"
+                  className="flex items-center gap-8 pr-8 font-display text-xl uppercase tracking-wider text-black"
                 >
                   {item}
                   <span className="text-black/50">✦</span>
@@ -157,6 +167,12 @@ export function Hero() {
           ))}
         </div>
       </div>
+      </div>
+
+      <div
+        className="grain pointer-events-none absolute inset-0 z-40 opacity-[0.12] mix-blend-overlay"
+        aria-hidden="true"
+      />
     </section>
   );
 }
