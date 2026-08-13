@@ -13,13 +13,13 @@ export const site = {
   shortName: "SKILLZ",
   role: "DJ · TURNTABLIST · PRODUCER",
 
-  /** Approved hero artwork — locked visual master (Reference Lock V1). */
-  heroReference: "/assets/skillz-hero-approved-reference.png" as string | null,
+  /** Hero 2 — canonical composition reference (the visual North Star, not rendered directly). */
+  heroReference: "/assets/dj-lethal-skillz-hero2-reference.png" as string | null,
 
-  /** Hero 2 subject master — transparent-field PNG composed per Hero 2 Reference. */
+  /** Hero 2 subject master — canonical approved hero asset (white studio field, keyed at render time). */
   hero2Master: "/assets/skillz-hero2-master.png" as string | null,
 
-  /** Authentic source photograph retained for future live reconstruction. */
+  /** Hero background photograph — the approved SKY_0104 source image. */
   heroBackground: "/assets/sky-0104.jpg" as string | null,
 
   /** Foreground figure — transparent cutout of Skillz, layered over the type. */
