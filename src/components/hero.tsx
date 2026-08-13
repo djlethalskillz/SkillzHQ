@@ -52,23 +52,24 @@ export function Hero() {
             values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0.299 0.587 0.114 0 0"
           />
           <feComponentTransfer>
-            <feFuncA type="table" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0" />
+            {/* Sharp threshold: alpha 1 below lum ≈ 239, 0 at pure white 255 —
+                drop concentrated in the studio field only, subject highlights stay opaque */}
+            <feFuncA type="table" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0" />
           </feComponentTransfer>
         </filter>
       </svg>
 
       <div className="relative mx-auto w-full max-w-[1448px] aspect-[4/3] overflow-hidden">
         {/* SKILLZ — one continuous giant word, behind the subject.
-            Reference: gray-white distressed letters, band y 16–70%, x 7–90%.
-            Ink overflows the frame right edge (word wider than frame) — letters
-            read edge-to-edge around the subject, as in the reference. */}
+            Reference: gray-white distressed letters, band y 17–63%, x 9.4–91.2%
+            (measured: word ink x 9.4–91.2, Z fully visible, subject in front). */}
         <h1
           aria-label="Skillz"
           className="pointer-events-none absolute inset-0 z-10 font-display uppercase leading-[0.82] tracking-[-0.01em]"
         >
           <span
             aria-hidden
-            className="texture-text absolute left-[10%] top-[17.5%] w-[78%] text-[clamp(7.5rem,52vw,46.75rem)]"
+            className="texture-text absolute left-[11%] top-[16%] w-[76%] text-[clamp(7rem,47vw,42.25rem)]"
           >
             Skillz
           </span>
@@ -127,10 +128,10 @@ export function Hero() {
           </div>
         </div>
 
-        {/* CTA — bottom-right, ref text y 83.6–85.3%, arrow x 88.8–91.2% */}
+        {/* CTA — bottom-right, ref text y 83.6–85.3%, text ends x ≈ 88%, arrow x 88.8–91.2% */}
         <Link
           href="#what-i-do"
-          className="group absolute bottom-[14%] right-[8%] z-30 text-base uppercase tracking-[0.4em] text-white/85 transition-colors hover:text-white md:text-lg"
+          className="group absolute bottom-[14%] right-[8.8%] z-30 text-base uppercase tracking-[0.9em] text-white/85 transition-colors hover:text-white md:text-lg"
         >
           Enter the HQ
           <span className="ml-2 inline-block text-accent transition-transform group-hover:translate-x-1">
