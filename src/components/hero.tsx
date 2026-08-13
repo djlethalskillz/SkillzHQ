@@ -69,7 +69,7 @@ export function Hero() {
         >
           <span
             aria-hidden
-            className="texture-text absolute left-[9%] top-[11%] origin-top-left scale-x-[0.76] text-[clamp(12rem,43vw,39rem)]"
+            className="texture-text absolute left-[9%] top-[11%] origin-top-left scale-x-[0.825] text-[clamp(12rem,43vw,39rem)]"
           >
             Skillz
           </span>
@@ -78,7 +78,7 @@ export function Hero() {
         {/* DJ LETHAL — white DJ + yellow LETHAL, top-left (ref x 10–32%, y 9.6–15.7%) */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-[9.8%] top-[4%] z-30 flex items-baseline gap-[0.3em] font-display text-[clamp(1.9rem,4.8vw,4.6rem)] uppercase leading-none"
+          className="pointer-events-none absolute left-[9.8%] top-[2.2%] z-30 flex items-baseline gap-[0.3em] font-display text-[clamp(1.9rem,4.8vw,4.6rem)] uppercase leading-none"
         >
           <span className="text-white">DJ</span>
           <span className="tracking-[0.05em] text-accent">LETHAL</span>
@@ -95,7 +95,7 @@ export function Hero() {
             head center x ≈ 45.5% (ref ≈ 45%), body bottom ≈ 92% (ref ≈ 94%).
             Face untouched; tone via brightness only (no contrast). */}
         <div
-          className="pointer-events-none absolute left-[-1%] top-[-10%] z-20 aspect-[4/3] w-[112%] overflow-hidden"
+          className="pointer-events-none absolute left-[-5%] top-[-10%] z-20 aspect-[4/3] w-[112%] overflow-hidden"
           aria-hidden="true"
         >
           {site.hero2Master ? (
@@ -112,7 +112,7 @@ export function Hero() {
         </div>
 
         {/* Editorial copy — bottom-left, ref EOTO y 68.6–78.5% + supporting values y 82.7–90% */}
-        <div className="absolute bottom-[9%] left-[6%] z-30 md:bottom-[-3%] md:left-[9%]">
+        <div className="absolute bottom-[9%] left-[6%] z-30 md:left-[9%]">
           <p className="font-hand text-[clamp(2.25rem,5.3vw,5.3rem)] leading-[0.75] text-accent">
             Each One <span className="block">Teach One</span>
           </p>
