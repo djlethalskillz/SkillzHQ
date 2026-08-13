@@ -1,6 +1,19 @@
 # SkillzHQ V1 — Hero 2 Checkpoint (Clean Production State)
 
 Date: 2026-08-13
+
+## Current follow-up visual lock — 2026-08-13
+
+Latest Hero commit: `c38af87` — "Align Hero 2 composition to approved reference".
+
+The prior Hero pass used element-scoped captures. This follow-up used true browser viewport captures and corrected the composition against `public/assets/dj-lethal-skillz-hero2-reference.png`.
+
+- Frame uses the approved wide poster proportion (`aspect-[1.44]`).
+- `SKILLZ` is horizontally fitted so the complete Z remains visible in the reference band.
+- `DJ LETHAL` is returned to the upper-left reference band.
+- The unmodified MASTER shifts left into the approved central overlap; no horizontal image distortion is applied.
+- EOTO and values return to the lower-left reference band; the CTA and marquee remain independent layers.
+- Viewport QA: 1440×900, 1024×768, and 390×844. Lint and production build pass; the design detector returned no findings.
 Current commit: `49601a9` — "Hero 2 final reconstruction: canonical reference alignment + QA verified" (tree clean)
 
 ## History
