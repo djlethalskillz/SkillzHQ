@@ -59,14 +59,16 @@ export function Hero() {
 
       <div className="relative mx-auto w-full max-w-[1448px] aspect-[4/3] overflow-hidden">
         {/* SKILLZ — one continuous giant word, behind the subject.
-            Reference: gray-white distressed letters, band y 17–64%, x 10–88%. */}
+            Reference: gray-white distressed letters, band y 16–70%, x 7–90%.
+            Ink overflows the frame right edge (word wider than frame) — letters
+            read edge-to-edge around the subject, as in the reference. */}
         <h1
           aria-label="Skillz"
           className="pointer-events-none absolute inset-0 z-10 font-display uppercase leading-[0.82] tracking-[-0.01em]"
         >
           <span
             aria-hidden
-            className="texture-text absolute left-[10%] top-[15%] w-[78%] text-[clamp(7rem,48vw,43.25rem)]"
+            className="texture-text absolute left-[10%] top-[17.5%] w-[78%] text-[clamp(7.5rem,52vw,46.75rem)]"
           >
             Skillz
           </span>
@@ -88,11 +90,12 @@ export function Hero() {
         />
 
         {/* Subject — Hero 2 MASTER, white field keyed out in CSS.
-            Box: w 101.9% of frame, aspect 4:3, top -7.7% (head top ≈ 9%),
-            left +2.6% → head center ≈ 50% of frame (ref face center ~49.7%).
-            Head width ≈ 22.7% vs ref 20.5% (photo-intrinsic difference). */}
+            Box scaled 0.94 and lowered: head top ≈ 15% (ref ≈ 16%),
+            head width ≈ 21.3% (ref 20.5%), head center x ≈ 45.5% (ref ≈ 45%),
+            body bottom ≈ 92% (ref ≈ 94%). Face untouched; tone via brightness
+            only (no contrast) to preserve photographic detail. */}
         <div
-          className="pointer-events-none absolute left-[2.6%] top-[-7.7%] z-20 aspect-[4/3] w-[101.9%] overflow-hidden"
+          className="pointer-events-none absolute left-[1.3%] top-[-0.5%] z-20 aspect-[4/3] w-[95.8%] overflow-hidden"
           aria-hidden="true"
         >
           {site.hero2Master ? (
@@ -101,15 +104,15 @@ export function Hero() {
               alt=""
               priority
               fill
-              sizes="(max-width: 1448px) 102vw, 1480px"
+              sizes="(max-width: 1448px) 96vw, 1390px"
               className="object-cover"
-              style={{ filter: "url(#hero2-white-key) brightness(0.72) contrast(1.15)" }}
+              style={{ filter: "url(#hero2-white-key) brightness(0.85)" }}
             />
           ) : null}
         </div>
 
-        {/* Editorial copy — bottom-left, approved placement */}
-        <div className="absolute bottom-[9%] left-[4%] z-30 md:left-[6%]">
+        {/* Editorial copy — bottom-left, ref EOTO y 68–80% + supporting to y 87% */}
+        <div className="absolute bottom-[13%] left-[4%] z-30 md:left-[6%]">
           <p className="font-hand text-[clamp(2.25rem,5vw,4rem)] leading-[1.02] text-accent">
             Each One <span className="block">Teach One</span>
           </p>

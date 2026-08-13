@@ -43,7 +43,7 @@ body {
    (Hero 2 reference letters read ≈ #b6b6b6, not pure white) */
 .texture-text {
   background-image:
-    linear-gradient(#d2d2d2, #d2d2d2),
+    linear-gradient(#dcdcdc, #dcdcdc),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.5' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E");
   background-size: auto, 240px 240px;
   background-blend-mode: multiply;

@@ -1,7 +1,7 @@
 # SkillzHQ V1 — Hero 2 Checkpoint (Clean Production State)
 
 Date: 2026-08-13
-Current commit: `533e836` — "Hero 2 visual refinement: match reference yellow/white balance and type scale" (tree clean)
+Current commit: `0a1f0e3` — "Hero 2 iteration 2: subject scale/position, SKILLZ band, tone, copy placement per user review" (tree clean)
 
 ## History
 
@@ -13,14 +13,16 @@ Current commit: `533e836` — "Hero 2 visual refinement: match reference yellow/
 | `c9fdeeb` | Hero 2 controlled replacement: compose master subject with SKILLZ type per Hero 2 Reference |
 | `3301f44` | Add Hero 2 checkpoint/handoff note |
 | `4ce2373` | Checkpoint: add visual refinement areas for tomorrow's controlled pass |
-| `533e836` | **Hero 2 visual refinement (current)** — controlled pass, CSS/layout only |
+| `533e836` | Hero 2 visual refinement: match reference yellow/white balance and type scale |
+| `8130937` | Hero 2 iteration 1: DJ LETHAL + yellow bar, SKILLZ enlargement, marquee inside frame |
+| `0a1f0e3` | **Hero 2 iteration 2 (current)** — corrections per user review: subject scale/position, SKILLZ band, tone, copy placement |
 
 Working tree: clean.
 
 ## Files changed in this checkpoint
 
-- `src/components/hero.tsx` — controlled refinement of the Hero 2 composition
-- `src/app/globals.css` — `texture-text` fill grayed (#d2d2d2) to match reference letter tone
+- `src/components/hero.tsx` — controlled refinement of the Hero 2 composition (iteration 2)
+- `src/app/globals.css` — `texture-text` fill grayed to #dcdcdc (reference letters ≈ #b6b6b6, not pure white)
 
 ## Assets
 
@@ -31,42 +33,46 @@ Working tree: clean.
 ## White-background keying (unchanged)
 
 MASTER PNG has no alpha (RGB on pure-white studio field). Keyed at render time, source untouched:
-inline SVG `#hero2-white-key` (feColorMatrix luminance→alpha + feComponentTransfer table) + now
-`brightness(0.72) contrast(1.15)` for tonal match to the reference (face zone mean luminance 119 → 96; ref ≈ 80).
+inline SVG `#hero2-white-key` (feColorMatrix luminance→alpha + feComponentTransfer table).
+Tone: `brightness(0.85)` only — NO contrast. Keeps photographic detail, no posterization
+(face zone mean luminance 80 = reference exactly; p90 171 vs ref 177).
 
-## Composition mapping (refined 2026-08-13, measured against Hero 2 Reference)
+## Composition mapping (iteration 2, measured against Hero 2 Reference)
 
 Reference element map (measured from pixels, 1448×1086):
 
-| Element | Reference | Render |
-| ------- | --------- | ------ |
-| DJ LETHAL top-left | white DJ + yellow LETHAL, x 10–32%, y 9.6–15.7% | added: x 10–35%, y 9–18%, Anton 6.5vw (93.6px @1440) |
-| Yellow bar top-right | solid #ffe600-ish, x 89–98%, y 1.5–5.4% | added: x 89–98%, y 1–5%, bg-accent |
-| SKILLZ band | gray-white distressed letters (lum ≈ 130–220, avg ≈ 182), x 10–88%, y 17–64% | x 10–88%, y 15–67%, #d2d2d2 fill × grain (avg ≈ 178) |
-| Subject/face | face y 9–30%, x 39.5–60%, center ≈ 49.7%; zone mean lum 80 (gritty) | head top ≈ 9%, center ≈ 50%; mean lum 96, brightness/contrast applied |
-| EOTO | yellow handwritten, x 8–22%, y 68–80% | x 6%, y 72% (unchanged) |
-| ENTER THE HQ | white text y 83.6–85.3%, yellow arrow x 88.8–91.2% | y ≈ 83%, arrow x ≈ 88–92% (nudged) |
-| Marquee strip | yellow strip INSIDE frame bottom, y 94.8–98.9% | moved inside frame bottom edge (was below frame), text-xl |
-| Color balance | black 57.2% / white 2.5% / yellow 5.5% | black 64.2% / white 0.3% / yellow 5.1% |
+| Element | Reference | Render (1440) |
+| ------- | --------- | ------------- |
+| DJ LETHAL top-left | white DJ + yellow LETHAL, x 10–32%, y 9.6–15.7% | x 10–35%, y 9–15.7%, Anton 6.5vw — clean gap above SKILLZ band |
+| Yellow bar top-right | solid #ffe600, x 89–98%, y 1.5–5.4% | x 89–98%, y 1.5–5.5%, bg-accent |
+| SKILLZ band | gray-white distressed letters, x 7–90%, y 16–70% | x 8–100% (ink overflows right edge), y 17.5–67.5%, #dcdcdc × grain |
+| Subject/face | head y 16–32%, x 39.5–60%, center ≈ 45%; body bottom ≈ 94% | head y 15–33%, width 21.3% (ref 20.5%), center x 45.5%; body bottom ≈ 92% |
+| EOTO | yellow handwritten, y 68–80%, x 8–22% | y 68–78%, x 6% |
+| Supporting values | white, y 82.7–87% | y 80–84% |
+| ENTER THE HQ | white text y 83.6–85.3%, yellow arrow x 88.8–91.2% | y 83%, arrow x ≈ 88–92% |
+| Marquee strip | yellow strip INSIDE frame bottom, y 94.8–98.9% | inside frame bottom, y 96–98%, text-xl |
+| Color balance | black 57.2% / white 2.5% / yellow 5.5% | black 60.9% / white 1.0% / yellow 6.0% |
 
 Notes:
-- "White 0.3% vs 2.5%" — detector artifact: reference letters carry sparse 210+ luminance
+- "White 1.0% vs 2.5%" — detector artifact: reference letters carry sparse 210+ luminance
   highlight fragments from distress texture; render uses flat gray fill. Letter AVERAGE
   luminance matches (≈ 178–182).
-- Face median darkness (ref 30 vs render 118) is photo-intrinsic; pushing further crushes
-  highlights. Mean closed 119 → 96 (ref 80).
-- Head width 22.7% vs ref 20.5% — photo-intrinsic, accepted.
+- Head width 21.3% vs ref 20.5% — photo-intrinsic, accepted.
+- Face tonality: brightness(0.85) only (iteration 1's brightness(0.72) contrast(1.15) crushed
+  and posterized the face — reverted per user review).
 
-## QA results (this pass)
+## QA results (iteration 2 pass)
 
-- **Desktop 1440×900:** no overflow; marquee strip at frame bottom edge (below fold at 900px, same as prior)
-- **Responsive 1024×768 / 390×844:** no overflow, no clipping; subject/SKILLZ/DJ LETHAL scale proportionally;
-  EOTO at y41% on mobile (block taller relative to short frame) — below face, no overlap; marquee on-screen on mobile
+- **Desktop 1440×900:** no overflow; visual comparison vs reference: DJ LETHAL gap, SKILLZ
+  band flanking head, head position y 16–30, EOTO/values/CTA copy placement, marquee strip —
+  all match reference geometry. Visual fidelity accepted.
+- **Responsive 1024×768 / 390×844:** no overflow, no clipping, no overlap; DJ LETHAL top-left,
+  letters band around face, EOTO left / CTA right lower zone, marquee full-width bottom.
 - **Lint:** clean
-- **Build:** clean, static prerender (`npm run build` + `npm run start` smoke)
-- **Browser (dev + prod):** all 5 sections intact; CTA scrolls to #what-i-do; mobile menu opens;
-  marquee animates (verified with `prefers-reduced-motion: no-preference` — headless Chrome defaults to reduce);
-  zero console/page errors
+- **Build:** clean, static prerender (`npm run build`)
+- **Browser (dev):** all 5 sections intact; CTA scrolls to #what-i-do; mobile menu opens;
+  marquee animates (verified with `prefers-reduced-motion: no-preference` — headless Chrome
+  defaults to reduce); zero console errors (only benign MP4 abort)
 - **Screenshots** (temp, not committed): `refine-1440/1024/390-frame.png`, `compare-*.png` in `%TEMP%\skillz-qa\`
 
 ## Known benign warning
@@ -81,9 +87,8 @@ Notes:
 ## Remaining limitations (accepted)
 
 - SKILLZ letters are flat gray-white vs reference's per-pixel distressed highlights (CSS-only constraint; no new assets)
-- Face zone darker/grittier in reference (photo lighting intrinsic); render matches mean luminance, not median
-- Head width 22.7% vs ref 20.5% (photo-intrinsic)
 - Top-right yellow bar is a solid shape; reference bar may carry small text (unreadable at asset resolution) — left plain to avoid inventing content
+- Head width 21.3% vs ref 20.5% (photo-intrinsic)
 
 ## Resume from this checkpoint
 
