@@ -1,7 +1,7 @@
 # SkillzHQ V1 — Hero 2 Checkpoint (Clean Production State)
 
 Date: 2026-08-13
-Current commit: `3ca4a13` — "Hero 2 final reconstruction: SKILLZ Z fully visible, CTA span, halo threshold" (tree clean)
+Current commit: `49601a9` — "Hero 2 final reconstruction: canonical reference alignment + QA verified" (tree clean)
 
 ## History
 
@@ -16,19 +16,23 @@ Current commit: `3ca4a13` — "Hero 2 final reconstruction: SKILLZ Z fully visib
 | `533e836` | Hero 2 visual refinement: match reference yellow/white balance and type scale |
 | `8130937` | Hero 2 iteration 1: DJ LETHAL + yellow bar, SKILLZ enlargement, marquee inside frame |
 | `578634f` | Hero 2 iteration 2 — corrections per user review: subject scale/position, SKILLZ band, tone, copy placement |
-| `3ca4a13` | **Hero 2 final reconstruction (current)** — SKILLZ Z fully visible (word x 9.4–91.2), CTA span/tracking, sharp white-key threshold |
+| `3ca4a13` | Hero 2 final reconstruction — SKILLZ Z fully visible (word x 9.4–91.2), CTA span/tracking, sharp white-key threshold |
+| `49601a9` | **Hero 2 final reconstruction (current)** — full element-by-element alignment to Hero 2 Reference (1448×1086): EOTO 5.3vw Caveat, values Anton 22px, CTA thin SVG arrow, marquee strip 43px = ref, responsive fixes (max-sm compact marquee), lint/build/browser QA verified. Also commits canonical reference asset, MASTER source copy, and superseded asset-lock patch artifacts for history |
 
 Working tree: clean.
 
 ## Files changed in this checkpoint
 
-- `src/components/hero.tsx` — final reconstruction: SKILLZ word refit (Z fully visible), CTA span/tracking, sharp white-key threshold
-- `src/app/globals.css` — `texture-text` fill grayed to #dcdcdc (reference letters ≈ #b6b6b6, not pure white; from iteration 2)
+- `src/components/hero.tsx` — final reconstruction: SKILLZ word refit (Z fully visible), DJ LETHAL size/tracking, CTA SVG arrow + tracking, EOTO Caveat 5.3vw leading 0.75, values Anton 22px, wrapper bottom 9.15% + mt 36px, marquee `max-sm:py-1 max-sm:text-xs`, sharp white-key threshold
+- `src/lib/site.ts` — hero2Master restored (`/assets/skillz-hero2-master.png`), heroReference added (`/assets/dj-lethal-skillz-hero2-reference.png`)
+- `public/assets/dj-lethal-skillz-hero2-reference.png` — canonical composition reference (1448×1086 RGBA, pixel-identical to previous reference)
+- `DJ Lethal Skillz Hero 2 MASTER.png` (repo root) — source copy of the canonical MASTER (hash-identical to `public/assets/skillz-hero2-master.png`)
+- `README.txt`, `SKILLZ_HERO2_TAKEOVER_PATCH.zip` — superseded asset-lock patch artifacts, preserved for history (replaced by this reconstruction per the HERO 2 TAKEOVER task)
 
 ## Assets
 
-- **Subject:** `public/assets/skillz-hero2-master.png` (source: `_Claude_References/DJ Lethal Skillz Hero 2 MASTER.png`) — UNTOUCHED
-- **Composition spec:** `public/assets/skillz-hero2-reference.png` (source: `_Claude_References/DJ Lethal Skillz Hero 2 Reference.png`)
+- **Subject:** `public/assets/skillz-hero2-master.png` (4624×3468 RGB, white studio field) — UNTOUCHED
+- **Composition spec:** `public/assets/dj-lethal-skillz-hero2-reference.png` (1448×1086 RGBA)
 - Historical artifacts preserved: `skillz-hero-approved-reference.png` (Reference Lock V1), `sky-0104.jpg` (authentic source photo), `skillz-cutout.png` (unused)
 
 ## White-background keying
@@ -36,53 +40,40 @@ Working tree: clean.
 MASTER PNG has no alpha (RGB on pure-white studio field). Keyed at render time, source untouched:
 inline SVG `#hero2-white-key` (feColorMatrix luminance→alpha + feComponentTransfer table).
 Tone: `brightness(0.85)` only — NO contrast. Keeps photographic detail, no posterization
-(face zone mean luminance 80 = reference exactly; p90 171 vs ref 177).
+(face chroma verified: render (161,126,108) vs ref (166,127,107) — essentially identical).
 
-Final pass: threshold sharpened to `"…1 0"` (17 values) — alpha 1 below lum ≈ 239, 0 at 255.
-Drop concentrated in the studio field, subject highlight edges stay opaque. Verified: zero
-near-white fringe pixels at subject edges (all near-white pixels are DJ LETHAL's white glyphs).
+Threshold: sharp `"…1 0"` (17 values) — alpha 1 below lum ≈ 239, 0 at 255. Drop concentrated
+in the studio field; subject highlights stay opaque (zero near-white fringe at subject edges).
 
-## Composition mapping (final pass, measured against Hero 2 Reference)
-
-Reference element map (measured from pixels, 1448×1086):
+## Composition mapping (final pass, measured against Hero 2 Reference, 1440×1080 frame)
 
 | Element | Reference | Render (1440) |
 | ------- | --------- | ------------- |
-| DJ LETHAL top-left | white DJ + yellow LETHAL, x 10–32%, y 9.6–15.7% | x 10–35%, y 9–15.7%, Anton 6.5vw — clean gap above SKILLZ band |
+| DJ LETHAL top-left | white DJ + yellow LETHAL, ink x 16.8–31.9%, band y 10.7–15.3% | ink x 16.9–31.6%, same band, Anton 5.3vw, LETHAL tracking 0.05em |
 | Yellow bar top-right | solid #ffe600, x 89–98%, y 1.5–5.4% | x 89–98%, y 1.5–5.5%, bg-accent |
-| SKILLZ band | gray-white distressed letters, word ink x 9.4–91.2%, band y 17–63%, Z fully visible | x 9–89.5%, y 17–63%, 47vw, #dcdcdc × grain — S K I L L Z complete, Z right leg x 84.5–89 (inside frame), face overlaps L like ref |
+| SKILLZ band | gray-white distressed letters, word ink x 9.4–91.2%, band y 17–63%, Z fully visible | word ink x 9.4–91.8%, band y 17–63%, 51.3vw Anton, #dcdcdc × grain — Z fully visible, subject overlaps like ref |
 | Subject/face | head y 16–32%, x 39.5–60%, center ≈ 45%; body bottom ≈ 94% | head y 15–33%, width 21.3% (ref 20.5%), center x 45.5%; body bottom ≈ 92% |
-| EOTO | yellow handwritten, y 68–80%, x 8–22% | y 68–78%, x 6% |
-| Supporting values | white, y 82.7–87% | y 80–84% |
-| ENTER THE HQ | white text y 83.6–85.3%, ends x ≈ 88%, yellow arrow x 88.8–91.2% | y 83%, text x 67.6–88.2 (tracking 0.9em), arrow x 88.8–91.2 |
-| Marquee strip | yellow strip INSIDE frame bottom, y 94.8–98.9% | inside frame bottom, y 96–98%, text-xl |
-| Color balance | black 57.2% / white 2.5% / yellow 5.5% | black 60.9% / white 1.0% / yellow 6.0% |
+| EOTO | yellow Caveat, ink y 68.6–78.5%, x 8.4–22% | ink y 68.7–78.5%, x 8.8–23.3%, Caveat 5.3vw leading 0.75 |
+| Supporting values | white, 3 lines y 82.8–90.0%, x 9.1–24.3% | 3 lines y 82.8–90.0% (line 1: 82.4–84.1, line 3: 88.5–90.0), Anton 22px leading 1.4 |
+| ENTER THE HQ | white text y 83.6–85.3%, x 77.2–87.5%; thin 2-stroke arrow x 88.8–91.2% | text x 77.7–87.4%, same y; inline SVG arrow x 88.9–91.1%, tracking 0.12em |
+| Marquee strip | yellow strip INSIDE frame bottom, y 94.9–98.8% (43px, text ink ≈ 16px) | inside frame bottom, y 95.1–98.8% (43px = ref), text-xl; `max-sm` compacts to 24px for mobile clearance |
 
 Notes:
-- "White 1.0% vs 2.5%" — detector artifact: reference letters carry sparse 210+ luminance
-  highlight fragments from distress texture; render uses flat gray fill. Letter AVERAGE
-  luminance matches (≈ 178–182).
-- Head width 21.3% vs ref 20.5% — photo-intrinsic, accepted.
-- Face tonality: brightness(0.85) only (iteration 1's brightness(0.72) contrast(1.15) crushed
-  and posterized the face — reverted per user review).
+- Bottom-left block anchored so EOTO top + values bottom land on reference bands (wrapper `bottom-[9.15%]`, values `mt-[36px]`).
+- All copy set in project fonts: Anton (--font-anton) display, Caveat (--font-caveat) hand, Switzer (font-body) supporting.
+- Face tonality: brightness(0.85) only (iteration 1's brightness(0.72) contrast(1.15) crushed and posterized the face — reverted per user review).
+- Reference corner artifact: ref has a near-white hair-tip fragment at top-left (x 1.9–10.7%, y 2.5–4.6%); the white-key threshold keys near-white subject edges by design (face and body unaffected). Accepted, inherent to CSS keying.
 
 ## QA results (final pass)
 
-- **Desktop 1440×900:** no overflow; visual comparison vs reference: S K I L L Z complete word
-  with Z fully visible (right leg x 84.5–89 inside frame, ref 85.5–91.2), face overlaps L
-  (subject in front of typography), DJ LETHAL clean above letters, EOTO/values/CTA placement,
-  CTA text ends x 88.2 + arrow x 88.8–91.2 (ref), marquee strip at bottom. Visual fidelity accepted.
-- **Responsive 1024×768 / 390×844:** no overflow, no clipping, no overlap; DJ LETHAL top-left,
-  letters band around face, EOTO left / CTA right lower zone (tracking scales, fits 74% width
-  at 390), marquee full-width bottom.
-- **Halo:** zero near-white fringe at subject edges (sharpened threshold; all near-white
-  pixels are DJ LETHAL's white glyphs)
-- **Lint:** clean
+- **Desktop 1440×900:** element-by-element pixel measurement vs reference — all within ~0.5pp: SKILLZ word x 9.4–91.8% (Z fully visible, right edge past ref), DJ LETHAL ink x 16.9–31.6% same band, EOTO y 68.7–78.5% (ref 68.6–78.5), values lines 82.4–84.1 / 85.4–86.9 / 88.5–90.0 (ref 82.8–84.1 / 85.5–87.0 / 88.5–90.0), CTA text x 77.7–87.4% + arrow 88.9–91.1% (ref 77.2–87.5 / 88.8–91.1), marquee strip 43.2px (ref 43px), face chroma identical. Visual fidelity accepted.
+- **Responsive 1024×768:** no overflow (scrollW = clientW), composition scales proportionally (all element percentages unchanged), CTA clear of marquee, marquee animating.
+- **Responsive 390×844:** no overflow, no clipping; values ink clears compact marquee (~5px), CTA clear; mobile nav hamburger opens menu (4 links); marquee animating. EOTO/values/CTA readable (EOTO clamps to 36px min, values 11px, CTA 16px — deliberate readability over strict ref proportions at this size).
+- **Halo:** zero near-white fringe at subject edges (sharpened threshold; all near-white pixels are DJ LETHAL's white glyphs)
+- **Lint:** clean (`npm run lint`)
 - **Build:** clean, static prerender (`npm run build`)
-- **Browser (dev):** all 5 sections intact; CTA scrolls to #what-i-do; mobile menu opens;
-  marquee animates (verified with `prefers-reduced-motion: no-preference` — headless Chrome
-  defaults to reduce); zero console errors (only benign MP4 abort)
-- **Screenshots** (temp, not committed): `refine-1440/1024/390-frame.png`, `compare-*.png` in `%TEMP%\skillz-qa\`
+- **Browser (dev):** all sections intact (landing 1080, what-i-do 1559, workshops-speaking 2222, book 1232, watch-listen 821, footer); CTA scrolls to #what-i-do; mobile menu opens; marquee animates; zero console errors (only benign MP4 abort)
+- **Screenshots** (temp, not committed): `shot11-1440-frame.png`, `resp-1024x768-frame.png`, `resp-390x844-viewport.png` in `%TEMP%\skillz-qa\`
 
 ## Known benign warning
 
@@ -98,6 +89,8 @@ Notes:
 - SKILLZ letters are flat gray-white vs reference's per-pixel distressed highlights (CSS-only constraint; no new assets)
 - Top-right yellow bar is a solid shape; reference bar may carry small text (unreadable at asset resolution) — left plain to avoid inventing content
 - Head width 21.3% vs ref 20.5% (photo-intrinsic)
+- White-key threshold keys near-white subject edges (top-left hair tip) — face and body unaffected
+- Mobile: copy sizes are readability-clamped above strict reference scale; marquee compacts (`max-sm`) so values stay clear
 
 ## Resume from this checkpoint
 
