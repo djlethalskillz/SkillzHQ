@@ -1,7 +1,7 @@
 # SkillzHQ V1 — Hero 2 Checkpoint (Clean Production State)
 
 Date: 2026-08-13
-Current commit: `83b1a2e` — "Hero 2 final reconstruction: SKILLZ Z fully visible, CTA span, halo threshold" (tree clean)
+Current commit: `3ca4a13` — "Hero 2 final reconstruction: SKILLZ Z fully visible, CTA span, halo threshold" (tree clean)
 
 ## History
 
@@ -16,7 +16,7 @@ Current commit: `83b1a2e` — "Hero 2 final reconstruction: SKILLZ Z fully visib
 | `533e836` | Hero 2 visual refinement: match reference yellow/white balance and type scale |
 | `8130937` | Hero 2 iteration 1: DJ LETHAL + yellow bar, SKILLZ enlargement, marquee inside frame |
 | `578634f` | Hero 2 iteration 2 — corrections per user review: subject scale/position, SKILLZ band, tone, copy placement |
-| `83b1a2e` | **Hero 2 final reconstruction (current)** — SKILLZ Z fully visible (word x 9.4–91.2), CTA span/tracking, sharp white-key threshold |
+| `3ca4a13` | **Hero 2 final reconstruction (current)** — SKILLZ Z fully visible (word x 9.4–91.2), CTA span/tracking, sharp white-key threshold |
 
 Working tree: clean.
 
