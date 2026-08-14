@@ -60,13 +60,24 @@ export function Hero() {
               in="SourceGraphic"
               type="matrix"
               values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0.299 0.587 0.114 0 0"
+              result="luminanceAlpha"
             />
-            <feComponentTransfer>
+            <feComponentTransfer in="luminanceAlpha" result="keyAlpha">
               <feFuncA type="table" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 0.9 0.6 0.3 0.1 0" />
             </feComponentTransfer>
+            {/* Flatten RGB to a constant so the matte can be eroded on its own —
+                erosion below only ever touches this alpha mask, never SourceGraphic's colors. */}
+            <feColorMatrix
+              in="keyAlpha"
+              type="matrix"
+              values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0"
+              result="maskOnly"
+            />
             {/* Choke the matte ~1px so anti-aliased edge pixels from the white studio
                 backdrop don't survive as a bright rim against the black frame. */}
-            <feMorphology operator="erode" radius="1" />
+            <feMorphology in="maskOnly" operator="erode" radius="1" result="erodedMask" />
+            {/* Recombine: original untouched photo RGB, masked by the eroded alpha only. */}
+            <feComposite in="SourceGraphic" in2="erodedMask" operator="in" />
           </filter>
         </svg>
 
