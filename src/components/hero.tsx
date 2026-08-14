@@ -122,7 +122,7 @@ export function Hero() {
             sizes="(max-width: 1448px) 100vw, 1448px"
             className="object-cover"
           />
-          <p className="pointer-events-none absolute left-[9.2%] top-[88.4%] font-display text-[clamp(0.65rem,1.4vw,1rem)] uppercase leading-none tracking-[0.25em] text-white">
+          <p className="pointer-events-none absolute left-[9.2%] top-[88.4%] font-body text-[clamp(0.65rem,1.4vw,1rem)] uppercase leading-none tracking-[0.25em] text-white">
             {values[4]}
           </p>
         </div>
