@@ -62,8 +62,11 @@ export function Hero() {
               values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0.299 0.587 0.114 0 0"
             />
             <feComponentTransfer>
-              <feFuncA type="table" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0" />
+              <feFuncA type="table" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 0.9 0.6 0.3 0.1 0" />
             </feComponentTransfer>
+            {/* Choke the matte ~1px so anti-aliased edge pixels from the white studio
+                backdrop don't survive as a bright rim against the black frame. */}
+            <feMorphology operator="erode" radius="1" />
           </filter>
         </svg>
 
@@ -89,35 +92,40 @@ export function Hero() {
           className="pointer-events-none z-30 object-cover"
         />
 
-        {/* Exact reference-derived EOTO artwork layer. */}
-        <Image
-          src="/assets/hero2-eoto-layer.png"
-          alt="Each One Teach One"
-          fill
-          priority
-          sizes="(max-width: 1448px) 100vw, 1448px"
-          className="pointer-events-none z-30 object-cover"
-        />
+        {/* Exact reference-derived EOTO artwork layer.
+            Shifted left with the supporting-copy block below so its text clears the jacket. */}
+        <div className="pointer-events-none absolute inset-0 z-30" style={{ transform: "translateX(-3%)" }}>
+          <Image
+            src="/assets/hero2-eoto-layer.png"
+            alt="Each One Teach One"
+            fill
+            priority
+            sizes="(max-width: 1448px) 100vw, 1448px"
+            className="object-cover"
+          />
+        </div>
 
         {/* Exact reference-derived supporting copy layer.
             Note: this locked asset bakes in only 2 of the reference's 3 copy lines
             ("Culture. Education." / "Turntablism. Legacy.") — "Worldwide." is absent
             from the PNG's pixel data. Restored below as a live text line, matched to
             the reference's measured position or reference lines 1–2 (left 9.2%, top 88.4%). */}
-        <Image
-          src="/assets/hero2-supporting-copy-layer.png"
-          alt=""
-          fill
-          sizes="(max-width: 1448px) 100vw, 1448px"
-          className="pointer-events-none z-40 object-cover"
+        <div
+          className="pointer-events-none absolute inset-0 z-40"
+          style={{ transform: "translateX(-3%)" }}
           aria-hidden="true"
-        />
-        <p
-          aria-hidden="true"
-          className="pointer-events-none absolute left-[9.2%] top-[88.4%] z-40 font-display text-[clamp(0.65rem,1.4vw,1rem)] uppercase leading-none tracking-[0.25em] text-white"
         >
-          {values[4]}
-        </p>
+          <Image
+            src="/assets/hero2-supporting-copy-layer.png"
+            alt=""
+            fill
+            sizes="(max-width: 1448px) 100vw, 1448px"
+            className="object-cover"
+          />
+          <p className="pointer-events-none absolute left-[9.2%] top-[88.4%] font-display text-[clamp(0.65rem,1.4vw,1rem)] uppercase leading-none tracking-[0.25em] text-white">
+            {values[4]}
+          </p>
+        </div>
 
         {/* Exact reference-derived CTA artwork, with a transparent live link over the same geometry. */}
         <Image
