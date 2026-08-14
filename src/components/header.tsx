@@ -29,8 +29,8 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-[1520px] items-center justify-between px-6 py-4 md:px-10">
+    <header className="absolute inset-x-0 top-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur">
+      <div className="mx-auto flex w-full max-w-[1520px] items-center justify-between px-6 py-2.5 md:px-10">
         <Link
           href="#landing"
           className="flex items-baseline gap-3"
