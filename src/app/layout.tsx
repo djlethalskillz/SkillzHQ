@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Anton, Caveat } from "next/font/google";
+import { Anton, Big_Shoulders, Caveat, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -16,6 +16,21 @@ const caveat = Caveat({
   variable: "--font-caveat",
 });
 
+// Fragments archive DNA (transplanted from the original Living Archive build):
+// Big Shoulders for the giant archival words, JetBrains Mono for the museum
+// captions printed on the physical-object mounts.
+const bigShoulders = Big_Shoulders({
+  weight: "900",
+  subsets: ["latin"],
+  variable: "--font-big-shoulders",
+});
+
+const jetbrains = JetBrains_Mono({
+  weight: ["400", "500"],
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+});
+
 export const metadata: Metadata = {
   title: "DJ Lethal Skillz · DJ · Turntablist · Producer",
   description:
@@ -30,7 +45,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${anton.variable} ${caveat.variable} h-full antialiased`}
+      className={`${anton.variable} ${caveat.variable} ${bigShoulders.variable} ${jetbrains.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-background font-body text-foreground">
         <a

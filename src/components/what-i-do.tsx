@@ -3,6 +3,7 @@
 import { useRef, useState, type ReactNode } from "react";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
+import { FragmentsChapter } from "@/components/fragments";
 import { site } from "@/lib/site";
 
 /**
@@ -204,6 +205,12 @@ const disciplines: Discipline[] = [
     panelId: "producer-archive-panel",
     staggered: true,
     chapter: <ProducerChapter />,
+  },
+  {
+    name: "Fragments",
+    note: "The Archive · People · Places · Moments",
+    panelId: "fragments-archive-panel",
+    chapter: <FragmentsChapter />,
   },
 ];
 
