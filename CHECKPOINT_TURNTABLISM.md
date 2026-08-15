@@ -244,4 +244,4 @@ User reviewed the final implementation (tt6-desktop.png, tt6-mobile.png) and APP
 - **Editorial**: headline "THE CRAFT LIVES AROUND THE DECKS." + 3 body paragraphs, exact approved copy, zero dashes, zero in-copy yellow; vertical `border-l-2 border-accent` rule matching Speaking/Producer signature grammar.
 - **Motion**: 5 videos total (hero + 4 collage), all short muted gesture-driven loops, webm-preferred, ≈8.6MB total load.
 - **QA (REV T6)**: tsc clean, build clean, 3 viewports (1440/1024/390) — yellowRule true, editorial 4/4, highlights 0, noDashes true, 9 tiles, 3 wides, motionRows [1,1,2], identity 334/230/342px portrait playing, equipment + Dubai present, posters absent, overflow 0, console 0 errors, regressions green (DJ 4/4, Producer 5/5, Speaking locked, Booking composes), linkHttp 200.
-- **Lock commit**: recorded after commit (see git log for the production-lock commit).
+- **Lock commit**: `b582f70` — "Production lock: Turntablism approved (REV T6 + final visual review)".
