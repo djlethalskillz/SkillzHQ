@@ -2,7 +2,7 @@
 
 Date: 2026-08-16
 Status: **PRODUCTION LOCKED — human visual review approved**
-Commit: recorded at lock (see git log)
+Commit: b8bd800 — lock: production lock Fragments living archive
 Canonical implementation: `src/components/fragments.tsx` + `src/lib/fragments.ts`
 
 ## What was locked
