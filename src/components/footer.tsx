@@ -3,7 +3,7 @@ import { site } from "@/lib/site";
 
 const footerLinks = [
   { href: "#what-i-do", label: "What I Do" },
-  { href: "#workshops-speaking", label: "Workshops / Speaking" },
+  { href: "#book", label: "Book Skillz" },
   { href: "#watch-listen", label: "Watch / Listen" },
 ];
 

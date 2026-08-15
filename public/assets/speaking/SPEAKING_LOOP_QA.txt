@@ -1,0 +1,54 @@
+SPEAKING LOOP — PRODUCTION QA LOG
+2026-08-15
+
+SOURCE
+  C:\Users\djlet\Desktop\IMAGES\DJ Lethal Skillz HipHop Culture Speaker.mp4
+  718x1280 portrait, 89.8s, 24fps, h264+aac (audio stripped from all outputs).
+  Human-locked source windows ONLY:
+    PRIMARY: 00:01-00:05 (speaking), ~00:05 (flyer), 00:20-00:25 (speaking)
+    LATE: ~01:22 (stage memory), ~01:28 (stage memory)
+
+SELECTED FRAGMENTS (exact source timestamps, s)
+  S3 close speaking  23.40-25.00  (1.6s)
+  F1 event flyer     04.75-05.37  (0.62s)
+  S2 speaking main   20.90-22.90  (2.0s)
+  M1 stage memory    82.30-83.30  (1.0s)   [~01:22]
+  M2 stage memory    87.60-88.60  (1.0s)   [~01:28]
+  S1 speaking early  02.60-03.95  (1.35s)
+
+FINAL SEQUENCE (Candidate A — SELECTED)
+  S3 speak (open, closest shot) -> F1 flyer flash -> S2 speak ->
+  M1 stage -> M2 stage (one memory beat) -> S1 speak (close)
+  Total: 7.50s. 5.0s speaking of 7.5s (67%).
+  Loop seam: ends speaking (S1) -> restarts speaking (S3) - speak-to-speak,
+  smoothest possible restart on this material; both frames warm mid-close.
+
+CANDIDATE COMPARISON (SPEAKING_LOOP_COMPARISON.jpg)
+  A: S3,F1,S2,M1,M2,S1 - opens closest speaking shot, ends speaking,
+     both flagged late shots used as one memory beat. SELECTED.
+  B: S3,F1,S2,M2,S1,M1 - identical fragments, ends on stage memory;
+     seam stage-to-speak weaker; late shots fully separated.
+  Scoring A vs B: speaking clarity A+, presence A+, authenticity =,
+  rhythm A+, event context =, loop quality A (speak->speak seam),
+  overlays = (none present in windows), mobile =, emotional impact A.
+
+EDITORIAL / FRAMING DECISIONS
+  - Hard cuts only (documentary rhythm; no dissolves/wipes/zooms).
+  - Full vertical frame kept - no crop needed: overlay check on all
+    speaking windows found no Instagram handles/captions/hashtags.
+  - No generative cleanup, no face/body alteration, no reconstructed pixels.
+  - Event/flyer fragment kept at 0.62s (directive 0.3-1.0s) - context only.
+  - Late windows used as short supporting memories only (1.0s each).
+
+ENCODING
+  SPEAKING_LIVING_LOOP.mp4  540x960 h264 crf23 preset slow 24fps silent faststart
+  SPEAKING_LIVING_LOOP.webm 540x960 VP9 crf33 row-mt 24fps silent
+  SPEAKING_LIVING_LOOP_POSTER.jpg frame @0.6s of final loop (S3 opening)
+
+HASHES
+  mp4   9f6065cc12d522c6fb3e5e4731b70d82
+  webm  d9487e5de432c9f12f17eac8935a5a4e
+
+REJECTED PREVIOUS SELECTION
+  38.26-43.17 continuous stage shot - editorially wrong (no visible speaking),
+  superseded by human-locked windows. Deleted from assets.

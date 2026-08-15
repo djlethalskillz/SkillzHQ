@@ -77,7 +77,7 @@ async function main() {
           !document.body.innerHTML.includes("Principal Cultural Guide"),
         signatureKicker: [...document.querySelectorAll("#speaking-archive-panel p")]
           .map((p) => p.textContent)
-          .includes("Signature — The Voice"),
+          .includes("Signature · The Voice"),
         teachingCollage: [...document.querySelectorAll("#speaking-archive-panel article img")]
           .map((i) => i.getAttribute("src"))
           .filter((s) => s?.includes("TEACH_")).length >= 5,
@@ -189,8 +189,75 @@ async function main() {
     await ttBtn.asElement().click();
     await new Promise((r) => setTimeout(r, WAIT));
     const ttState = await page.evaluate(() => {
-      const v = document.querySelector("#turntablism-archive-panel video");
-      return { playing: v ? v.currentTime > 0.1 && !v.paused : false, time: v?.currentTime ?? null };
+      const panel = document.querySelector("#turntablism-archive-panel");
+      const vids = [...panel.querySelectorAll("video")];
+      // the contact-sheet grid — scoped, since the panel div itself carries the
+      // class "grid" for its expand animation
+      const grid = [...panel.querySelectorAll(".grid")].find((g) =>
+        g.className.includes("md:grid-cols-4"),
+      );
+      const gridVid = grid?.querySelector("video");
+      const identityVid = [...panel.querySelectorAll("video")].find((v) =>
+        v.getAttribute("aria-label")?.includes("Beirut"),
+      );
+      return {
+        // REV T1: 3 videos — hero living loop + action loop + Beirut identity
+        totalVideos: vids.length,
+        heroPlaying: vids[0] ? vids[0].currentTime > 0.1 && !vids[0].paused : false,
+        heroTime: vids[0]?.currentTime ?? null,
+        actionLoopPlaying: gridVid ? gridVid.currentTime > 0.1 && !gridVid.paused : false,
+        // REV T4: collage = 9 tiles, three wide blocks, motion in all three rows
+        collageTiles: grid ? grid.querySelectorAll("img, video").length : 0,
+        wideTiles: grid
+          ? grid.querySelectorAll('[class*="md:col-span-2"]').length
+          : 0,
+        motionRows: grid
+          ? [0, 3, 6]
+              .map((start) =>
+                [...grid.children].slice(start, start + 3).filter((c) => c.tagName === "VIDEO").length,
+              )
+          : [],
+        // REV T2: Skratch Beirut animated identity — present, playing, and a
+        // proper marker plate (≥128px wide, portrait 9:16)
+        identity: !!identityVid,
+        identityPlaying: identityVid ? identityVid.currentTime > 0.1 && !identityVid.paused : false,
+        identityW: identityVid ? Math.round(identityVid.getBoundingClientRect().width) : 0,
+        identityAspect: identityVid ? identityVid.getBoundingClientRect().height > identityVid.getBoundingClientRect().width : false,
+        // REV T5: exact editorial copy, no dashes, no in-copy yellow
+        editorial: (() => {
+          const t = panel.textContent;
+          const block = [
+            "THE CRAFT LIVES AROUND THE DECKS.",
+            "Turntablism is more than what happens between the needles and the faders. It is a language built in rooms full of people: DJs, skratchers, students, friends and strangers, passing technique from one set of hands to another.",
+            "From Beirut to Kuala Lumpur, the practice has always been about gathering: sharing records, trading cuts, building sessions, creating spaces to learn, and keeping the culture moving forward.",
+            "This is the community around the instrument.",
+          ];
+          return {
+            headline: t.includes("THE CRAFT LIVES AROUND THE DECKS"),
+            body1: t.includes("It is a language built in rooms full of people: DJs"),
+            body2: t.includes("From Beirut to Kuala Lumpur, the practice has always been about gathering"),
+            closing: t.includes("This is the community around the instrument"),
+            // zero in-copy yellow — Speaking restraint, accent stays structural
+            highlights: panel.querySelectorAll("p .text-accent").length,
+            noDashes: block.every((s) => !s.includes("—") && !s.includes("-")),
+            // REV T6: vertical yellow editorial rule — same signature grammar
+            // as Speaking (SIGNATURE — THE VOICE) and Producer (SCRATCH HOOKS)
+            yellowRule: !!(
+              [...panel.querySelectorAll("div")].find(
+                (d) =>
+                  d.className.includes("border-l-2") &&
+                  d.className.includes("border-accent") &&
+                  d.className.includes("pl-6") &&
+                  d.textContent.includes("THE CRAFT LIVES AROUND THE DECKS"),
+              )
+            ),
+          };
+        })(),
+        // REV T3: two poster tiles replaced by equipment + Skratch Dubai evidence
+        equipmentTile: !!grid?.querySelector('img[src*="TURN_EQUIPMENT"]'),
+        dubaiTile: !!grid?.querySelector('img[src*="TURN_DUBAI"]'),
+        noPosters: !panel.textContent.includes("community identity") && !panel.textContent.includes("session flyer"),
+      };
     });
 
     // Booking: Speaking formats render + CTA composes
@@ -214,7 +281,7 @@ async function main() {
       );
       const cta = [...document.querySelectorAll("#book-skillz-panel a, #book-skillz-panel button")]
         .map((b) => b.textContent?.trim() ?? "")
-        .find((t) => t.startsWith("Book Skillz —"));
+        .find((t) => t.startsWith("Book Skillz ·"));
       return { rows, cta };
     });
     await page.screenshot({ path: `scripts/speaking-${vp.name}-booking.png` });

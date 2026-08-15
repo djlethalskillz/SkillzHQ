@@ -1,0 +1,53 @@
+﻿{
+  "net": [
+    {
+      "url": "http://localhost:3000/assets/speaking/SPEAKING_LIVING_LOOP_POSTER.jpg",
+      "status": 200,
+      "type": "image/jpeg",
+      "length": 67060,
+      "hash": "01ca7c55fa487396c273109c37b3017d"
+    },
+    {
+      "url": "http://localhost:3000/assets/speaking/SPEAKING_LIVING_LOOP.mp4",
+      "status": 206,
+      "type": "video/mp4",
+      "length": 1133107,
+      "hash": "9f6065cc12d522c6fb3e5e4731b70d82"
+    },
+    {
+      "url": "http://localhost:3000/assets/speaking/evidence/SPEAKING_EVIDENCE_DMC.webp",
+      "status": 200,
+      "type": "image/webp",
+      "length": 40526,
+      "hash": "2444fc931ab2e798263cbe6ec41a672b"
+    },
+    {
+      "url": "http://localhost:3000/assets/speaking/evidence/SPEAKING_EVIDENCE_RAISING.webp",
+      "status": 200,
+      "type": "image/webp",
+      "length": 224700,
+      "hash": "08113b9ceb673665c407ba6f27ddba00"
+    }
+  ],
+  "state": {
+    "found": true,
+    "srcAttr": "/assets/speaking/SPEAKING_LIVING_LOOP.mp4",
+    "sources": [
+      "http://localhost:3000/assets/speaking/SPEAKING_LIVING_LOOP.webm",
+      "http://localhost:3000/assets/speaking/SPEAKING_LIVING_LOOP.mp4"
+    ],
+    "currentSrc": "http://localhost:3000/assets/speaking/SPEAKING_LIVING_LOOP.mp4",
+    "readyState": 4,
+    "networkState": 1,
+    "duration": 7.5,
+    "videoWidth": 540,
+    "videoHeight": 960,
+    "paused": false,
+    "muted": true,
+    "currentTime": 3.011623,
+    "poster": "/assets/speaking/SPEAKING_LIVING_LOOP_POSTER.jpg",
+    "loop": true
+  },
+  "frameBytes": 73209,
+  "errors": []
+}

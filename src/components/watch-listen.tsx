@@ -57,7 +57,7 @@ export function WatchListen() {
       className="mx-auto w-full max-w-[1520px] px-6 py-24 scroll-mt-20 md:px-10 md:py-40"
     >
       <SectionHeader
-        index="05"
+        index="04"
         title="Watch / Listen"
         note="Performance footage and music."
       />

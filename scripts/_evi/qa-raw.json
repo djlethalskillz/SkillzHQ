@@ -1,0 +1,245 @@
+[
+  {
+    "vp": "desktop",
+    "overflow": {
+      "x": 0,
+      "rows": [
+        "DJClubs · Festivals · Private Events · Gigs",
+        "TurntablismPerformance · Scratch Craft · Workshops",
+        "SpeakingTalks · Panels · Keynotes · Conversations",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        "ProducerBeats · Scratch Hooks · Mixing & Mastering · Collaboration",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "state": {
+      "expanded": true,
+      "videoPlaying": true,
+      "videoTime": 2.405123,
+      "videoDuration": 7.5,
+      "videoWebm": true,
+      "videoMuted": true,
+      "posterLoaded": true,
+      "cards": [
+        "DMC World DJ Championship — GCC",
+        "Raising The Bar",
+        "Art of the DJ",
+        "World Islamic Economic Forum — 11th"
+      ],
+      "documented": true,
+      "evidenceImgs": 5,
+      "moments": true,
+      "signatureTitle": true,
+      "signatureKicker": true,
+      "signaturePrimary": true,
+      "emDashCount": 7,
+      "wiefArtifact": true,
+      "raisingClean": true,
+      "wiefCompanion": true,
+      "overflowX": 0,
+      "panelText": "On stage, speaking for hip-hop culture.From the culture — to the room.Signature — The VoiceCultural GuideInvited to explain the culture, not only perform it.Hip-Hoppin' Asia — Lebanon episode, Princip"
+    },
+    "djState": {
+      "playing": 4,
+      "total": 4,
+      "time": 2.416311
+    },
+    "ttState": {
+      "playing": true,
+      "time": 2.404043
+    },
+    "prodState": {
+      "cards": 5,
+      "loaded": 5
+    },
+    "bookingState": {
+      "rows": [
+        "DJSelect",
+        "Turntablism / WorkshopSelect",
+        "SpeakingSelected",
+        "ProducerSelect",
+        "TalkSelect",
+        "PanelSelect",
+        "KeynoteSelect",
+        "Workshop / MasterclassSelect",
+        "Cultural / Educational EventSelect"
+      ],
+      "cta": "Book Skillz — Speaking"
+    },
+    "errors": []
+  },
+  {
+    "vp": "tablet",
+    "overflow": {
+      "x": 0,
+      "rows": [
+        "DJClubs · Festivals · Private Events · Gigs",
+        "TurntablismPerformance · Scratch Craft · Workshops",
+        "SpeakingTalks · Panels · Keynotes · Conversations",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        "ProducerBeats · Scratch Hooks · Mixing & Mastering · Collaboration",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "state": {
+      "expanded": true,
+      "videoPlaying": true,
+      "videoTime": 2.409604,
+      "videoDuration": 7.5,
+      "videoWebm": true,
+      "videoMuted": true,
+      "posterLoaded": true,
+      "cards": [
+        "DMC World DJ Championship — GCC",
+        "Raising The Bar",
+        "Art of the DJ",
+        "World Islamic Economic Forum — 11th"
+      ],
+      "documented": true,
+      "evidenceImgs": 5,
+      "moments": true,
+      "signatureTitle": true,
+      "signatureKicker": true,
+      "signaturePrimary": true,
+      "emDashCount": 7,
+      "wiefArtifact": true,
+      "raisingClean": true,
+      "wiefCompanion": true,
+      "overflowX": 0,
+      "panelText": "On stage, speaking for hip-hop culture.From the culture — to the room.Signature — The VoiceCultural GuideInvited to explain the culture, not only perform it.Hip-Hoppin' Asia — Lebanon episode, Princip"
+    },
+    "djState": {
+      "playing": 4,
+      "total": 4,
+      "time": 2.418241
+    },
+    "ttState": {
+      "playing": true,
+      "time": 2.410366
+    },
+    "prodState": {
+      "cards": 5,
+      "loaded": 5
+    },
+    "bookingState": {
+      "rows": [
+        "DJSelect",
+        "Turntablism / WorkshopSelect",
+        "SpeakingSelected",
+        "ProducerSelect",
+        "TalkSelect",
+        "PanelSelect",
+        "KeynoteSelect",
+        "Workshop / MasterclassSelect",
+        "Cultural / Educational EventSelect"
+      ],
+      "cta": "Book Skillz — Speaking"
+    },
+    "errors": []
+  },
+  {
+    "vp": "mobile",
+    "overflow": {
+      "x": 0,
+      "rows": [
+        "DJClubs · Festivals · Private Events · Gigs",
+        "TurntablismPerformance · Scratch Craft · Workshops",
+        "SpeakingTalks · Panels · Keynotes · Conversations",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        "ProducerBeats · Scratch Hooks · Mixing & Mastering · Collaboration",
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    "state": {
+      "expanded": true,
+      "videoPlaying": true,
+      "videoTime": 2.407057,
+      "videoDuration": 7.5,
+      "videoWebm": true,
+      "videoMuted": true,
+      "posterLoaded": true,
+      "cards": [
+        "DMC World DJ Championship — GCC",
+        "Raising The Bar",
+        "Art of the DJ",
+        "World Islamic Economic Forum — 11th"
+      ],
+      "documented": true,
+      "evidenceImgs": 5,
+      "moments": true,
+      "signatureTitle": true,
+      "signatureKicker": true,
+      "signaturePrimary": true,
+      "emDashCount": 7,
+      "wiefArtifact": true,
+      "raisingClean": true,
+      "wiefCompanion": true,
+      "overflowX": 0,
+      "panelText": "On stage, speaking for hip-hop culture.From the culture — to the room.Signature — The VoiceCultural GuideInvited to explain the culture, not only perform it.Hip-Hoppin' Asia — Lebanon episode, Princip"
+    },
+    "djState": {
+      "playing": 4,
+      "total": 4,
+      "time": 2.409496
+    },
+    "ttState": {
+      "playing": true,
+      "time": 2.416804
+    },
+    "prodState": {
+      "cards": 5,
+      "loaded": 1
+    },
+    "bookingState": {
+      "rows": [
+        "DJSelect",
+        "Turntablism / WorkshopSelect",
+        "SpeakingSelected",
+        "ProducerSelect",
+        "TalkSelect",
+        "PanelSelect",
+        "KeynoteSelect",
+        "Workshop / MasterclassSelect",
+        "Cultural / Educational EventSelect"
+      ],
+      "cta": "Book Skillz — Speaking"
+    },
+    "errors": []
+  }
+]

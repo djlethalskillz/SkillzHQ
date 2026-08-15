@@ -1,0 +1,19 @@
+Production lock: Turntablism approved (REV T6 + final visual review)
+
+- Turntablism chapter PRODUCTION LOCKED after user visual approval
+  (tt6-desktop.png / tt6-mobile.png). Canonical state recorded in
+  CHECKPOINT_TURNTABLISM.md: hero living loop, yellow-rule editorial
+  block (exact approved copy, zero dashes), three-row collage
+  (9 tiles, 5 static + 4 motion, motion in every row, Skratch Beirut
+  identity tile), 13 files in public/assets/turntablism/
+- Global dash sweep: em dashes removed from all rendered copy
+  (captions, alt text, booking labels, metadata); legit en-dash date
+  ranges and proper names kept
+- QA: tsc clean, build clean, 3 viewports — yellowRule true, editorial
+  4/4, highlights 0, 9 tiles, motionRows [1,1,2], overflow 0,
+  console 0 errors, DJ/Producer/Speaking/Booking regressions green
+- Includes prior uncommitted chapter state (DJ/Producer/Booking/
+  Watch-Listen/header/footer) — existing chapters untouched by this
+  directive, committed to complete the site lock state
+
+Co-Authored-By: Claude <noreply@anthropic.com>

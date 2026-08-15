@@ -27,7 +27,7 @@ export function Hero() {
   return (
     <section
       id="landing"
-      aria-label="DJ Lethal Skillz — Each One Teach One"
+      aria-label="DJ Lethal Skillz · Each One Teach One"
       className="relative overflow-hidden bg-black scroll-mt-20"
     >
       <div className="relative mx-auto aspect-[4/3] w-full max-w-[1448px] overflow-hidden bg-black md:w-[min(100%,calc(100svh*4/3))] md:max-w-none">

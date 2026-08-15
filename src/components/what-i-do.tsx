@@ -128,20 +128,68 @@ const disciplines: Discipline[] = [
     panelId: "turntablism-archive-panel",
     staggered: true,
     chapter: (
-      <figure className="flex flex-col items-center gap-4 border-t border-white/10 py-10 md:py-14">
-        <video
-          className="max-h-[78vh] w-auto max-w-full object-contain"
-          src={site.turntablism.src}
-          poster={site.turntablism.poster}
-          autoPlay
-          muted
-          loop
-          playsInline
-        />
-        <figcaption className="text-[11px] uppercase tracking-[0.2em] text-muted">
-          {site.turntablism.caption}
-        </figcaption>
-      </figure>
+      <div className="border-t border-white/10 py-10 md:py-14">
+        {/* THE CRAFT — approved living loop stays the primary anchor */}
+        <figure className="flex flex-col items-center gap-4">
+          <video
+            className="max-h-[78vh] w-auto max-w-full object-contain"
+            src={site.turntablism.src}
+            poster={site.turntablism.poster}
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+          <figcaption className="text-[11px] uppercase tracking-[0.2em] text-muted">
+            {site.turntablism.caption}
+          </figcaption>
+        </figure>
+
+        {/* THE CULTURE — editorial + contact-sheet collage from the skratch community */}
+        <div className="mt-14 max-w-3xl border-l-2 border-accent pl-6 md:mt-20 md:pl-10">
+          <p className="font-display text-2xl uppercase leading-tight text-white md:text-4xl">
+            {site.turntablism.editorial.headline}
+          </p>
+          <div className="mt-6 space-y-4">
+            {site.turntablism.editorial.body.map((p) => (
+              <p key={p} className="text-sm leading-relaxed text-muted md:text-base">
+                {p}
+              </p>
+            ))}
+          </div>
+        </div>
+        {/* REV T4: three-row documentary collage — static + motion balanced,
+            tiles keep their natural composition, no forced strips. */}
+        <div className="mt-10 grid w-full grid-cols-1 gap-2 md:grid-cols-4">
+          {site.turntablism.collage.map((t) =>
+            t.type === "loop" ? (
+              <video
+                key={t.media}
+                className={`${t.span ?? ""} ${t.aspect ?? "aspect-[4/5]"} w-full border border-white/10 ${
+                  t.contain ? "bg-black object-contain" : "object-cover"
+                }`}
+                poster={t.poster}
+                autoPlay
+                muted
+                loop
+                playsInline
+                aria-label={t.alt}
+              >
+                <source src={t.webm} type="video/webm" />
+                <source src={t.media} type="video/mp4" />
+              </video>
+            ) : (
+              <img
+                key={t.media}
+                src={t.media}
+                alt={t.alt}
+                loading="lazy"
+                className={`${t.span ?? ""} ${t.aspect ?? "aspect-[4/5]"} w-full border border-white/10 object-cover`}
+              />
+            ),
+          )}
+        </div>
+      </div>
     ),
   },
   {
@@ -442,7 +490,7 @@ function ProducerChapter() {
             {producer.signature.primary.name}
             <span className="text-muted">
               {" "}
-              — {producer.signature.primary.detail} ·{" "}
+              · {producer.signature.primary.detail} ·{" "}
               {producer.signature.primary.year}
             </span>
           </p>
@@ -564,7 +612,7 @@ export function WhatIDo() {
       <SectionHeader
         index="02"
         title="What I Do"
-        note="What you can book — six disciplines, one practice."
+        note="What you can book: six disciplines, one practice."
       />
       <ul className="mt-12 md:mt-16">
         {disciplines.map((item, i) => (

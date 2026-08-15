@@ -17,9 +17,9 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "DJ Lethal Skillz — DJ · Turntablist · Producer",
+  title: "DJ Lethal Skillz · DJ · Turntablist · Producer",
   description:
-    "DJ Lethal Skillz — commercial DJ, turntablist and producer. Available for bookings, festivals, workshops, speaking and creative collaborations.",
+    "DJ Lethal Skillz: commercial DJ, turntablist and producer. Available for bookings, festivals, workshops, speaking and creative collaborations.",
 };
 
 export const viewport: Viewport = {

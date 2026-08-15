@@ -57,8 +57,8 @@ export const site = {
   /** DJ archive collage — approved iteration-2 master as static base (never flattened with video). */
   djArchive: {
     src: "/assets/dj-lethal-skillz-collage.png",
-    alt: "DJ Lethal Skillz — Performance Archive",
-    caption: "DJ — PERFORMANCE ARCHIVE · 2024–2017",
+    alt: "DJ Lethal Skillz · Performance Archive",
+    caption: "DJ · PERFORMANCE ARCHIVE · 2024–2017",
     /** 4 approved living cells overlaid on the master. Panel geometry in 1920×1080 master coords. */
     cells: [
       { id: "craft", x: 1020, y: 148, w: 360, h: 414, webm: "/assets/cells/craft.webm", mp4: "/assets/cells/craft.mp4" },
@@ -73,14 +73,98 @@ export const site = {
     src: "/assets/turntablism-living-loop.mp4",
     webm: "/assets/turntablism-living-loop.webm",
     poster: "/assets/turntablism-living-loop-poster.png",
-    caption: "Turntablism — The Instrument · 2014",
+    caption: "Turntablism · The Instrument · 2014",
+    // REV T5: editorial block — approved copy, no dashes, no in-copy yellow.
+    // White = editorial voice (Speaking restraint), yellow reserved for the
+    // section's structural accents only.
+    editorial: {
+      headline: "THE CRAFT LIVES AROUND THE DECKS.",
+      body: [
+        "Turntablism is more than what happens between the needles and the faders. It is a language built in rooms full of people: DJs, skratchers, students, friends and strangers, passing technique from one set of hands to another.",
+        "From Beirut to Kuala Lumpur, the practice has always been about gathering: sharing records, trading cuts, building sessions, creating spaces to learn, and keeping the culture moving forward.",
+        "This is the community around the instrument.",
+      ],
+    },
+    /** REV T4: three-row documentary collage — 5 static + 4 motion (50/50),
+        motion distributed through all rows. Rhythm over symmetry, natural
+        orientations, Beirut identity inside the grid as a legitimate tile. */
+    collage: [
+      {
+        type: "img",
+        media: "/assets/turntablism/TURN_CLOSEUP.webp",
+        alt: "Skillz at the turntables, close up",
+        aspect: "aspect-[4/5]",
+      },
+      {
+        type: "img",
+        media: "/assets/turntablism/TURN_JAM_2022.webp",
+        alt: "A community skratch jam, people gathered around the decks",
+        span: "md:col-span-2",
+        aspect: "aspect-[16/10]",
+      },
+      {
+        type: "loop",
+        media: "/assets/turntablism/skratcher-loop1.mp4",
+        webm: "/assets/turntablism/skratcher-loop1.webm",
+        poster: "/assets/turntablism/skratcher-loop1-poster.jpg",
+        alt: "Skratch session, hands on the turntable",
+        aspect: "aspect-[4/5]",
+      },
+      {
+        type: "loop",
+        media: "/assets/turntablism/turn-loop-jam.mp4",
+        webm: "/assets/turntablism/turn-loop-jam.webm",
+        poster: "/assets/turntablism/turn-loop-jam-poster.jpg",
+        alt: "A wide community jam, people gathered around the decks",
+        span: "md:col-span-2",
+        aspect: "aspect-[16/10]",
+      },
+      {
+        type: "img",
+        media: "/assets/turntablism/TURN_EQUIPMENT.webp",
+        alt: "A portable turntable setup, cables and equipment in a lived-in room",
+        aspect: "aspect-[4/5]",
+      },
+      {
+        type: "img",
+        media: "/assets/turntablism/TURN_DUBAI.webp",
+        alt: "Skratch Dubai, DJs gathered around the decks",
+        aspect: "aspect-[4/5]",
+      },
+      {
+        type: "img",
+        media: "/assets/turntablism/TURN_JAM_2024.webp",
+        alt: "A skratch community session, people gathered around the decks",
+        span: "md:col-span-2",
+        aspect: "aspect-[16/10]",
+      },
+      {
+        type: "loop",
+        media: "/assets/turntablism/turn-loop-perf.mp4",
+        webm: "/assets/turntablism/turn-loop-perf.webm",
+        poster: "/assets/turntablism/turn-loop-perf-poster.jpg",
+        alt: "A performance, people dancing to the scratch",
+        aspect: "aspect-[4/5]",
+      },
+      {
+        // Skratch Beirut animated identity — real asset, kept as animation,
+        // a legitimate tile inside the documentary collage, not an afterthought.
+        type: "loop",
+        media: "/assets/turntablism/skratch-beirut.mp4",
+        webm: "/assets/turntablism/skratch-beirut.webm",
+        poster: "/assets/turntablism/skratch-beirut-poster.jpg",
+        alt: "Skratch Beirut animated identity",
+        aspect: "aspect-[3/4]",
+        contain: true,
+      },
+    ],
   },
 
   /** Each One Teach One video — documentary/workshop material. */
   workshopsVideo: {
     src: "/assets/each-one-teach-one-hero.mp4",
     poster: "/assets/each-one-teach-one-poster.png",
-    alt: "Each One Teach One — Skillz teaching turntablism",
+    alt: "Each One Teach One · Skillz teaching turntablism",
   },
 
   /**
@@ -117,7 +201,7 @@ export const site = {
         credits: "Composer: Omar Fadel · Features: Omar Offendum · Deeb · Salah Edin",
         tag: "HIP-HOP → FILM",
         media: "/assets/producer/theunited.webp",
-        alt: "The United — film artwork",
+        alt: "The United · film artwork",
         span: "md:col-span-7",
       },
       {
@@ -131,7 +215,7 @@ export const site = {
           "Shadia Mansour · Omar Offendum · Narcy · Boikutt · Arabian Knightz",
         tag: "AN ALBUM BUILT ACROSS BORDERS",
         media: "/assets/producer/karmageddon.webp",
-        alt: "Karmageddon — album artwork",
+        alt: "Karmageddon · album artwork",
         span: "md:col-span-5",
       },
       {
@@ -145,7 +229,7 @@ export const site = {
           "Shiboba · Omar Offendum · Bu Kolthoum · Meryem Saci · Narcy · Lowkey · Edd Abbas · Deeb · Muqata'a",
         tag: "A PLATFORM COMMISSIONED THE TURNTABLE LANGUAGE",
         media: "/assets/producer/anghami-cypher-group.jpg",
-        alt: "Anghami Cypher — contact sheet of stills from the cypher video",
+        alt: "Anghami Cypher · contact sheet of stills from the cypher video",
         span: "md:col-span-5",
         watchUrl: "https://www.youtube.com/watch?v=tZM6ebQKNgQ",
       },
@@ -160,7 +244,7 @@ export const site = {
           "Omar Offendum · Deeb · RGB · Malikah · MC Moe · Rayess Beik · Boikutt · La Gale · + 18 more contributors",
         tag: "ONE BEAT → A NETWORK OF VOICES",
         media: "/assets/producer/30arabmcs.webp",
-        alt: "30 Arab MC's On One Track — release artwork",
+        alt: "30 Arab MC's On One Track · release artwork",
         span: "md:col-span-4",
       },
       {
@@ -173,7 +257,7 @@ export const site = {
         credits: "Marv Won · One Be Lo · Honest Resistance",
         tag: "DETROIT ↔ CAIRO",
         media: "/assets/producer/mgcity.webp",
-        alt: "Most Gritty City — release artwork",
+        alt: "Most Gritty City · release artwork",
         span: "md:col-span-3",
       },
     ],
