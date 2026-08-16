@@ -109,23 +109,19 @@ function MountCaption({
   const text = context ? `${name} — ${context}` : name;
   return (
     <figcaption
-      className={`font-arch-mono text-[9px] uppercase leading-[1.3] tracking-[0.03em] text-[rgba(20,20,20,0.72)] ${className}`}
+      className={`font-arch-mono font-medium text-[10.5px] uppercase leading-[1.25] tracking-[0.02em] text-[rgba(22,20,18,0.85)] ${className}`}
     >
       {text}
     </figcaption>
   );
 }
 
-/** Polaroid: photo 4/5 in a warm white mount with the caption in the margin. */
+/** Polaroid: the photo keeps its SOURCE aspect (no crop — people, artwork
+ * and flyer layouts stay intact); the paper mount adapts to the image. */
 function InstantMount({ f, item }: { f: FieldFragment; item: MountItem }) {
   return (
     <div className={`relative bg-paper p-[7px] pb-[34px] ${DEEP_SHADOW}`}>
-      <img
-        src={item.media}
-        alt={item.alt}
-        loading="eager"
-        className="aspect-[4/5] w-full object-cover"
-      />
+      <img src={item.media} alt={item.alt} loading="eager" className="w-full" />
       <MountCaption
         f={f}
         name={item.name}
@@ -136,18 +132,14 @@ function InstantMount({ f, item }: { f: FieldFragment; item: MountItem }) {
   );
 }
 
-/** Flyer: clipped corners, no caption — flyers carry their own typography. */
+/** Flyer: clipped corners, no caption — flyers carry their own typography.
+ * Source aspect preserved. */
 function FlyerMount({ f, item }: { f: FieldFragment; item: MountItem }) {
   return (
     <div
       className={`bg-[#242424] shadow-[0_10px_26px_rgba(0,0,0,0.5)] [clip-path:polygon(0%_1%,98%_0%,100%_97%,3%_100%)] ${DEEP_SHADOW}`}
     >
-      <img
-        src={item.media}
-        alt={item.alt}
-        loading="eager"
-        className="aspect-[3/4] w-full object-cover"
-      />
+      <img src={item.media} alt={item.alt} loading="eager" className="w-full" />
     </div>
   );
 }
@@ -157,12 +149,7 @@ function PassMount({ f, item }: { f: FieldFragment; item: MountItem }) {
   return (
     <div className={`relative bg-paper-warm p-[10px] pb-[26px] text-center shadow-[0_8px_20px_rgba(0,0,0,0.5)]`}>
       <div className="mx-auto mb-2 h-[10px] w-[10px] rounded-full bg-[#0A0A0A]" />
-      <img
-        src={item.media}
-        alt={item.alt}
-        loading="eager"
-        className="aspect-[3/4] w-full object-cover"
-      />
+      <img src={item.media} alt={item.alt} loading="eager" className="w-full" />
       <MountCaption
         f={f}
         name={item.name}
@@ -173,18 +160,17 @@ function PassMount({ f, item }: { f: FieldFragment; item: MountItem }) {
   );
 }
 
-/** Jcard: photo floats left, caption sits in the card's own off-white space. */
+/** Jcard: photo floats left, caption sits in the card's own off-white space.
+ * Card height follows the photo (source aspect, no crop). */
 function JcardMount({ f, item }: { f: FieldFragment; item: MountItem }) {
   return (
-    <div
-      className={`relative aspect-[6.7/4.7] bg-paper-card p-[6px] shadow-[0_8px_18px_rgba(0,0,0,0.5)]`}
-    >
+    <div className={`relative bg-paper-card p-[6px] shadow-[0_8px_18px_rgba(0,0,0,0.5)]`}>
       <div className="absolute bottom-0 top-0 left-[38%] w-px bg-black/15" />
       <img
         src={item.media}
         alt={item.alt}
         loading="eager"
-        className="float-left h-full w-[36%] object-cover"
+        className="float-left w-[36%]"
       />
       <MountCaption
         f={f}
@@ -232,31 +218,38 @@ function FragmentsScene() {
   }, [reduced]);
 
   /**
-   * THE ENGINE — waypoint travel, adapted from the original Living Archive's
-   * motion DNA (living_archive_v1_17_FINAL.html). The old build assigned each
-   * object a fresh absolute waypoint and let a 1.8s cubic-bezier transition
-   * carry it there. Here the same waypoint model runs inside the rAF loop as a
-   * damped lerp (frame-rate independent, same accel/decel shape):
+   * THE ENGINE — vinyl orbit, the motion DNA re-tuned for the record metaphor.
    *
-   *   - every fragment owns a CURRENT pose and a TARGET waypoint; each frame
-   *     the pose is pulled toward the target with exponential smoothing;
-   *   - on arrival (or after a short random dwell) a NEW waypoint is picked
-   *     from the fragment's trajectory bias — randomisation shapes
-   *     trajectories, never individual frames, so nothing jitters;
-   *   - CROSSING: ~22% of journeys target points on lines near the centre —
-   *     the fragment travels ACROSS the scene, passing the hero (front-tier
-   *     waypoints are pushed off the photo's face zone);
-   *   - DRIFT: angle walks, radius breathes around the home orbit,
-   *     occasionally (8%) the fragment exits the field edge;
-   *   - depth: on ~22% of journeys a PRIMARY fragment flips between behind
-   *     (z-10) and in front (z-20) of the hero — the old build's z-counter
-   *     behaviour. Secondary (z-5) and deep (z-1) archive layers never flip:
-   *     they fill the table beneath the curated selection;
-   *   - rotation target rides along each journey; presence cycles unchanged.
+   * The field is a giant record. The hero photograph (Skillz + Grandmaster
+   * Flash) is the spindle — a mathematically excluded zone, not a crossing
+   * point. Every fragment OWNS A TERRITORY — its base position on the wall,
+   * scattered full-canvas (corners, edges, open mid-field; nothing inside
+   * the hero's breathing room) — and circulates locally around it like a
+   * paper slowly drifting around its pin:
    *
-   * Poses are OFFSETS from the element's % base position (the transform
-   * composes on top of left/top), so resize keeps fragments glued to the
-   * scene. No oscillation around a base point: fragments accumulate travel.
+   *   - loop radius drawn per-id from 5-12% of scene width (bigger prints
+   *     tighter — they are the anchors of the composition); no two
+   *     fragments share radius, starting angle, phase, period or direction,
+   *     so nothing travels as a group and no ring ever forms;
+   *   - local loop period 55-115 s, depth tiers slipping against each other
+   *     (primary ×1.18, secondary ×1.0, deep ×0.8) with a 1-in-5 reverse
+   *     direction — asynchronous, hypnotic, never a carousel;
+   *   - each loop breathes ±30% on its own 45-95 s cycle — organic, no two
+   *     orbits pulse alike;
+   *   - HERO PROTECTION: a ray test from the hero mount rect (photo + paper
+   *     + caption, inflated by the fragment's own box + shadow margin)
+   *     returns the exclusion radius for the loop point's angle. A loop
+   *     that dips toward the hero is bowed outward — fragments pass AROUND
+   *     the photograph, never over it;
+   *   - z-tiers are fixed at mount: deep 1, secondary 5, primary 10 (the
+   *     hero container sits later in the DOM and wins every tie) — nothing
+   *     ever paints over the hero;
+   *   - the photographs stay stable: a slow ±few-degree wobble around the
+   *     resting angle and subtle scale breathing — readable objects whose
+   *     positions circulate;
+   *   - presence cycles (fade out / return) and the entrance settle are
+   *     unchanged; poses are OFFSETS from the element's % base position, so
+   *     resize keeps fragments glued to the scene.
    */
   useEffect(() => {
     if (reduced) return;
@@ -264,73 +257,76 @@ function FragmentsScene() {
     let last = performance.now();
 
     interface Pose {
-      x: number; y: number; rot: number; s: number;
-      tx: number; ty: number; tr: number; ts: number;
-      tau: number; dwell: number; sincePick: number;
-      angle: number; radius: number; tier: number;
-      first: boolean;
+      x: number;
+      y: number;
+      rot: number;
+      s: number;
+      theta: number;
+      radius: number;
+      omega: number;
+      breatheAmp: number;
+      breatheT: number;
+      breathePhase: number;
+      wobbleAmp: number;
+      wobbleT: number;
+      wobblePhase: number;
+      sAmp: number;
+      sT: number;
+      sPhase: number;
+      tau: number;
+      firstUntil: number;
     }
     const pose = new Map<string, Pose>();
 
     const rnd = (a: number, b: number) => a + Math.random() * (b - a);
-    // Gaussian-ish via two uniforms — enough spread without ever jittering.
-    const gauss = (a: number, b: number) => rnd(a, b) * 0.5 + rnd(a, b) * 0.5;
-    // Layer z-tiers: deep archive 1 < secondary 5 < primary-behind 10 (ties
-    // with the hero, which wins on DOM order) < primary-front 20.
-    const layerTier = (f: FieldFragment) =>
-      f.layer === "deep" ? 1 : f.layer === "secondary" ? 5 : f.above ? 20 : 10;
-
-    // The photo's FACE ZONE — central 60% of the hero photo, in scene
-    // coordinates (the engine's waypoints are viewport-space with the scene
-    // flushed to the top, so scene-relative == engine-space). Fragments may
-    // graze the mount edges (scrapbook look) but never park over the faces.
-    let face = { cx: 0, cy: 0, hw: 0, hh: 0 };
-    const readFace = () => {
+    // The spindle: the hero MOUNT (photo + paper + caption strip), in scene
+    // coordinates. Everything orbits this box; nothing may cross it.
+    let zone = { cx: 0, cy: 0, x0: 0, y0: 0, x1: 0, y1: 0 };
+    const readZone = () => {
       const h = document.querySelector<HTMLElement>('[data-qa="fragments-hero-photo"]');
       const scene = parallaxRef.current;
       if (!h || !scene) return;
-      const r = h.getBoundingClientRect();
+      const r = h.parentElement!.getBoundingClientRect(); // the whole mount
       const s = scene.getBoundingClientRect();
-      face = {
+      zone = {
         cx: r.x - s.x + r.width / 2,
         cy: r.y - s.y + r.height / 2,
-        hw: r.width * 0.3,
-        hh: r.height * 0.3,
+        x0: r.x - s.x,
+        y0: r.y - s.y,
+        x1: r.x - s.x + r.width,
+        y1: r.y - s.y + r.height,
       };
     };
-    readFace();
-    // Is the fragment's real box (layout size, scale margin, padding) clear
-    // of the face zone? Half-extents (0.62x covers rotation inflation up to
-    // ~45deg, +50 also keeps a parked front figure's box-shadow — blur 26 +
-    // offset 10 ≈ 36px reach — and its tape (10px above the box) off the face).
-    const boxClear = (ax: number, ay: number, el: HTMLElement) => {
-      const hw = el.offsetWidth * 0.62 + 50;
-      const hh = el.offsetHeight * 0.62 + 50;
-      return (
-        ax + hw < face.cx - face.hw ||
-        ax - hw > face.cx + face.hw ||
-        ay + hh < face.cy - face.hh ||
-        ay - hh > face.cy + face.hh
-      );
-    };
-    // Does the straight travel path (exponential lerp = straight segment in
-    // offset space) from (x0,y0) to (x1,y1) bring the fragment's BOX over
-    // the face zone? The face rect is inflated by the box half-extents, so
-    // the test is on the centre line — the swept band of the box. Slab test
-    // — returns [tEnter, tExit] along the segment when the box would touch
-    // the face, null when it stays clear (or touches at a single point).
-    const segOverlap = (
-      x0: number, y0: number, x1: number, y1: number, hw: number, hh: number,
-    ) => {
-      let tmin = 0;
-      let tmax = 1;
-      const axes = [
-        { d: x1 - x0, o: x0, lo: face.cx - face.hw - hw, hi: face.cx + face.hw + hw },
-        { d: y1 - y0, o: y0, lo: face.cy - face.hh - hh, hi: face.cy + face.hh + hh },
-      ];
-      for (const { d, o, lo, hi } of axes) {
+    readZone();
+
+    // Orbit space is normalised as (x, y/k): with k = vh/vw the position
+    // formula ay = cy + sin·r·k makes every loop a circle on screen — a
+    // platter — on any viewport instead of a flat ellipse. The guard works
+    // in the SAME space, or its distance tests drift on portrait viewports
+    // (k > 1) and the hero protection leaks.
+    // A ray from the mount centre at `theta` — where does it leave the
+    // protected mount rect (inflated by the fragment box + shadow margin)?
+    // That is the exclusion radius for this angle. 0 when the ray points
+    // clear of the box.
+    const rayExit = (theta: number, hw: number, hh: number, vw_: number, vh_: number) => {
+      const k = vh_ / vw_;
+      const x0 = zone.x0 - hw;
+      const y0 = (zone.y0 - hh) / k;
+      const x1 = zone.x1 + hw;
+      const y1 = (zone.y1 + hh) / k;
+      const dx = Math.cos(theta);
+      const dy = Math.sin(theta);
+      let tmax = Infinity;
+      let hits = true;
+      for (const [o, d, lo, hi] of [
+        [zone.cx, dx, x0, x1],
+        [zone.cy / k, dy, y0, y1],
+      ] as [number, number, number, number][]) {
         if (Math.abs(d) < 1e-9) {
-          if (o < lo || o > hi) return null; // parallel, outside
+          if (o < lo || o > hi) {
+            hits = false;
+            break;
+          }
         } else {
           let ta = (lo - o) / d;
           let tb = (hi - o) / d;
@@ -339,145 +335,38 @@ function FragmentsScene() {
             ta = tb;
             tb = t;
           }
-          tmin = Math.max(tmin, ta);
           tmax = Math.min(tmax, tb);
-          if (tmin > tmax) return null;
+          if (tb < 0 || ta > tmax) {
+            hits = false;
+            break;
+          }
         }
       }
-      return [tmin, tmax];
+      // tmax < 0 → the ray points away from the box entirely.
+      return hits && tmax > 0 ? tmax : 0;
     };
 
-    const pickTarget = (
-      f: FieldFragment, p: Pose, vw_: number, vh_: number, tier: number, el: HTMLElement,
-    ) => {
-      const cx = vw_ / 2;
-      const cy = vh_ / 2;
-      const first = p.first;
-      // The fragment's home distance from the centre (its resting place).
-      const home =
-        Math.hypot((f.pos.left / 100) * vw_ - cx, (f.pos.top / 100) * vh_ - cy) || vw_ * 0.3;
-      const maxR = Math.min(vw_, vh_) * 0.46;
-      let angle: number;
-      let radius: number;
-      if (first) {
-        // First journey: a local settle — the archive wakes from its resting
-        // composition within ~2s of mount (no long dead start before the
-        // first travel; the live browser sees motion immediately).
-        angle = p.angle + rnd(-0.25, 0.25);
-        radius = Math.max(0.12 * maxR, home * rnd(0.55, 1.45));
-      } else if (Math.random() < 0.22) {
-        // CROSSING journey: travels ACROSS the scene past the hero. In FRONT
-        // (z-20) the waypoint keeps outside the hero's silhouette so Skillz +
-        // Grandmaster Flash stay legible; BEHIND (z-0) it can pass right
-        // under them — hidden by the opaque mount, the classic "disappears
-        // behind the hero, emerges on the other side" moment.
-        angle = p.angle + (Math.random() < 0.5 ? -1 : 1) * rnd(0.15, 0.6);
-        radius =
-          tier === 20
-            ? rnd(0.42, 0.68) * maxR
-            : rnd(0.05, 0.4) * maxR;
-      } else {
-        // DRIFT: keep the general region but roam — angle walks, radius
-        // breathes around the home orbit; rarely the fragment leaves the
-        // field edge. Radius floor keeps drifts off the hero.
-        angle = p.angle + rnd(-0.9, 0.9);
-        radius = Math.max(
-          0.38 * maxR,
-          Math.min(1.06 * maxR, home * rnd(0.75, 1.3) + gauss(-0.12, 0.12) * maxR),
-        );
-        if (Math.random() < 0.08) radius *= 1.35; // slip into the margin
-      }
-      // Absolute waypoint, converted to offset from base by the caller.
-      let ax = cx + Math.cos(angle) * radius;
-      let ay = cy + Math.sin(angle) * radius * (vh_ / vw_);
-      const bx = (f.pos.left / 100) * vw_;
-      const by = (f.pos.top / 100) * vh_;
-      // HERO LEGIBILITY: a front-tier waypoint must keep the fragment's box
-      // off the face zone AND the travel path must not cross it (exponential
-      // lerp moves along the straight segment — a slow pass over the faces
-      // would be exactly the occlusion we forbid). Behind-tier waypoints
-      // pass freely — hidden by the mount. First push the waypoint out along
-      // its angle until the box clears (1.6*maxR cap: vertical waypoints
-      // need ~1.3*maxR to clear the face since y is compressed by vh/vw —
-      // the old 12-iteration bound left a blind spot above/below the hero).
-      if (tier === 20 && face.hw > 0) {
-        let guard = 0;
-        while (!boxClear(ax, ay, el) && guard < 24 && radius < 1.6 * maxR) {
-          radius *= 1.08;
-          ax = cx + Math.cos(angle) * radius;
-          ay = cy + Math.sin(angle) * radius * (vh_ / vw_);
-          guard++;
-        }
-        // Path guard: if the segment from the fragment's current position to
-        // the waypoint would enter the face, clamp the waypoint to stop just
-        // short of the near edge (box margin) — pushing radius out along the
-        // same angle can never fix a chord that runs through the centre.
-        // Fragments already inside the zone (ov[0] <= 0) are exiting — their
-        // path leaves it, and the caller gives them a fast settle.
-        const px0 = bx + p.x;
-        const py0 = by + p.y;
-        const hw = el.offsetWidth * 0.62 + 24;
-        const hh = el.offsetHeight * 0.62 + 24;
-        const md = Math.hypot(hw, hh);
-        const clampAt = (x0: number, y0: number, x1: number, y1: number, ov: number[]) => {
-          const dx = x1 - x0;
-          const dy = y1 - y0;
-          const len = Math.hypot(dx, dy) || 1;
-          let t = ov[0] - md / len;
-          for (let i = 0; i < 8 && t > 0.03 && !boxClear(x0 + dx * t, y0 + dy * t, el); i++) {
-            t *= 0.85; // oblique graze — pull back toward the start
-          }
-          return t > 0.03 ? [x0 + dx * t, y0 + dy * t] : null;
-        };
-        const ov = segOverlap(px0, py0, ax, ay, hw, hh);
-        if (ov && ov[0] > 0) {
-          // ANY segment entering the face is clamped or rejected — including
-          // entries right at the start (a fragment parked at the face edge by
-          // an earlier clamp must not get a slow transit through the zone).
-          const c = clampAt(px0, py0, ax, ay, ov);
-          if (c) {
-            ax = c[0];
-            ay = c[1];
-          } else {
-            // Degenerate clamp (start parked at the edge): resample drift
-            // waypoints until the travel path avoids the face. The drift band
-            // only guarantees a radius floor, not face clearance for large
-            // boxes, so each sample re-runs the box push-out too.
-            let ov2: number[] | null = ov;
-            let tried = 0;
-            do {
-              angle = p.angle + rnd(-0.9, 0.9);
-              radius = Math.max(
-                0.38 * maxR,
-                Math.min(1.06 * maxR, home * rnd(0.75, 1.3) + gauss(-0.12, 0.12) * maxR),
-              );
-              ax = cx + Math.cos(angle) * radius;
-              ay = cy + Math.sin(angle) * radius * (vh_ / vw_);
-              let g2 = 0;
-              while (!boxClear(ax, ay, el) && g2 < 24 && radius < 1.6 * maxR) {
-                radius *= 1.08;
-                ax = cx + Math.cos(angle) * radius;
-                ay = cy + Math.sin(angle) * radius * (vh_ / vw_);
-                g2++;
-              }
-              ov2 = segOverlap(px0, py0, ax, ay, hw, hh);
-              tried++;
-            } while (ov2 && ov2[0] > 0 && tried < 8);
-            const c2 = ov2 && ov2[0] > 0 ? clampAt(px0, py0, ax, ay, ov2) : null;
-            if (c2) {
-              ax = c2[0];
-              ay = c2[1];
-            }
-          }
-        }
-      }
-      const tr = f.rot + (first ? rnd(-2, 2) : rnd(-7, 7));
-      // First journeys settle fast so the wake-up motion is visible; steady
-      // travel uses the approved slow pace (7.2–13.2s, ~20% slower than the
-      // original 6–11s).
-      const tau = first ? rnd(1.8, 2.8) : rnd(7.2, 13.2);
-      const dwell = first ? 0 : Math.random() < 0.25 ? rnd(1.2, 4) : 0;
-      return { tx: ax - bx, ty: ay - by, tr, ts: 1, tau, dwell, angle, radius, tier };
+    // Platter pace: one revolution ≈ 2.5 min. Depth tiers slip: primary
+    // slightly quicker, deep archive slowest — layered bands of one record.
+    const TIER_OMEGA: Record<string, number> = { primary: 1.18, secondary: 1.0, deep: 0.8 };
+    const PLATTER = (2 * Math.PI) / 150;
+
+    // SPREAD — the archive is a field of individual territories, not rings
+    // of shared distance. Base positions are scattered full-canvas (corners,
+    // edges, open mid-field) with the hero's breathing room empty; each
+    // fragment now circulates LOCALLY around its own territory with a small
+    // loop radius (5-12% of scene width, per-id hash — no two fragments
+    // share radius, so no ring can form and nothing travels as a group).
+    // Bigger prints loop tighter — they are the anchors of the wall.
+    const hash01 = (id: string) => {
+      let h = 0;
+      for (const c of id) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+      return h / 4294967295;
+    };
+    const loopRadius = (id: string, sw: number, w: number) => {
+      const size = Math.min(1, Math.max(0, (w - 4) / 8));
+      const base = (0.05 + 0.07 * hash01(id + ":lr")) * sw;
+      return base * (1 - size * 0.25); // larger print -> tighter loop
     };
 
     const tick = () => {
@@ -487,63 +376,98 @@ function FragmentsScene() {
       if (dt > 0.1) dt = 0.1; // tab-switch guard
       const vw_ = window.innerWidth;
       const vh_ = window.innerHeight;
+      const k = vh_ / vw_;
+      // Base positions resolve against the SCENE, not the viewport — the
+      // scene is inset from the viewport (and scrolls), so per-frame rect is
+      // the only reliable origin for both the orbit offsets and the guard.
+      const sceneEl = parallaxRef.current;
+      const s = sceneEl ? sceneEl.getBoundingClientRect() : { width: vw_, height: vh_ };
       fragEls.current.forEach((el, id) => {
         const f = fieldById.get(id);
         if (!f) return;
-        const bx = (f.pos.left / 100) * vw_;
-        const by = (f.pos.top / 100) * vh_;
+        // CSS base position, in the same scene-relative space as `zone`.
+        const bx = (f.pos.left / 100) * s.width;
+        const by = (f.pos.top / 100) * s.height;
         let p = pose.get(id);
         if (!p) {
-          // Initial pose: offset 0 (the resting composition) — the first
-          // frames are exactly the current static layout ("rest" state).
-          const cx = vw_ / 2;
-          const cy = vh_ / 2;
-          const home =
-            Math.hypot(bx - cx, by - cy) || vw_ * 0.3;
+          // Mount pose: offsets 0 — the first frames are exactly the resting
+          // composition, then the field wakes.
+          const tier = f.layer === "deep" ? 1 : f.layer === "secondary" ? 5 : 10;
+          el.style.zIndex = String(tier);
           p = {
-            x: 0, y: 0, rot: f.rot, s: 1,
-            tx: 0, ty: 0, tr: f.rot, ts: 1,
-            tau: rnd(7.2, 13.2), dwell: 0, sincePick: 0,
-            angle: Math.atan2(by - cy, bx - cx),
-            radius: home,
-            tier: layerTier(f),
-            first: true,
+            x: 0,
+            y: 0,
+            rot: f.rot,
+            s: 1,
+            theta: hash01(id + ":th") * Math.PI * 2,
+            radius: loopRadius(id, s.width, f.w),
+            omega:
+              ((2 * Math.PI) / rnd(55, 115)) *
+              (TIER_OMEGA[f.layer ?? "primary"] ?? 1) *
+              rnd(0.92, 1.08) *
+              (hash01(id + ":dir") < 1 / 5 ? -1 : 1),
+            breatheAmp: rnd(0.2, 0.3),
+            breatheT: rnd(45, 95),
+            breathePhase: rnd(0, Math.PI * 2),
+            wobbleAmp:
+              rnd(1.5, 4) *
+              (hash01(id + ":wob") < 0.5 ? -1 : 1) *
+              (hash01(id + ":flat") < 1 / 7 ? 0.35 : 1),
+            wobbleT: rnd(24, 46),
+            wobblePhase: rnd(0, Math.PI * 2),
+            sAmp: (f.scaleAmp ?? 0.06) || 0.06,
+            sT: rnd(32, 60),
+            sPhase: rnd(0, Math.PI * 2),
+            tau: rnd(0.7, 1.1) * (f.layer === "deep" ? 1.25 : 1),
+            firstUntil: now + 2600,
           };
           pose.set(id, p);
         }
-        p.sincePick += dt;
-        // Arrival: pick a new waypoint (immediately, or after a short dwell).
-        const arrived = Math.hypot(p.tx - p.x, p.ty - p.y) < vw_ * 0.012;
-        if ((arrived && p.dwell === 0) || p.sincePick > p.tau + p.dwell + 4) {
-          // Depth flip first: ~22% of journeys swap tier — a PRIMARY fragment
-          // crosses in front of / behind the hero mid-field. Secondary and
-          // deep archive layers hold their tier forever.
-          let tier = p.tier;
-          if ((f.layer ?? "primary") === "primary" && Math.random() < 0.22) {
-            const flipped = tier === 20 ? 10 : 20;
-            // A behind-parked primary flipping to FRONT would paint over the
-            // faces while exiting — hold the flip until the box is off the
-            // face zone (the exit would cross it, fast-exit or not).
-            if (!(flipped === 20 && face.hw > 0 && !boxClear(bx + p.x, by + p.y, el))) {
-              tier = flipped;
-            }
-          }
-          const np = pickTarget(f, p, vw_, vh_, tier, el);
-          p.first = false;
-          // Flipped to front while parked under the face: fast exit so the
-          // hero clears in ~2s instead of a slow drift out.
-          if (tier === 20 && face.hw > 0 && !boxClear(bx + p.x, by + p.y, el)) {
-            np.tau = rnd(1.2, 2.2);
-          }
-          Object.assign(p, np, { sincePick: 0, tier });
-          el.style.zIndex = String(tier);
+        // The local loop: angle advances around the territory, radius
+        // breathes; then the hero guard.
+        p.theta += p.omega * dt;
+        const th = p.theta;
+        const breathe =
+          1 +
+          p.breatheAmp *
+            Math.sin((2 * Math.PI * now) / 1000 / p.breatheT + p.breathePhase);
+        const r = p.radius * breathe;
+        let ax = bx + Math.cos(th) * r;
+        let ay = by + Math.sin(th) * r * k;
+        // Exclusion: if the loop point dips into the protected mount rect,
+        // bow it outward along the ray from the mount centre. The transform
+        // anchor is the figure's TOP-LEFT, so the rect is inflated by the
+        // figure's FULL extent (not half) — otherwise a figure passing above
+        // the mount hangs its caption into the photo. +40: the bow target
+        // also trails via the lerp — extra gap so the box (and its caption)
+        // never grazes the mount edge while chasing corners.
+        const hw = el.offsetWidth + 60;
+        const hh = el.offsetHeight + 60;
+        const thm = Math.atan2((ay - zone.cy) / k, ax - zone.cx);
+        const exit = rayExit(thm, hw, hh, vw_, vh_);
+        if (Math.hypot(ax - zone.cx, (ay - zone.cy) / k) < exit) {
+          ax = zone.cx + Math.cos(thm) * (exit + 40);
+          ay = zone.cy + Math.sin(thm) * (exit + 40) * k;
         }
-        // Exponential smoothing — continuous interpolation, no stepping.
-        const k = 1 - Math.exp(-dt / p.tau);
-        p.x += (p.tx - p.x) * k;
-        p.y += (p.ty - p.y) * k;
-        p.rot += (p.tr - p.rot) * k * 0.7;
-        p.s += (p.ts - p.s) * k * 0.4;
+        // Canvas: graze the edges, never park far offscreen.
+
+        ax = Math.max(-0.06 * vw_, Math.min(1.06 * vw_, ax));
+        ay = Math.max(-0.06 * vh_, Math.min(1.06 * vh_, ay));
+        // Fragments trail the orbit with a soft lerp — no snaps. The entrance
+        // settle lerps slower so the wake-up motion reads clearly.
+        const tau = now < p.firstUntil ? 2.4 : p.tau;
+        const st = 1 - Math.exp(-dt / tau);
+        p.x += (ax - bx - p.x) * st;
+        p.y += (ay - by - p.y) * st;
+        // The photographs stay stable: slow wobble around the resting angle,
+        // subtle scale breathing — readable objects, revolving positions.
+        const rotTarget =
+          f.rot +
+          p.wobbleAmp *
+            Math.sin((2 * Math.PI * now) / 1000 / p.wobbleT + p.wobblePhase);
+        p.rot += (rotTarget - p.rot) * st * 0.5;
+        const sTarget = 1 + p.sAmp * Math.sin((2 * Math.PI * now) / 1000 / p.sT + p.sPhase);
+        p.s += (sTarget - p.s) * st * 0.4;
         let op = 1;
         if (f.presence) {
           const pu = 2 * Math.PI * (now / 1000 / f.presence.period + f.presence.phase);
@@ -555,10 +479,10 @@ function FragmentsScene() {
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
-    window.addEventListener("resize", readFace);
+    window.addEventListener("resize", readZone);
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", readFace);
+      window.removeEventListener("resize", readZone);
     };
   }, [reduced]);
 

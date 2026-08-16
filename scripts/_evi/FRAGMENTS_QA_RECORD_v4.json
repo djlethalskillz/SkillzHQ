@@ -1,0 +1,69 @@
+[
+  {
+    "viewport": "1440×900",
+    "fragmentCount": 16,
+    "motionTransformsDiffer": true,
+    "ufoOpacityRest": 0.024,
+    "ufoOpacityActive": 0.721,
+    "hero": {
+      "x": 520,
+      "y": 218,
+      "w": 400,
+      "h": 400
+    },
+    "labelsFound": 12,
+    "horizontalOverflow": false,
+    "consoleErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "1024×768",
+    "fragmentCount": 11,
+    "hero": {
+      "x": 312,
+      "y": 153,
+      "w": 400,
+      "h": 400
+    },
+    "horizontalOverflow": false,
+    "consoleErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "390×844",
+    "fragmentCount": 7,
+    "ids": [
+      "frag-qbert",
+      "frag-tony-touch-apollo-vinroc",
+      "frag-keith-shocklee",
+      "frag-jazzy-jeff",
+      "frag-one-nation",
+      "frag-beirut-streets",
+      "frag-ufo-badge"
+    ],
+    "hero": {
+      "x": 86,
+      "y": 283,
+      "w": 218,
+      "h": 218
+    },
+    "horizontalOverflow": false,
+    "consoleErrors": [],
+    "failedRequests": []
+  },
+  {
+    "viewport": "1440×900 (reduce)",
+    "fragmentCount": 16,
+    "noTransforms": true,
+    "hero": {
+      "x": 520,
+      "y": 202,
+      "w": 400,
+      "h": 400
+    },
+    "consoleErrors": []
+  },
+  {
+    "gif": "frag-v4-motion.gif (444 KB)"
+  }
+]

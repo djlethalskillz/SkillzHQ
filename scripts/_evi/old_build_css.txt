@@ -1,0 +1,83 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;900&family=JetBrains+Mono:wght@400;500&family=Caveat:wght@600&display=swap');
+
+  :root{ --black:#0A0A0A; --white:#F3F1EC; --yellow:#D9A404; }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{ background: #0A0A0A; overflow:hidden; }
+
+  .table{ position:relative; width:100vw; height:100vh; overflow:hidden; }
+
+  .env-frag{ position:absolute; object-fit:cover; z-index: 2; filter: saturate(1.05); }
+  .env-dark{ position:absolute; inset:0; background: radial-gradient(ellipse at 50% 45%, rgba(10,10,10,0.28) 0%, rgba(10,10,10,0.78) 68%, rgba(10,10,10,0.94) 100%); z-index: 3; }
+  .env-tint{ position:absolute; inset:0; background: radial-gradient(ellipse at 15% 12%, rgba(217,164,4,0.07) 0%, transparent 42%), radial-gradient(ellipse at 85% 80%, rgba(120,150,217,0.05) 0%, transparent 38%); z-index: 3; pointer-events:none; }
+
+  .arch-type{ position:absolute; font-family:'Big Shoulders Display', sans-serif; text-transform:uppercase; color: rgba(243,241,236,0.92); pointer-events:none; line-height: 0.78; letter-spacing: -0.015em; white-space: nowrap; }
+  .arch-w1{ top: -3vh; left: -6vw; font-weight:900; font-size: clamp(120px, 19vw, 340px); color: rgba(243,241,236,0.85); z-index: 33; }
+  .arch-w2{ top: 62vh; right: -8vw; font-weight:900; font-size: clamp(90px, 14vw, 260px); color: rgba(217,164,4,0.7); z-index: 21; text-align:right; }
+  .arch-w3{ top: 6vh; right: 4vw; font-weight:900; font-size: clamp(30px, 4vw, 56px); color: rgba(243,241,236,0.2); z-index: 13; writing-mode: vertical-rl; }
+  .arch-w4{ bottom: 4vh; left: 42vw; font-weight:900; font-size: clamp(40px, 5.5vw, 84px); color: rgba(243,241,236,0.14); z-index: 10; }
+  .arch-w5{ top: 44vh; left: 3vw; font-weight:900; font-size: clamp(60px, 8vw, 130px); color: rgba(243,241,236,0.9); z-index: 26; width: 7vw; overflow:hidden; height: 14vw; }
+  .arch-w6{ bottom: -8vh; left: 60vw; font-weight:900; font-size: clamp(80px, 11vw, 200px); color: rgba(243,241,236,0.5); z-index: 24; height: 8vh; overflow:hidden; }
+  .arch-meta{ bottom: 5vh; right: 5.5vw; font-family:'JetBrains Mono', monospace; font-weight: 500; font-size: 12px; letter-spacing: 0.18em; color: rgba(243,241,236,0.4); z-index: 14; text-transform:uppercase; }
+
+  .print{ position:absolute; transition: transform 1.8s cubic-bezier(.22,.61,.36,1), z-index 0s linear 0.3s, filter 1.4s ease, opacity 0.9s ease; will-change: transform; }
+  .print-photo{ width:100%; height:100%; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+  .print-photo::after{ content:''; position:absolute; inset:0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px); opacity:0.3; }
+  /* .print-label removed — dead CSS. Superseded entirely by .archival-caption below; no JS
+     creates a 'print-label' element anymore. */
+
+  /* Archival caption: printed directly onto the artifact's own existing white/off-white
+     border — not a separate plate. No background, no shadow, no box of its own: it's just
+     text sitting on whatever surface is already there (Polaroid margin, credential card,
+     jcard's off-white side panel). Only added to variants that genuinely have such a surface;
+     sleeves and flyers get no caption element at all rather than an artificially added one. */
+  .archival-caption{
+    font-family:'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+    color: rgba(20,20,20,0.72);
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .v-instant .archival-caption{ position: absolute; left: 9px; right: 9px; bottom: 10px; }
+  .v-pass .archival-caption{ position: absolute; left: 8px; right: 8px; bottom: 8px; }
+  /* jcard: the photo floats left at 36% width; the caption sits in the existing off-white
+     space beside it — already part of the card's fixed aspect-ratio, nothing added. */
+  .v-jcard .archival-caption{
+    position: absolute;
+    left: 40%;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: left;
+  }
+
+  /* --- Evidence vocabulary: 5 physical object types actually in use. Several additional
+     types (contact sheet, note, passport, boarding pass, clipping, index card, envelope,
+     notebook, keycard) were designed for early placeholder concepts but were never used once
+     real archive material replaced them — removed entirely rather than left as dead weight. --- */
+
+  .v-instant{ width: 210px; background:#F3F1EC; padding: 9px 9px 32px 9px; box-shadow: 0 10px 26px rgba(0,0,0,0.55), 0 2px 6px rgba(0,0,0,0.4); }
+  .v-instant .print-photo{ aspect-ratio: 4/5; background: var(--tone,#2a2a2a); }
+
+  .v-flyer{ width: 190px; background: var(--tone,#2a2a2a); box-shadow: 0 10px 26px rgba(0,0,0,0.5); clip-path: polygon(0% 1%, 98% 0%, 100% 97%, 3% 100%); aspect-ratio: 3/4; }
+
+  .v-pass{ width: 108px; background:#e4e0d4; padding: 10px 8px 26px 8px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); text-align:center; }
+  .v-pass .pass-hole{ width:10px; height:10px; border-radius:50%; background:#0A0A0A; margin: 0 auto 8px; }
+  .v-pass .print-photo{ aspect-ratio: 3/4; background: var(--tone,#2a2a2a); }
+
+  .v-sleeve{ width: 190px; background: var(--tone,#2a2a2a); box-shadow: 0 12px 30px rgba(0,0,0,0.6), inset 6px 0 10px rgba(0,0,0,0.35); aspect-ratio: 1/1; border-left: 4px solid rgba(0,0,0,0.4); }
+
+  .v-jcard{ width: 100px; background:#efece4; padding:6px; box-shadow: 0 8px 18px rgba(0,0,0,0.5); aspect-ratio: 6.7/4.7; position:relative; }
+  .v-jcard::before{ content:''; position:absolute; left:38%; top:0; bottom:0; width:1px; background:rgba(0,0,0,0.15); }
+  .v-jcard .print-photo{ width:36%; height:100%; float:left; background: var(--tone,#2a2a2a); }
+
+  .tape{ position:absolute; width:56px; height:20px; background: rgba(230,220,190,0.55); box-shadow: 0 1px 3px rgba(0,0,0,0.3); z-index: 3; }
+  .scribble{ position:absolute; font-family:'Caveat', cursive; color: rgba(217,164,4,0.8); font-size: 22px; z-index: 3; pointer-events:none; }
+
+  .grain{ position:absolute; inset:0; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.16) 0px, rgba(0,0,0,0.16) 1px, transparent 1px, transparent 2px); opacity:0.14; pointer-events:none; z-index:60; }
+  .vignette{ position:absolute; inset:0; background: radial-gradient(ellipse at center, transparent 42%, rgba(0,0,0,0.42) 100%); pointer-events:none; z-index:60; }
+
+  .dev-note{ position:absolute; top:14px; right:14px; z-index:100; font-family:'JetBrains Mono', monospace; font-size:10px; color: rgba(243,241,236,0.5); border:1px dashed rgba(217,164,4,0.5); padding:6px 10px; max-width:440px; line-height:1.6; background: rgba(10,10,10,0.6); }
+  .rhythm-log{ position:absolute; bottom:14px; left:14px; z-index:100; font-family:'JetBrains Mono', monospace; font-size:10px; color: rgba(217,164,4,0.85); max-width: 900px; line-height:1.6; }

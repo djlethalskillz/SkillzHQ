@@ -110,25 +110,27 @@ const browser = await puppeteer.launch({
     await shot(page, `${FRAMES_DIR}/f${String(i).padStart(3, "0")}.png`);
     if (i % 3 === 0) {
       censusLog.push(await page.evaluate(() => {
+        // Spindle protection (vinyl-orbit engine): NO fragment box may
+        // intersect the hero MOUNT (photo + paper + caption) at any frame.
         const hero = document.querySelector('[data-qa="fragments-hero-photo"]');
         const scene = document.querySelector('[data-qa="fragments-scene"]');
-        const hr = hero.getBoundingClientRect();
+        const mr = hero.parentElement.getBoundingClientRect();
         const sr = scene.getBoundingClientRect();
-        const fx0 = hr.left - sr.left + hr.width * 0.35;
-        const fx1 = hr.left - sr.left + hr.width * 0.65;
-        const fy0 = hr.top - sr.top + hr.height * 0.35;
-        const fy1 = hr.top - sr.top + hr.height * 0.65;
+        const mx0 = mr.left - sr.left;
+        const mx1 = mr.left - sr.left + mr.width;
+        const my0 = mr.top - sr.top;
+        const my1 = mr.top - sr.top + mr.height;
         const res = [];
         for (const el of document.querySelectorAll('[data-qa="fragments-field"] figure')) {
-          const z = Number(getComputedStyle(el).zIndex);
-          if (z < 20) continue;
           const r = el.getBoundingClientRect();
-          const ox = Math.max(0, Math.min(fx1, r.right - sr.left) - Math.max(fx0, r.left - sr.left));
-          const oy = Math.max(0, Math.min(fy1, r.bottom - sr.top) - Math.max(fy0, r.top - sr.top));
-          const pct = ((ox * oy) / ((fx1 - fx0) * (fy1 - fy0))) * 100;
-          if (pct > 1) {
+          const ox = Math.max(0, Math.min(mx1, r.right - sr.left) - Math.max(mx0, r.left - sr.left));
+          const oy = Math.max(0, Math.min(my1, r.bottom - sr.top) - Math.max(my0, r.top - sr.top));
+          if (ox > 0 && oy > 0) {
+            const area = ox * oy;
+            const farea = (r.right - r.left) * (r.bottom - r.top);
             res.push({
-              pct: Math.round(pct),
+              id: el.dataset.qa,
+              pct: Math.round((area / farea) * 100),
               img: el.querySelector("img, canvas")?.src?.split("/").pop(),
             });
           }
