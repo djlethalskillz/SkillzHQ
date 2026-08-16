@@ -1,52 +1,39 @@
-# SkillzHQ GitHub Production Release v1.2.0 — Post-Launch Mobile Correction
+# SkillzHQ GitHub Production Release v1.2.1 — Mobile DJ Lethal Color Micro-Fix
 
-## What Changed from v1.1.0
+## What Changed from v1.2.0
 
-Two surgical mobile fixes, source-level, no redesign (approved 2026-08-16):
+One visual change, mobile only. `src/components/header.tsx:41` — the "DJ Lethal"
+header span now uses the existing site yellow token below 640px:
 
-1. **Mobile header wordmark** — `src/components/header.tsx:41`: removed `hidden`
-   from the "DJ Lethal" span (`hidden sm:inline` → `sm:inline`). The wordmark
-   was `display:none` below 640px; it now shows at every width. Desktop
-   composition unchanged (`sm:inline` already applied ≥640px).
-2. **What I Do copy** — `src/components/what-i-do.tsx:634`: SectionHeader note
-   corrected from "six disciplines, one practice." to
-   "five disciplines, one practice." — matches the actual `disciplines` array
-   (DJ, Turntablism, Speaking, Producer, Fragments).
-
-No other source changes. Reveal behavior, Producer video (intentionally hidden
-below `md`), and all other chapters untouched.
+- `text-muted` → `text-accent sm:text-muted`
+- `--color-accent: #ffe600` (globals.css:7) — the same yellow used across the
+  marquee/accent elements. No new color introduced.
+- `sm:text-muted` restores the v1.2.0 color at ≥640px — desktop/tablet byte-
+  identical rendering to v1.2.0.
+- Font (11px), tracking (0.25em), position, spacing, SKILLZ logo, hamburger
+  menu, hero — untouched.
 
 ## Build / Transform
 
-- `npm run build` (Next.js 16.3.0, Turbopack, `output: "export"`) — clean,
-  TypeScript passed, same single `Font` fallback warning as v1.1.0.
-- Same deploy-time document-relative transform as v1.1.0, applied to the fresh
-  `out/`: 357 quoted root-absolute refs rewritten across index.html, 404.html,
-  _not-found.html and 4 JS chunks (chunk hashes changed per build — file
-  discovery is dynamic). 0 leftovers, 4 absolute production URLs intact.
+- `npm run build` clean (Next.js 16.3.0, Turbopack, static export).
+- Same document-relative transform; 1 JS chunk hash changed
+  (`1ol1pq9zzn5fj.js` → `2jqryovcr_r2i.js`); 0 leftovers; 4 absolute production
+  URLs intact.
 
-## Verification (browser, both mounts)
+## Verification (browser)
 
-Dual-mount suite at `/` and `/SkillzHQ/`, 1440/1024/390 viewports, plus mobile
-iPhone-UA pass at 390x844:
+| Viewport | DJ Lethal computed color | SKILLZ | Layout |
+|---|---|---|---|
+| 390 mobile | `rgb(255, 230, 0)` = #ffe600 accent | white, unchanged | no overflow |
+| 768 tablet | `rgb(148, 148, 148)` = muted (same as v1.2.0) | white | no overflow |
+| 1440 desktop | `rgb(148, 148, 148)` = muted (same as v1.2.0) | white | no overflow |
 
-- "DJ Lethal" computed `display:block` in mobile header at 390px
-- Section note reads "five disciplines, one practice."
-- 10/10 videos playing, YouTube + Spotify embeds present, 0 broken anchors
-- 0 console errors, 0 HTTP failures at any mount/viewport
-- No real horizontal overflow (scrollWidth == innerWidth; the earlier
-  `overflow:true` signal is a harness false positive shared with v1.1.0 —
-  marquee/absolute overlays are overflow-hidden-contained by design)
-- Touch: tapping the DJ row opens its panel (305.9px, 4 video cells playing)
+0 console errors, 0 missing assets at all viewports. Font size and letter
+spacing identical (11px / 2.75px) — color is the only changed computed value.
 
 ## File Count
 
-192 files, 89.7 MB (incl. this manifest). 128 assets, all referenced.
-
-## Deployment Target
-
-`https://djlethalskillz.com/` via GitHub Actions (existing pipeline, no workflow
-change). Same artifact serves `https://djlethalskillz.github.io/SkillzHQ/`.
+192 files, 89.7 MB (incl. this manifest).
 
 ## Status
 
