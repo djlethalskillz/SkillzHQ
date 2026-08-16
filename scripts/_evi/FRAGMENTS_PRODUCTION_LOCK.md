@@ -2,7 +2,7 @@
 
 Date: 2026-08-16
 Status: **PRODUCTION LOCKED — human visual review approved**
-Commit: (recorded by the follow-up docs commit)
+Commit: e863fec — lock: production lock Fragments — territory field + final composition
 Canonical implementation: `src/components/fragments.tsx` + `src/lib/fragments.ts`
 
 ## What was locked (final V1 state)
