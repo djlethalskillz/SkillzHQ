@@ -1,3 +1,0 @@
-docs: record Turntablism lock commit hash b582f70 in checkpoint
-
-Co-Authored-By: Claude <noreply@anthropic.com>
