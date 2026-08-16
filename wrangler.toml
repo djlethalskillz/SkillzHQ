@@ -1,0 +1,23 @@
+# SkillzHQ enquiry delivery worker — `wrangler.toml`
+#
+# Deploy:
+#   npx wrangler deploy
+#   npx wrangler secret put RESEND_API_KEY
+#   npx wrangler secret put ENQUIRY_DESTINATION
+#
+# The route lets the static site POST to the same-origin path /api/enquiry —
+# the worker intercepts it before the origin host sees it. Requires the
+# domain to be Cloudflare-proxied (orange-cloud) at djlethalskillz.com.
+# Local test: npx wrangler dev (serves http://localhost:8787/api/enquiry)
+
+name = "skillzhq-enquiry"
+main = "workers/enquiry.js"
+compatibility_date = "2026-08-16"
+
+routes = [
+  { pattern = "djlethalskillz.com/api/enquiry", zone_name = "djlethalskillz.com" }
+]
+
+# Non-secret config. Secrets are NOT stored here — see commands above.
+[vars]
+RESEND_FROM = "SkillzHQ <enquiries@djlethalskillz.com>"

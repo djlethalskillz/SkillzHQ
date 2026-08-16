@@ -454,8 +454,12 @@ export const site = {
     ],
   },
 
-  /** Booking destination. Set to an email to enable mailto booking links. */
-  bookingEmail: null as string | null,
+  /**
+   * Enquiry endpoint — same-origin POST to the serverless delivery worker
+   * (Cloudflare Worker, route /api/enquiry). The destination email address
+   * lives only in the worker's environment secrets, never in the client.
+   */
+  enquiryEndpoint: "/api/enquiry",
 
   media: {
     /** YouTube channel or performance playlist. */
@@ -465,27 +469,53 @@ export const site = {
   },
 };
 
-/** Canonical booking categories — bookable disciplines only (see CHECKPOINT_ARCHITECTURE.md). */
-export const bookingCategories = [
-  "DJ",
-  "Turntablism / Workshop",
-  "Speaking",
-  "Producer",
-] as const;
-
-/** Producer booking services — shown when the Producer category is selected. */
-export const producerServices = [
-  "Beats",
-  "Scratch Hooks",
-  "Mixing & Mastering",
-  "Collaboration",
-] as const;
-
-/** Speaking booking formats — shown when the Speaking category is selected. */
-export const speakingServices = [
-  "Talk",
-  "Panel",
-  "Keynote",
-  "Workshop / Masterclass",
-  "Cultural / Educational Event",
+/**
+ * Booking briefs — the SELECT A BRIEF categories, borrowed from the approved
+ * SkillzHQ Collaborate reference (RC2 ProductionFreeze): name (row label),
+ * heading (contextual "TELL ME ABOUT YOUR <heading>."), tagline (swapped into
+ * the panel when the brief is open), helper (always-visible row detail).
+ */
+export const bookingBriefs = [
+  {
+    name: "Performance",
+    heading: "Performance",
+    tagline: "Let's create a performance people will remember.",
+    helper: "Club bookings · Festivals · Private events",
+  },
+  {
+    name: "Workshop / Masterclass",
+    heading: "Workshop / Masterclass",
+    tagline: "Let's create a workshop people will remember.",
+    helper: "DJ workshops · Turntablism · Creative sessions",
+  },
+  {
+    name: "Speaking",
+    heading: "Speaking Engagement",
+    tagline: "Let's create a talk people will remember.",
+    helper: "Panels · Keynotes · Creative conversations",
+  },
+  {
+    name: "Creative Collaboration",
+    heading: "Creative Collaboration",
+    tagline: "Let's create a collaboration people will remember.",
+    helper: "Artists · Brands · Cultural projects",
+  },
+  {
+    name: "Commission",
+    heading: "Commissioned Project",
+    tagline: "Let's create a commission people will remember.",
+    helper: "Original music · Production · Creative direction",
+  },
+  {
+    name: "Media / Press",
+    heading: "Media / Press Feature",
+    tagline: "Let's create a feature people will remember.",
+    helper: "Interviews · Features · Documentary projects",
+  },
+  {
+    name: "Other",
+    heading: "Enquiry",
+    tagline: "Let's create something people will remember.",
+    helper: "Something different? Tell me.",
+  },
 ] as const;
