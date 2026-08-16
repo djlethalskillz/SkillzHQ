@@ -37,4 +37,24 @@ spacing identical (11px / 2.75px) — color is the only changed computed value.
 
 ## Status
 
-READY TO DEPLOY.
+## RELEASE RECORD — PRODUCTION LOCK
+
+- **Release version:** v1.2.1
+- **Site commit SHA:** `b7b3337` (deployed through GitHub Actions, run
+  `31952019735` → success)
+- **Deployment timestamp:** 2026-08-16 22:17 MPST (lock verification re-deploy)
+- **Verification result:** PASS — 1440/1024/390 viewports: 0 console errors,
+  0 HTTP failures, 0 missing assets, 0 horizontal overflow, 10/10 video loops
+  playing, YouTube + Spotify embeds functional, mobile DJ Lethal visible and
+  yellow (`#ffe600`), "five disciplines, one practice." present, desktop/
+  tablet colors unchanged.
+- **Approved changes (this release):**
+  1. Mobile "DJ Lethal" header text uses existing site yellow (`--color-accent
+     #ffe600`) below 640px; `sm:text-muted` preserves v1.2.0 color ≥640px.
+  2. Mobile "DJ Lethal" visibility restored (v1.2.0).
+  3. What I Do copy: "five disciplines, one practice." (v1.2.0).
+
+- **Canonical state:** the deployed website at https://djlethalskillz.com is
+  the canonical SkillzHQ production state.
+
+🔒 PRODUCTION LOCKED — no further changes.
