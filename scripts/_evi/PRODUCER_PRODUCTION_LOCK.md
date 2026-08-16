@@ -2,7 +2,7 @@
 
 Date: 2026-08-16
 Status: **PRODUCTION LOCKED — human visual review approved**
-Commit: (recorded by the follow-up docs commit)
+Commit: d51e300 — lock: production lock Producer — approved journey video in opening's empty space
 Canonical implementation: `src/components/what-i-do.tsx` (ProducerChapter) + `src/lib/site.ts` (producer data)
 
 ## What was locked (final V1 state)
