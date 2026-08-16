@@ -462,10 +462,10 @@ export const site = {
   enquiryEndpoint: "/api/enquiry",
 
   media: {
-    /** YouTube channel or performance playlist. */
-    youtube: null as MediaLink,
-    /** Spotify artist or release link. */
-    spotify: null as MediaLink,
+    /** Official Skillz YouTube channel. */
+    youtube: { label: "YouTube", url: "https://www.youtube.com/@djlethalskillz" } as MediaLink,
+    /** Official Skillz Spotify artist profile. */
+    spotify: { label: "Spotify", url: "https://open.spotify.com/artist/7F3kgeoTzXbi5JLPylw4qW" } as MediaLink,
   },
 };
 
