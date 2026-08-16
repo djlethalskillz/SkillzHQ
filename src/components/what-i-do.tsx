@@ -482,7 +482,19 @@ function ProducerChapter() {
       </p>
 
       {/* SIGNATURE — SCRATCH HOOKS */}
-      <div className="mt-14 grid gap-10 border-l-2 border-accent pl-6 md:mt-20 md:pl-10">
+      <div className="relative mt-14 grid gap-10 border-l-2 border-accent pl-6 md:mt-20 md:pl-10">
+        {/* Approved journey loop — the opening's right-side empty space. No
+            audio track ever plays (muted), no controls, no overlay. */}
+        <video
+          aria-hidden
+          className="pointer-events-none absolute right-0 top-1/2 hidden w-[40%] -translate-y-1/2 md:block"
+          src="/assets/producer/skillzhq_journey_close_operation_lost_art_part2.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        />
         <div>
           <p className="text-[11px] uppercase tracking-[0.3em] text-accent">
             Signature
