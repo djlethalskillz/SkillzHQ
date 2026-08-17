@@ -26,6 +26,12 @@ function Chapter({
 }) {
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
+  // Below-the-fold perf: don't mount (and thus don't fetch) this chapter's
+  // media until the visitor opens it the first time. Once opened, stays
+  // mounted permanently — closing/reopening after that is unchanged from
+  // today (same elements, same play()/pause(), instant resume).
+  const hasOpenedRef = useRef(false);
+  if (open) hasOpenedRef.current = true;
 
   return (
     <>
@@ -59,7 +65,7 @@ function Chapter({
         className="grid transition-[grid-template-rows] duration-700 ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none"
         style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
       >
-        <div className="overflow-hidden">{children}</div>
+        <div className="overflow-hidden">{hasOpenedRef.current ? children : null}</div>
       </div>
     </>
   );
@@ -631,7 +637,7 @@ export function WhatIDo() {
       <SectionHeader
         index="02"
         title="What I Do"
-        note="What you can book: six disciplines, one practice."
+        note="What you can book: five disciplines, one practice."
       />
       <ul className="mt-12 md:mt-16">
         {disciplines.map((item, i) => (
