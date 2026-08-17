@@ -59,7 +59,7 @@ export const site = {
   djArchive: {
     src: "/assets/dj-lethal-skillz-collage.png",
     alt: "DJ Lethal Skillz · Performance Archive",
-    caption: "DJ · PERFORMANCE ARCHIVE · 2024–2017",
+    caption: "DJ · PERFORMANCE ARCHIVE",
     /** 4 approved living cells overlaid on the master. Panel geometry in 1920×1080 master coords. */
     cells: [
       { id: "craft", x: 1020, y: 148, w: 360, h: 414, webm: "/assets/cells/craft.webm", mp4: "/assets/cells/craft.mp4" },
@@ -74,7 +74,7 @@ export const site = {
     src: "/assets/turntablism-living-loop.mp4",
     webm: "/assets/turntablism-living-loop.webm",
     poster: "/assets/turntablism-living-loop-poster.png",
-    caption: "Turntablism · The Instrument · 2014",
+    caption: "Turntablism · The Instrument",
     // REV T5: editorial block — approved copy, no dashes, no in-copy yellow.
     // White = editorial voice (Speaking restraint), yellow reserved for the
     // section's structural accents only.
@@ -182,7 +182,7 @@ export const site = {
       primary: {
         name: "Squid Gamez",
         detail: "Co-production with cut hook, Def Ill, Austria",
-        year: "2021",
+        year: "",
       },
       trail: [
         "Defenders of the Culture, multi-country record (2025)",
@@ -194,7 +194,7 @@ export const site = {
     works: [
       {
         id: "united",
-        year: "2011",
+        year: "",
         title: "The United",
         role: "Remixer, DJ Lethal Skillz",
         story:
@@ -207,7 +207,7 @@ export const site = {
       },
       {
         id: "karmageddon",
-        year: "2012",
+        year: "",
         title: "Karmageddon",
         role: "Album, executive production, 17 tracks",
         story:
@@ -221,7 +221,7 @@ export const site = {
       },
       {
         id: "anghami",
-        year: "2018",
+        year: "",
         title: "Anghami Cypher",
         role: "Scratches, a platform-commissioned hip-hop cypher",
         story:
@@ -236,7 +236,7 @@ export const site = {
       },
       {
         id: "thirty",
-        year: "2022",
+        year: "",
         title: "30 Arab MC's On One Track",
         role: "One beat, a network of voices",
         story:
@@ -250,7 +250,7 @@ export const site = {
       },
       {
         id: "mgcity",
-        year: "2025",
+        year: "",
         title: "Most Gritty City",
         role: "Production and scratches, remix",
         story:
@@ -301,7 +301,7 @@ export const site = {
       primary: {
         name: "Hip-Hoppin' Asia, Lebanon episode",
         detail: "8TV Malaysia · Season 2",
-        year: "2015",
+        year: "",
         url: "https://youtu.be/3VTjjMsJeKQ",
       },
       trail: [],
@@ -310,7 +310,7 @@ export const site = {
       {
         id: "dmc",
         index: "01",
-        year: "2007",
+        year: "",
         title: "DMC World DJ Championship, GCC",
         place: "Dubai",
         role: "Judge, the culture's own world championship",
@@ -335,7 +335,7 @@ export const site = {
       {
         id: "raising",
         index: "02",
-        year: "2013–14",
+        year: "",
         title: "Raising The Bar",
         place: "Kuala Lumpur",
         role: "Hip-hop as a tool to drive socio-political change",
@@ -385,7 +385,7 @@ export const site = {
       {
         id: "wief",
         index: "04",
-        year: "2015",
+        year: "",
         title: "World Islamic Economic Forum, 11th",
         place: "Kuala Lumpur",
         role: "Creative contribution, forum masthead design",

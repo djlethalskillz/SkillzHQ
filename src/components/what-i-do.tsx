@@ -264,8 +264,8 @@ function SpeakingChapter() {
             )}
             <span className="text-muted">
               {", "}
-              {speaking.signature.primary.detail} ·{" "}
-              {speaking.signature.primary.year}
+              {speaking.signature.primary.detail}
+              {speaking.signature.primary.year ? ` · ${speaking.signature.primary.year}` : ""}
             </span>
           </p>
           {speaking.signature.trail.length > 0 ? (
@@ -515,8 +515,8 @@ function ProducerChapter() {
             {producer.signature.primary.name}
             <span className="text-muted">
               {" "}
-              · {producer.signature.primary.detail} ·{" "}
-              {producer.signature.primary.year}
+              · {producer.signature.primary.detail}
+              {producer.signature.primary.year ? ` · ${producer.signature.primary.year}` : ""}
             </span>
           </p>
           <ul className="mt-4 space-y-1.5">
@@ -548,9 +548,11 @@ function ProducerChapter() {
                 <p className="text-[11px] uppercase tracking-[0.3em] text-accent">
                   {work.tag}
                 </p>
-                <p className="text-[11px] tracking-[0.2em] text-muted">
-                  {work.year}
-                </p>
+                {work.year ? (
+                  <p className="text-[11px] tracking-[0.2em] text-muted">
+                    {work.year}
+                  </p>
+                ) : null}
               </div>
 
               {work.media ? (
