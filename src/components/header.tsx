@@ -38,7 +38,7 @@ export default function Header() {
           <span className="font-display text-2xl uppercase leading-none">
             {site.shortName}
           </span>
-          <span className="hidden text-[11px] uppercase tracking-[0.25em] text-muted sm:inline">
+          <span className="text-[11px] uppercase tracking-[0.25em] text-accent sm:text-muted sm:inline">
             DJ Lethal
           </span>
         </Link>
