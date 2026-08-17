@@ -27,10 +27,19 @@ jobs:
       # Production release is pre-built (SkillzHQ-GitHub-Release-v1.1.0).
       # Repo intentionally contains no source or package.json — upload the
       # static site at the repository root directly.
+      - name: Prepare deploy directory
+        run: |
+          mkdir -p _pages
+          for item in *; do
+            if [ "$item" = "wrangler.toml" ] || [ "$item" = "workers" ] || [ "$item" = "_pages" ]; then
+              continue
+            fi
+            cp -a "$item" _pages/
+          done
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: ./_pages
 
   deploy:
     environment:
