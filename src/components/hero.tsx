@@ -182,6 +182,18 @@ export function Hero() {
         </div>
       </div>
 
+      {/* DEMO ONLY — Skillz Vinyl Logo wallpaper backdrop. Sits AFTER the frame div (paints above its
+          bg-black, exactly like the v1 in-frame placement) but below all z-10+ layers. Spans the full
+          section width so the artwork reaches the left/right edges. */}
+      <Image
+        src="/assets/skillz-vinyl-logo-backdrop.png"
+        alt=""
+        fill
+        sizes="(max-width: 1448px) 100vw, 1448px"
+        className="pointer-events-none absolute inset-0 z-0 object-fill opacity-50"
+        aria-hidden="true"
+      />
+
       <div className="grain pointer-events-none absolute inset-0 z-[60] opacity-[0.08] mix-blend-overlay" aria-hidden="true" />
     </section>
   );
