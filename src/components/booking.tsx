@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { bookingBriefs, site } from "@/lib/site";
+import { useRef, useState, type FormEvent } from "react";
+import { bookingBriefs, engagementTypes, site } from "@/lib/site";
 import { Reveal } from "@/components/reveal";
 
 type Brief = (typeof bookingBriefs)[number];
@@ -149,6 +149,23 @@ export function Booking() {
   const [openIndex, setOpenIndex] = useState<number | null>(null); // expanded row
   const [formIndex, setFormIndex] = useState<number | null>(null); // row hosting the live form
   const [closingIndex, setClosingIndex] = useState<number | null>(null); // old form until collapse ends
+  const briefButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const briefListRef = useRef<HTMLParagraphElement>(null);
+
+  // Guided entry point: opens the one existing brief a visitor's chosen
+  // engagement type maps to — same toggle() the accordion already uses,
+  // then scrolls/focuses that row. Every other brief stays reachable below.
+  function selectEngagementType(type: (typeof engagementTypes)[number]) {
+    const i = bookingBriefs.findIndex((b) => b.name === type.brief);
+    if (i === -1) return;
+    if (openIndex !== i) toggle(i);
+    briefButtonRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    briefButtonRefs.current[i]?.focus({ preventScroll: true });
+  }
+
+  function scrollToBriefList() {
+    briefListRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   function toggle(i: number) {
     if (openIndex === i) {
@@ -223,7 +240,42 @@ export function Booking() {
                   {tagline}
                 </p>
                 <div className="my-6 border-t border-black/25 md:my-7" />
+
                 <p className="text-[11px] uppercase tracking-[0.25em] text-black/60">
+                  What Are You Looking To Bring Skillz Into?
+                </p>
+                <ul className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3">
+                  {engagementTypes.map((type, i) => (
+                    <li key={type.label}>
+                      <button
+                        type="button"
+                        onClick={() => selectEngagementType(type)}
+                        className="flex items-center gap-3 rounded-full border border-black/25 px-5 py-2.5 text-left transition-colors hover:border-black hover:bg-black/5"
+                      >
+                        <span className="font-arch-mono text-xs text-black/40">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="font-display text-base uppercase leading-none md:text-lg">
+                          {type.label}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  onClick={scrollToBriefList}
+                  className="mt-4 font-arch-mono text-[11px] uppercase tracking-[0.2em] text-black/50 underline decoration-black/30 underline-offset-4 transition-colors hover:text-black"
+                >
+                  See everything
+                </button>
+
+                <div className="my-6 border-t border-black/25 md:my-7" />
+
+                <p
+                  ref={briefListRef}
+                  className="scroll-mt-24 text-[11px] uppercase tracking-[0.25em] text-black/60"
+                >
                   Select A Brief
                 </p>
               </div>
@@ -234,9 +286,12 @@ export function Booking() {
                   const expanded = openIndex === i;
                   const hostsForm = formIndex === i || closingIndex === i;
                   return (
-                    <li key={brief.name} className="border-b border-black/25">
+                    <li key={brief.name} className="scroll-mt-24 border-b border-black/25">
                       <button
                         type="button"
+                        ref={(el) => {
+                          briefButtonRefs.current[i] = el;
+                        }}
                         aria-expanded={expanded}
                         aria-controls={`book-brief-body-${i}`}
                         onClick={() => toggle(i)}

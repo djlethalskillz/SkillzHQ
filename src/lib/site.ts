@@ -519,3 +519,19 @@ export const bookingBriefs = [
     helper: "Something different? Tell me.",
   },
 ] as const;
+
+/**
+ * Engagement types — thin routing layer above the booking briefs. Each
+ * option points at the single most relevant existing brief by name; the
+ * briefs above remain the only source of truth for headings/taglines/
+ * helpers and are never duplicated here.
+ */
+export const engagementTypes: {
+  label: string;
+  brief: (typeof bookingBriefs)[number]["name"];
+}[] = [
+  { label: "DJ / Live Performance", brief: "Performance" },
+  { label: "Workshops / Education", brief: "Workshop / Masterclass" },
+  { label: "Speaking", brief: "Speaking" },
+  { label: "Production / Creative Collaboration", brief: "Creative Collaboration" },
+];
