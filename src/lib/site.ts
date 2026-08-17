@@ -42,8 +42,9 @@ export const site = {
   /** Hero 2 — canonical composition reference (the visual North Star, not rendered directly). */
   heroReference: "/assets/dj-lethal-skillz-hero2-reference.png" as string | null,
 
-  /** Hero 2 subject master — canonical approved hero asset (white studio field, keyed at render time). */
-  hero2Master: "/assets/skillz-hero2-master.png" as string | null,
+  /** Hero 2 subject master — canonical approved hero asset (white studio field, keyed at render time).
+      WebP 2x derivative; canonical 4624×3468 PNG kept untouched as source of truth. */
+  hero2Master: "/assets/skillz-hero2-master-2x.webp" as string | null,
 
   /** Hero background photograph — the approved SKY_0104 source image. */
   heroBackground: "/assets/sky-0104.jpg" as string | null,

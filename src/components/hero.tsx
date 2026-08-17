@@ -33,10 +33,9 @@ export function Hero() {
       <div className="relative mx-auto aspect-[4/3] w-full max-w-[1448px] overflow-hidden bg-black md:w-[min(100%,calc(100svh*4/3))] md:max-w-none">
         {/* Archival photographic atmosphere — independently movable layer. */}
         <Image
-          src="/assets/hero2-archival-layer.png"
+          src="/assets/hero2-archival-layer.webp"
           alt=""
           fill
-          priority
           sizes="(max-width: 1448px) 100vw, 1448px"
           className="pointer-events-none z-0 object-cover"
           aria-hidden="true"
@@ -44,10 +43,9 @@ export function Hero() {
 
         {/* Exact reference-derived SKILLZ artwork layer. */}
         <Image
-          src="/assets/hero2-skillz-layer.png"
+          src="/assets/hero2-skillz-layer.webp"
           alt=""
           fill
-          priority
           sizes="(max-width: 1448px) 100vw, 1448px"
           className="pointer-events-none z-10 object-cover"
           aria-hidden="true"
@@ -86,7 +84,7 @@ export function Hero() {
             src={site.hero2Master ?? "/assets/skillz-hero2-master.png"}
             alt=""
             fill
-            priority
+            fetchPriority="high"
             sizes="(max-width: 1448px) 100vw, 1448px"
             className="object-cover"
             style={{ filter: "url(#hero2-white-key-final)" }}
@@ -95,10 +93,9 @@ export function Hero() {
 
         {/* Exact reference-derived DJ LETHAL artwork layer. */}
         <Image
-          src="/assets/hero2-dj-lethal-layer.png"
+          src="/assets/hero2-dj-lethal-layer.webp"
           alt="DJ Lethal"
           fill
-          priority
           sizes="(max-width: 1448px) 100vw, 1448px"
           className="pointer-events-none z-30 object-cover"
         />
@@ -107,10 +104,9 @@ export function Hero() {
             Shifted left with the supporting-copy block below so its text clears the jacket. */}
         <div className="pointer-events-none absolute inset-0 z-30" style={{ transform: "translateX(-3%)" }}>
           <Image
-            src="/assets/hero2-eoto-layer.png"
+            src="/assets/hero2-eoto-layer.webp"
             alt="Each One Teach One"
             fill
-            priority
             sizes="(max-width: 1448px) 100vw, 1448px"
             className="object-cover"
           />
@@ -127,7 +123,7 @@ export function Hero() {
           aria-hidden="true"
         >
           <Image
-            src="/assets/hero2-supporting-copy-layer.png"
+            src="/assets/hero2-supporting-copy-layer.webp"
             alt=""
             fill
             sizes="(max-width: 1448px) 100vw, 1448px"
@@ -140,7 +136,7 @@ export function Hero() {
 
         {/* Exact reference-derived CTA artwork, with a transparent live link over the same geometry. */}
         <Image
-          src="/assets/hero2-cta-layer.png"
+          src="/assets/hero2-cta-layer.webp"
           alt=""
           fill
           sizes="(max-width: 1448px) 100vw, 1448px"
