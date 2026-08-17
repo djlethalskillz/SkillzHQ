@@ -182,17 +182,17 @@ export function Hero() {
         </div>
       </div>
 
-      {/* DEMO V5 ONLY — Skillz Vinyl Logo wallpaper backdrop. Sits AFTER the frame div (paints above its
-          bg-black, exactly like the v1 in-frame placement) but below all z-10+ layers. Spans the full
-          section width so the artwork reaches the left/right edges. object-cover + scale keeps the square
-          logo proportional (circle NOT distorted into an ellipse) and makes it a large cropped wallpaper. */}
+      {/* DEMO V6 ONLY — Skillz Vinyl Logo wallpaper backdrop. Sits AFTER the frame div (paints above its
+          bg-black, exactly like the v1 in-frame placement) but below all z-10+ layers. object-cover keeps
+          the square proportional (circle NOT distorted); scale is the MINIMUM needed to cover the section
+          (object-cover alone = 1.406x; 1.05 adds a hairline margin -> ~1.476x total). Wallpaper, not close-up. */}
       <Image
         src="/assets/skillz-vinyl-logo-backdrop.png"
         alt=""
         fill
         sizes="(max-width: 1448px) 100vw, 1448px"
         className="pointer-events-none absolute inset-0 z-0 object-cover opacity-50"
-        style={{ transform: "scale(1.35)" }}
+        style={{ transform: "scale(1.05)" }}
         aria-hidden="true"
       />
 
