@@ -55,9 +55,10 @@ export const site = {
     alt: "DJ Lethal Skillz",
   },
 
-  /** DJ archive collage — approved iteration-2 master as static base (never flattened with video). */
+  /** DJ archive collage — approved iteration-2 master as static base (never flattened with video).
+      Cleaned derivative served to visitors; canonical PNG kept untouched as source of truth. */
   djArchive: {
-    src: "/assets/dj-lethal-skillz-collage.png",
+    src: "/assets/dj-lethal-skillz-collage-clean.png",
     alt: "DJ Lethal Skillz · Performance Archive",
     caption: "DJ · PERFORMANCE ARCHIVE",
     /** 4 approved living cells overlaid on the master. Panel geometry in 1920×1080 master coords. */
