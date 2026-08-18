@@ -53,6 +53,14 @@ export default function Header() {
               {link.label}
             </Link>
           ))}
+          <a
+            href="/assets/DJ_LETHAL_SKILLZ_EPK.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-white/70 transition-colors hover:text-white"
+          >
+            Download EPK
+          </a>
           <Link
             href="#book"
             className="rounded-full bg-accent px-6 py-3 text-sm font-semibold uppercase tracking-wider text-black transition-colors hover:bg-white"
@@ -106,6 +114,15 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
+            <a
+              href="/assets/DJ_LETHAL_SKILLZ_EPK.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              className="font-display text-4xl uppercase leading-none transition-colors hover:text-accent"
+            >
+              Download EPK
+            </a>
           </nav>
           <Link
             href="#book"
