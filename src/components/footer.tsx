@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { Reveal } from "@/components/reveal";
+import { VinylPlayer } from "@/components/vinyl-player";
 
 const footerLinks = [
   { href: "#what-i-do", label: "What I Do" },
@@ -82,6 +83,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-elevated">
       <div className="mx-auto w-full max-w-[1520px] px-6 py-12 md:px-10 md:py-16">
+        <VinylPlayer />
         <Reveal>
           <section aria-label="Follow Skillz" className="pb-14 md:pb-20">
             <p className="text-[11px] uppercase tracking-[0.25em] text-muted">
