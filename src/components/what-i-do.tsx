@@ -182,7 +182,7 @@ const disciplines: Discipline[] = [
                 playsInline
                 aria-label={t.alt}
               >
-                <source src={t.webm} type="video/webm" />
+                {t.webm ? <source src={t.webm} type="video/webm" /> : null}
                 <source src={t.media} type="video/mp4" />
               </video>
             ) : (
