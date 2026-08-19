@@ -9,7 +9,8 @@ import { site } from "@/lib/site";
 /**
  * SKILLZHQ EXPANDING CHAPTER PATTERN — established by DJ (see CHECKPOINT_DJ.md).
  * A discipline row is its own trigger: click expands the chapter in place,
- * click again collapses. No icons, no affordances, no modal.
+ * click again collapses. Affordance: persistent vinyl mark at the row's right
+ * edge; "OPEN CRATE" appears beside it on hover/focus. No modal.
  */
 function Chapter({
   name,
@@ -57,6 +58,12 @@ function Chapter({
         </span>
         <span className="text-sm leading-relaxed text-muted transition-colors group-hover:text-white/80 md:ml-auto md:text-right">
           {note}
+        </span>
+        <span className="cue ml-auto md:ml-4" aria-hidden="true">
+          Open crate
+        </span>
+        <span className="vinyl-wrap ml-auto self-center md:ml-0" aria-hidden="true">
+          <span className="vinyl" />
         </span>
       </button>
       <div

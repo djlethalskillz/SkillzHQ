@@ -73,6 +73,90 @@ body {
   animation: marquee 60s linear infinite;
 }
 
+:root {
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ---------- WHAT I DO — OPEN CRATE + VINYL affordance ---------- */
+
+.cue {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  opacity: 0;
+  transform: translateX(6px);
+  transition:
+    opacity 0.25s var(--ease-out-soft),
+    transform 0.25s var(--ease-out-soft);
+  white-space: nowrap;
+  flex: 0 0 auto;
+}
+
+.group:hover .cue,
+.group:focus-visible .cue {
+  opacity: 1;
+  transform: none;
+}
+
+@media (hover: none) {
+  .cue {
+    display: none;
+  }
+}
+
+.vinyl-wrap {
+  flex: 0 0 auto;
+}
+
+.vinyl {
+  display: block;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  position: relative;
+  transition:
+    border-color 0.35s var(--ease-out-soft),
+    background-color 0.35s var(--ease-out-soft),
+    transform 0.35s var(--ease-out-soft);
+}
+
+.vinyl::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.vinyl::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transition: background-color 0.35s var(--ease-out-soft);
+}
+
+.group:hover .vinyl,
+.group:focus-visible .vinyl,
+.group[aria-expanded="true"] .vinyl {
+  border-color: var(--color-accent);
+  transform: rotate(120deg);
+  background-color: rgba(255, 230, 0, 0.08);
+}
+
+.group:hover .vinyl::after,
+.group:focus-visible .vinyl::after,
+.group[aria-expanded="true"] .vinyl::after {
+  background-color: var(--color-accent);
+}
+
 @keyframes vinyl-spin {
   to {
     transform: rotate(360deg);
