@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type FormEvent } from "react";
+import Image from "next/image";
 import { bookingBriefs, engagementTypes, site } from "@/lib/site";
 import { Reveal } from "@/components/reveal";
 
@@ -205,7 +206,7 @@ export function Booking() {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="book-skillz-panel"
-            className="flex w-full flex-col gap-4 border-b border-black/25 pb-6 text-left transition-colors hover:bg-black/5 md:flex-row md:items-end md:justify-between md:pb-8"
+            className="group flex w-full flex-col gap-4 border-b border-black/25 pb-6 text-left transition-colors hover:bg-black/5 md:flex-row md:items-end md:justify-between md:pb-8"
           >
             <span className="flex flex-col gap-4 md:flex-row md:items-end md:gap-8">
               <span className="text-sm tracking-widest text-black/60">
@@ -214,6 +215,33 @@ export function Booking() {
               <span className="font-display text-giant uppercase leading-none">
                 Book Skillz
               </span>
+            </span>
+            {/* OPEN CRATE — black graffiti artwork, same discovery cue as What I Do */}
+            <span className="crate mx-auto flex items-center md:mx-0" aria-hidden="true">
+              <Image
+                className="crate-arrow crate-arrow-l"
+                src="/assets/open-crate-arrow-left-black.png"
+                alt=""
+                width={585}
+                height={430}
+                loading="lazy"
+              />
+              <Image
+                className="crate-text"
+                src="/assets/open-crate-text-black.png"
+                alt=""
+                width={1025}
+                height={380}
+                loading="lazy"
+              />
+              <Image
+                className="crate-arrow crate-arrow-r"
+                src="/assets/open-crate-arrow-right-black.png"
+                alt=""
+                width={582}
+                height={430}
+                loading="lazy"
+              />
             </span>
             <span className="max-w-64 text-sm leading-relaxed text-black/70">
               Let&apos;s collaborate: pick a brief, one tap to the conversation.
