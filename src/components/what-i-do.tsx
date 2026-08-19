@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, type ReactNode } from "react";
+import Image from "next/image";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
 import { FragmentsChapter } from "@/components/fragments";
@@ -9,8 +10,9 @@ import { site } from "@/lib/site";
 /**
  * SKILLZHQ EXPANDING CHAPTER PATTERN — established by DJ (see CHECKPOINT_DJ.md).
  * A discipline row is its own trigger: click expands the chapter in place,
- * click again collapses. Affordance: persistent vinyl mark at the row's right
- * edge; "OPEN CRATE" appears beside it on hover/focus. No modal.
+ * click again collapses. Affordance: approved graffiti artwork (OPEN CRATE +
+ * inward arrows) centered between title and descriptor; vinyl mark at the
+ * row's right edge. No modal.
  */
 function Chapter({
   name,
@@ -49,18 +51,42 @@ function Chapter({
         }}
         aria-expanded={open}
         aria-controls={panelId}
-        className={`group flex w-full cursor-pointer flex-col gap-2 py-8 text-left transition-colors md:flex-row md:items-baseline md:gap-6 md:py-10 ${
+        className={`group flex w-full cursor-pointer flex-col gap-2 py-8 text-left transition-colors md:flex-row md:items-baseline md:justify-between md:gap-6 md:py-10 ${
           staggered ? "md:pl-[10%]" : ""
         }`}
       >
         <span className="font-display text-giant uppercase leading-none transition-colors group-hover:text-accent md:min-w-0">
           {name}
         </span>
-        <span className="text-sm leading-relaxed text-muted transition-colors group-hover:text-white/80 md:ml-auto md:text-right">
-          {note}
+        {/* OPEN CRATE — approved graffiti artwork (three PNGs), centered between title and descriptor; hidden at rest, revealed on hover/focus/open */}
+        <span className="crate mx-auto flex items-center md:mx-0" aria-hidden="true">
+          <Image
+            className="crate-arrow crate-arrow-l"
+            src="/assets/open-crate-arrow-left.png"
+            alt=""
+            width={585}
+            height={430}
+            loading="lazy"
+          />
+          <Image
+            className="crate-text"
+            src="/assets/open-crate-text.png"
+            alt=""
+            width={1025}
+            height={380}
+            loading="lazy"
+          />
+          <Image
+            className="crate-arrow crate-arrow-r"
+            src="/assets/open-crate-arrow-right.png"
+            alt=""
+            width={582}
+            height={430}
+            loading="lazy"
+          />
         </span>
-        <span className="cue ml-auto md:ml-4" aria-hidden="true">
-          Open crate
+        <span className="text-sm leading-relaxed text-muted transition-colors group-hover:text-white/80 md:text-right">
+          {note}
         </span>
         <span className="vinyl-wrap ml-auto self-center md:ml-0" aria-hidden="true">
           <span className="vinyl" />

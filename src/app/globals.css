@@ -78,30 +78,63 @@ body {
 }
 
 /* ---------- WHAT I DO — OPEN CRATE + VINYL affordance ---------- */
-
-.cue {
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-  opacity: 0;
-  transform: translateX(6px);
-  transition:
-    opacity 0.25s var(--ease-out-soft),
-    transform 0.25s var(--ease-out-soft);
-  white-space: nowrap;
+/* Approved graffiti artwork (three PNGs): inward arrows flanking the
+   OPEN CRATE text. Discovery cue: hidden at rest, fades in on row
+   hover/focus/open. Space is reserved on desktop (opacity-only) so the
+   row never shifts; on touch the cue appears only while expanded. */
+.crate {
   flex: 0 0 auto;
+  gap: clamp(8px, 1vw, 14px);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-out-soft);
 }
 
-.group:hover .cue,
-.group:focus-visible .cue {
+.crate img {
+  display: block;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.crate .crate-arrow {
+  width: clamp(34px, 3.2vw, 52px);
+}
+
+.crate .crate-text {
+  width: clamp(58px, 4.6vw, 76px);
+}
+
+.crate-arrow-l,
+.crate-arrow-r {
+  transition: transform 0.3s var(--ease-out-soft);
+}
+
+.group:hover .crate,
+.group:focus-visible .crate,
+.group[aria-expanded="true"] .crate {
   opacity: 1;
-  transform: none;
 }
 
+.group:hover .crate-arrow-l,
+.group:focus-visible .crate-arrow-l {
+  transform: translateX(5px);
+}
+
+.group:hover .crate-arrow-r,
+.group:focus-visible .crate-arrow-r {
+  transform: translateX(-5px);
+}
+
+/* Touch: no hover — the cue appears only while the row is expanded, and
+   is fully removed at rest so the stacked column stays clean. */
 @media (hover: none) {
-  .cue {
+  .crate {
     display: none;
+  }
+
+  .group[aria-expanded="true"] .crate {
+    display: flex;
+    opacity: 1;
   }
 }
 
