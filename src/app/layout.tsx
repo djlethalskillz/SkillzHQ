@@ -48,9 +48,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/assets/skillz-hero2-master.png",
-        width: 4624,
-        height: 3468,
+        url: "https://djlethalskillz.com/assets/djlethalskillz-og-image.jpg",
+        width: 1200,
+        height: 630,
         alt: "DJ Lethal Skillz",
       },
     ],
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     title: "DJ Lethal Skillz · DJ · Turntablist · Producer",
     description:
       "DJ Lethal Skillz: commercial DJ, turntablist and producer. Available for bookings, festivals, workshops, speaking and creative collaborations.",
-    images: ["/assets/skillz-hero2-master.png"],
+    images: ["https://djlethalskillz.com/assets/djlethalskillz-og-image.jpg"],
   },
 };
 
