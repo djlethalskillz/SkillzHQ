@@ -220,7 +220,7 @@ export function Booking() {
             <span className="crate mx-auto flex items-center md:mx-0" aria-hidden="true">
               <Image
                 className="crate-arrow crate-arrow-l"
-                src="/assets/open-crate-arrow-left-black.png"
+                src="/assets/open-crate-arrow-left-black.webp"
                 alt=""
                 width={585}
                 height={430}
@@ -228,7 +228,7 @@ export function Booking() {
               />
               <Image
                 className="crate-text"
-                src="/assets/open-crate-text-black.png"
+                src="/assets/open-crate-text-black.webp"
                 alt=""
                 width={1025}
                 height={380}
@@ -236,7 +236,7 @@ export function Booking() {
               />
               <Image
                 className="crate-arrow crate-arrow-r"
-                src="/assets/open-crate-arrow-right-black.png"
+                src="/assets/open-crate-arrow-right-black.webp"
                 alt=""
                 width={582}
                 height={430}
@@ -258,7 +258,7 @@ export function Booking() {
             <div className="overflow-hidden">
               {/* LET'S COLLABORATE — the same invitation grammar as the reference. */}
               <div className="mt-8 md:mt-12">
-                <p className="font-display text-large uppercase leading-none">
+                <p className="font-display text-giant uppercase leading-none">
                   Let&apos;s Collaborate
                 </p>
                 <p

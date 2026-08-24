@@ -18,7 +18,7 @@ function WatchPanel() {
           <p className="text-[11px] uppercase tracking-[0.3em] text-muted">
             YouTube · Performance footage
           </p>
-          <h3 className="mt-6 font-display text-giant uppercase leading-none transition-colors hover:text-accent">
+          <h3 className="mt-6 font-display text-large uppercase leading-none transition-colors hover:text-accent">
             Watch
           </h3>
         </div>
@@ -51,7 +51,7 @@ function ListenPanel() {
           <p className="text-[11px] uppercase tracking-[0.3em] text-muted">
             Spotify · Music
           </p>
-          <h3 className="mt-6 font-display text-giant uppercase leading-none transition-colors hover:text-accent">
+          <h3 className="mt-6 font-display text-large uppercase leading-none transition-colors hover:text-accent">
             Listen
           </h3>
         </div>
