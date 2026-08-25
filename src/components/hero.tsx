@@ -115,59 +115,91 @@ export function Hero() {
           />
         </div>
 
-        {/* Exact reference-derived supporting copy layer.
-            Note: this locked asset bakes in only 2 of the reference's 3 copy lines
-            ("Culture. Education." / "Turntablism. Legacy.") — "Worldwide." is absent
-            from the PNG's pixel data. Restored below as a live text line, matched to
-            the reference's measured position or reference lines 1–2 (left 9.2%, top 88.4%). */}
+        {/* Reference-derived supporting copy. Desktop keeps the baked raster pixel-exact:
+            the reference's lockup is thin-stroke Anton-proportioned lettering, which no
+            loaded font reproduces (Anton matches the letterforms but is 2× the stroke
+            weight). Mobile swaps in live Anton type — the raster is 4px mush there, so
+            the HTML version is a legibility gain with no raster identity to preserve.
+            The same text stays in an sr-only line so screen readers hear it once at
+            every breakpoint. */}
         <div
           className="pointer-events-none absolute inset-0 z-40"
           style={{ transform: "translateX(-3%)" }}
-          aria-hidden="true"
         >
           <Image
             src="/assets/hero2-supporting-copy-layer.webp"
             alt=""
             fill
             sizes="(max-width: 1448px) 100vw, 1448px"
-            className="object-cover"
+            className="hidden object-cover md:block"
+            aria-hidden="true"
           />
+          <p
+            aria-hidden="true"
+            className="absolute left-[9.1%] top-[82.2%] font-display text-[clamp(0.66rem,1.43vw,1.29rem)] uppercase leading-[1.29] tracking-[0.02em] text-white md:hidden"
+          >
+            <span className="block">Culture. Education.</span>
+            <span className="block">Turntablism. Legacy.</span>
+          </p>
+          <p className="sr-only">Culture. Education. Turntablism. Legacy.</p>
           <p className="pointer-events-none absolute left-[9.2%] top-[88.4%] font-body text-[clamp(0.65rem,1.4vw,1rem)] uppercase leading-none tracking-[0.25em] text-white">
             {values[4]}
           </p>
         </div>
 
-        {/* Exact reference-derived CTA artwork, with a live link over the same geometry.
-            The artwork layer stays full-frame (its text is baked at 83.7–85.4% frame
-            height); the link box above it is aligned to that measured text region so
-            hover/focus/click land on the visible text, not the empty space below it.
-            Interaction language: yellow underline reveal + press dim — no button shape. */}
+        {/* Reference-derived CTA. Desktop keeps the baked raster pixel-exact (same
+            thin-stroke reason as the support copy above); the swoosh flare is baked
+            into it. Mobile swaps in live Anton type at 2.4× the raster's cap height —
+            legible instead of invisible. Interaction language unchanged: yellow
+            underline reveal + press dim — no button shape. */}
         <Image
           src="/assets/hero2-cta-layer.webp"
           alt=""
           fill
           sizes="(max-width: 1448px) 100vw, 1448px"
-          className="pointer-events-none z-40 object-cover"
+          className="pointer-events-none z-40 hidden object-cover md:block"
           aria-hidden="true"
         />
+        {/* Desktop: boxed link over the raster text (Pass-2 approved geometry) — the
+            interaction language (underline reveal + press dim) sits on the baked type. */}
         <Link
           href="#what-i-do"
           aria-label="Enter the HQ"
-          className="group absolute left-[76%] right-[7%] top-[80%] bottom-[11%] z-[45] rounded-sm before:absolute before:-inset-2 before:content-[''] focus-visible:outline-2 focus-visible:outline-accent"
+          className="group absolute left-[76%] right-[7%] top-[80%] bottom-[11%] z-[45] hidden rounded-sm before:absolute before:-inset-2 before:content-[''] focus-visible:outline-2 focus-visible:outline-accent md:block"
         >
           <span
             aria-hidden="true"
             className="pointer-events-none absolute bottom-[35%] left-[7.1%] right-[11.2%] h-0.5 origin-left scale-x-0 bg-accent transition-transform duration-200 group-hover:scale-x-100 group-focus-visible:scale-x-100 group-active:opacity-60"
           />
-          <span className="sr-only">Enter the HQ</span>
+        </Link>
+        {/* Mobile: content-sized link with live Anton type — legible instead of the
+            raster's 4px cap. Same interaction language. */}
+        <Link
+          href="#what-i-do"
+          aria-label="Enter the HQ"
+          className="group absolute left-[77.2%] top-[83.1%] z-[45] inline-flex rounded-sm before:absolute before:-inset-2 before:content-[''] focus-visible:outline-2 focus-visible:outline-accent md:hidden"
+        >
+          <span className="inline-flex items-center gap-[0.7em] font-display text-[clamp(0.875rem,2.35vw,1.35rem)] uppercase leading-none tracking-[0.06em] text-white">
+            <span className="relative">
+              Enter the HQ
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute -bottom-[0.07em] left-0 right-0 h-[0.12em] origin-left scale-x-0 bg-accent transition-transform duration-200 group-hover:scale-x-100 group-focus-visible:scale-x-100 group-active:opacity-60"
+              />
+            </span>
+            <img
+              src="/assets/hero2-cta-flare.webp"
+              alt=""
+              aria-hidden="true"
+              className="pointer-events-none hidden h-[0.73em] w-auto sm:block"
+            />
+          </span>
         </Link>
 
         <div className="sr-only">
           <h1>SKILLZ</h1>
           <p>DJ LETHAL</p>
           <p>Each One Teach One</p>
-          <p>Culture. Education. Turntablism. Legacy. Worldwide.</p>
-          <p>Enter the HQ.</p>
         </div>
 
         {/* Marquee — kept at the section bottom edge (frame bottom on desktop; below the frame
