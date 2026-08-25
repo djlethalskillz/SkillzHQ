@@ -674,7 +674,7 @@ export function WhatIDo() {
         title="What I Do"
         note="What you can book: five disciplines, one practice."
       />
-      <ul className="mt-12 md:mt-16">
+      <ul className="discipline-index mt-12 md:mt-16">
         {disciplines.map((item, i) => (
           <li key={item.name} className="border-t border-white/10 last:border-b">
             <Reveal delay={i * 60}>

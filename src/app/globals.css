@@ -251,6 +251,40 @@ body {
   }
 }
 
+/* ---------- WHAT I DO — DISCIPLINE INDEX SPOTLIGHT ---------- */
+/* One facet on stage: the hovered/focused/expanded row holds full presence
+   while the other four recede (opacity-only — no layout, no movement).
+   Five disciplines read as facets of one practice: hold one up, the rest
+   fall into context. The dim targets the trigger button, never the open
+   panel — chapter content stays full while browsing. Rest state unchanged.
+   Reduced motion inherits the global 0.01ms transition override below —
+   instant state change, hierarchy preserved. */
+.discipline-index > li button[aria-expanded] {
+  transition:
+    opacity 180ms var(--ease-out-soft),
+    color 200ms var(--ease-out-soft),
+    background-color 200ms var(--ease-out-soft),
+    border-color 200ms var(--ease-out-soft);
+}
+
+.discipline-index:hover > li:not(:hover) button[aria-expanded],
+.discipline-index:has(button:focus-visible) > li:not(:has(button:focus-visible)) button[aria-expanded],
+.discipline-index:has(button[aria-expanded="true"]) > li:not(:has(button[aria-expanded="true"])) button[aria-expanded] {
+  opacity: 0.45;
+}
+
+/* Restore: a row that is itself hovered/focused/expanded must never be
+   dimmed by a sibling's rule — the exclusions above only prevent a rule
+   from matching, they don't re-raise opacity. The extra [aria-controls]
+   attribute (present on every Chapter trigger) pushes these above the
+   :has()-based dim rules, whose inner selectors carry hidden specificity;
+   the active row always wins when states overlap. */
+.discipline-index:hover > li:hover button[aria-expanded][aria-controls],
+.discipline-index:has(button:focus-visible) > li:has(button:focus-visible) button[aria-expanded][aria-controls],
+.discipline-index:has(button[aria-expanded="true"]) > li:has(button[aria-expanded="true"]) button[aria-expanded][aria-controls] {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
     animation: none;
