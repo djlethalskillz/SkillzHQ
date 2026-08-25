@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
@@ -24,15 +27,62 @@ const values = ["Culture.", "Education.", "Turntablism.", "Legacy.", "Worldwide.
  * receive pointer/parallax/depth treatment without flattening the scene.
  */
 export function Hero() {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const archRef = useRef<HTMLImageElement>(null);
+  const masterRef = useRef<HTMLDivElement>(null);
+  const backdropRef = useRef<HTMLImageElement>(null);
+
+  // Pass 4: restrained scroll-linked depth. Pure translate3d on selected layers;
+  // rates are a fraction of the frame height, offset = rate × frameH × scroll
+  // progress (0 at rest, max at full exit). Rest state is offset 0, so the
+  // composition is pixel-identical to the static baseline. Identity layers
+  // (SKILLZ, DJ LETHAL, EOTO, support copy, CTA) never move. Transform-only:
+  // no layout reads beyond one rect per frame, no re-renders, passive listener.
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const desktop = window.matchMedia("(min-width: 768px)");
+    const arch = archRef.current;
+    const master = masterRef.current;
+    const backdrop = backdropRef.current;
+    const frame = frameRef.current;
+    if (!arch || !master || !backdrop || !frame) return;
+    const RATES = { arch: 0.015, master: 0.025 }; // bg slowest, midground slightly more
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const r = frame.getBoundingClientRect();
+      const p = Math.max(0, Math.min(1, -r.top / r.height)); // 0 at rest, 1 fully exited
+      const m = desktop.matches ? 1 : 0.5; // mobile: half the movement
+      const yArch = RATES.arch * r.height * p * m;
+      const yMaster = RATES.master * r.height * p * m;
+      arch.style.transform = `translate3d(0, ${yArch}px, 0)`;
+      master.style.transform = `translate3d(0, ${yMaster}px, 0)`;
+      backdrop.style.transform = `translate3d(0, ${yArch}px, 0) scale(1.05)`;
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <section
       id="landing"
       aria-label="DJ Lethal Skillz · Each One Teach One"
       className="relative flex min-h-[60svh] items-center overflow-hidden bg-black scroll-mt-20 md:min-h-0"
     >
-      <div className="relative mx-auto aspect-[4/3] w-full max-w-[1448px] overflow-hidden bg-black md:w-[min(100%,calc(100svh*4/3))] md:max-w-none">
+      <div
+        ref={frameRef}
+        className="relative mx-auto aspect-[4/3] w-full max-w-[1448px] overflow-hidden bg-black md:w-[min(100%,calc(100svh*4/3))] md:max-w-none"
+      >
         {/* Archival photographic atmosphere — independently movable layer. */}
         <img
+          ref={archRef}
           src="/assets/hero2-archival-layer-opt.webp"
           srcSet="/assets/hero2-archival-layer-724.webp 724w, /assets/hero2-archival-layer-opt.webp 1448w"
           sizes="(max-width: 1448px) 100vw, 1448px"
@@ -81,7 +131,7 @@ export function Hero() {
           </filter>
         </svg>
 
-        <div className="pointer-events-none absolute inset-0 z-20" aria-hidden="true">
+        <div ref={masterRef} className="pointer-events-none absolute inset-0 z-20" aria-hidden="true">
           <img
             src={site.hero2Master ?? "/assets/skillz-hero2-master-opt.webp"}
             srcSet="/assets/skillz-hero2-master-724.webp 724w, /assets/skillz-hero2-master-1448.webp 1448w, /assets/skillz-hero2-master-opt.webp 2896w"
@@ -211,6 +261,7 @@ export function Hero() {
           the square proportional (circle NOT distorted); scale is the MINIMUM needed to cover the section
           (object-cover alone = 1.406x; 1.05 adds a hairline margin -> ~1.476x total). Wallpaper, not close-up. */}
       <img
+        ref={backdropRef}
         src="/assets/skillz-vinyl-logo-backdrop-opt.webp"
         srcSet="/assets/skillz-vinyl-logo-backdrop-512.webp 512w, /assets/skillz-vinyl-logo-backdrop-opt.webp 1024w"
         sizes="(max-width: 1448px) 100vw, 1448px"
