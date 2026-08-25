@@ -13,12 +13,12 @@ function WatchPanel() {
   const link = site.media.youtube!;
   return (
     <Reveal className="h-full">
-      <div className="flex h-full flex-col bg-elevated p-8 md:p-12">
+      <div data-media="watch" className="media-panel flex h-full flex-col bg-elevated p-8 md:p-12">
         <div>
           <p className="text-[11px] uppercase tracking-[0.3em] text-muted">
             YouTube · Performance footage
           </p>
-          <h3 className="mt-6 font-display text-giant uppercase leading-none transition-colors hover:text-accent">
+          <h3 className="mt-6 font-display text-large uppercase leading-none transition-colors hover:text-accent">
             Watch
           </h3>
         </div>
@@ -46,12 +46,12 @@ function ListenPanel() {
   const link = site.media.spotify!;
   return (
     <Reveal className="h-full">
-      <div className="flex h-full flex-col bg-elevated p-8 md:p-12">
+      <div data-media="listen" className="media-panel flex h-full flex-col bg-elevated p-8 md:p-12">
         <div>
           <p className="text-[11px] uppercase tracking-[0.3em] text-muted">
             Spotify · Music
           </p>
-          <h3 className="mt-6 font-display text-giant uppercase leading-none transition-colors hover:text-accent">
+          <h3 className="mt-6 font-display text-large uppercase leading-none transition-colors hover:text-accent">
             Listen
           </h3>
         </div>
@@ -86,7 +86,7 @@ export function WatchListen() {
         title="Watch / Listen"
         note="Performance footage and music."
       />
-      <div className="mt-12 grid gap-6 md:mt-16 md:grid-cols-2">
+      <div className="media-index mt-12 grid gap-6 md:mt-16 md:grid-cols-2">
         <WatchPanel />
         <ListenPanel />
       </div>

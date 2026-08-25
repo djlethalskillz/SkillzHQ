@@ -73,6 +73,51 @@ body {
   animation: marquee 60s linear infinite;
 }
 
+/* ---------- HERO ENTRANCE (Pass 5) ----------
+   Restrained first-load settle. Opacity + tiny translate only; the final
+   state matches the static hero exactly (fill "both" holds the from-state
+   during the delay). Elements with an existing inline transform (EOTO and
+   the support block both carry translateX(-3%)) get their own keyframes so
+   the animation never overwrites that shift. Photo layers animate opacity
+   only — they also receive Pass-4 scroll transforms at runtime, so no
+   transform may appear in their keyframes. motion-reduce:animate-none
+   restores the natural visible state for reduced-motion users. */
+@keyframes hero-fade {
+  from { opacity: var(--hero-from, 0); }
+  to { opacity: 1; }
+}
+@keyframes hero-reveal {
+  from { opacity: 0; transform: translateY(var(--hero-rise, 6px)); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-reveal-shift {
+  from { opacity: 0; transform: translateX(-3%) translateY(3px); }
+  to { opacity: 1; transform: translateX(-3%); }
+}
+@keyframes hero-reveal-shift-eoto {
+  from { opacity: 0; transform: translateX(-3%) translateY(5px); }
+  to { opacity: 1; transform: translateX(-3%); }
+}
+.hero-fade {
+  animation: hero-fade var(--hero-dur, 0.45s) ease-out var(--hero-delay, 0s) both;
+}
+.hero-reveal {
+  animation: hero-reveal var(--hero-dur, 0.45s) var(--ease-out-soft) var(--hero-delay, 0s) both;
+}
+.hero-reveal-shift {
+  animation: hero-reveal-shift var(--hero-dur, 0.45s) var(--ease-out-soft) var(--hero-delay, 0s) both;
+}
+.hero-reveal-shift-eoto {
+  animation: hero-reveal-shift-eoto var(--hero-dur, 0.45s) var(--ease-out-soft) var(--hero-delay, 0s) both;
+}
+/* Photos only fade on md+ — on mobile they stay at full opacity so the
+   LCP element is never visually delayed. */
+@media (max-width: 767px) {
+  .hero-fade-photo {
+    animation: none;
+  }
+}
+
 :root {
   --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
 }
@@ -206,8 +251,75 @@ body {
   }
 }
 
+/* ---------- WHAT I DO — DISCIPLINE INDEX SPOTLIGHT ---------- */
+/* One facet on stage: the hovered/focused/expanded row holds full presence
+   while the other four recede (opacity-only — no layout, no movement).
+   Five disciplines read as facets of one practice: hold one up, the rest
+   fall into context. The dim targets the trigger button, never the open
+   panel — chapter content stays full while browsing. Rest state unchanged.
+   Reduced motion inherits the global 0.01ms transition override below —
+   instant state change, hierarchy preserved. */
+.discipline-index > li button[aria-expanded] {
+  transition:
+    opacity 180ms var(--ease-out-soft),
+    color 200ms var(--ease-out-soft),
+    background-color 200ms var(--ease-out-soft),
+    border-color 200ms var(--ease-out-soft);
+}
+
+.discipline-index:hover > li:not(:hover) button[aria-expanded],
+.discipline-index:has(button:focus-visible) > li:not(:has(button:focus-visible)) button[aria-expanded],
+.discipline-index:has(button[aria-expanded="true"]) > li:not(:has(button[aria-expanded="true"])) button[aria-expanded] {
+  opacity: 0.45;
+}
+
+/* Restore: a row that is itself hovered/focused/expanded must never be
+   dimmed by a sibling's rule — the exclusions above only prevent a rule
+   from matching, they don't re-raise opacity. The extra [aria-controls]
+   attribute (present on every Chapter trigger) pushes these above the
+   :has()-based dim rules, whose inner selectors carry hidden specificity;
+   the active row always wins when states overlap. */
+.discipline-index:hover > li:hover button[aria-expanded][aria-controls],
+.discipline-index:has(button:focus-visible) > li:has(button:focus-visible) button[aria-expanded][aria-controls],
+.discipline-index:has(button[aria-expanded="true"]) > li:has(button[aria-expanded="true"]) button[aria-expanded][aria-controls] {
+  opacity: 1;
+}
+
+/* ---------- WATCH / LISTEN — MEDIA INDEX SPOTLIGHT ---------- */
+/* Same "one facet on stage" grammar as the discipline index, at section
+   level: hover/focus one media panel and it holds full presence while the
+   other recedes (opacity-only, no layout, no movement). The :has guard on
+   the hover rule means nothing dims while the pointer sits in the gap
+   between panels. The [data-media] attribute on the restore rules pushes
+   them past the dim rules when states overlap (hover one panel while the
+   other holds focus) — the active panel always wins. Focus inside an
+   iframe moves into the embed's own document, so :focus-visible never
+   fires there: embedded media stays fully present and usable. Rest state
+   unchanged. Reduced motion inherits the global 0.01ms override below. */
+.media-panel {
+  transition: opacity 180ms var(--ease-out-soft);
+}
+
+.media-index:has(.media-panel:hover) > * > .media-panel:not(:hover),
+.media-index:has(:focus-visible) > * > .media-panel:not(:has(:focus-visible)) {
+  opacity: 0.45;
+}
+
+.media-index:has(.media-panel:hover) > * > .media-panel[data-media]:hover,
+.media-index:has(:focus-visible) > * > .media-panel[data-media]:has(:focus-visible) {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
+    animation: none;
+  }
+  /* Entrance: kill the animation outright — the 0.01ms duration + fill "both"
+     below would otherwise hold every layer invisible until its delay passes. */
+  .hero-fade,
+  .hero-reveal,
+  .hero-reveal-shift,
+  .hero-reveal-shift-eoto {
     animation: none;
   }
   *,

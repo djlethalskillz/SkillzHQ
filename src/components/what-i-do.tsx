@@ -55,14 +55,14 @@ function Chapter({
           staggered ? "md:pl-[10%]" : ""
         }`}
       >
-        <span className="font-display text-giant uppercase leading-none transition-colors group-hover:text-accent md:min-w-0">
+        <span className="font-display text-large uppercase leading-none transition-colors group-hover:text-accent md:min-w-0">
           {name}
         </span>
         {/* OPEN CRATE — approved graffiti artwork (three PNGs), centered between title and descriptor; hidden at rest, revealed on hover/focus/open */}
         <span className="crate mx-auto flex items-center md:mx-0" aria-hidden="true">
           <Image
             className="crate-arrow crate-arrow-l"
-            src="/assets/open-crate-arrow-left.png"
+            src="/assets/open-crate-arrow-left.webp"
             alt=""
             width={585}
             height={430}
@@ -70,7 +70,7 @@ function Chapter({
           />
           <Image
             className="crate-text"
-            src="/assets/open-crate-text.png"
+            src="/assets/open-crate-text.webp"
             alt=""
             width={1025}
             height={380}
@@ -78,7 +78,7 @@ function Chapter({
           />
           <Image
             className="crate-arrow crate-arrow-r"
-            src="/assets/open-crate-arrow-right.png"
+            src="/assets/open-crate-arrow-right.webp"
             alt=""
             width={582}
             height={430}
@@ -674,7 +674,7 @@ export function WhatIDo() {
         title="What I Do"
         note="What you can book: five disciplines, one practice."
       />
-      <ul className="mt-12 md:mt-16">
+      <ul className="discipline-index mt-12 md:mt-16">
         {disciplines.map((item, i) => (
           <li key={item.name} className="border-t border-white/10 last:border-b">
             <Reveal delay={i * 60}>
@@ -693,7 +693,7 @@ export function WhatIDo() {
                     i % 2 === 1 ? "md:pl-[10%]" : ""
                   }`}
                 >
-                  <span className="font-display text-giant uppercase leading-none transition-colors group-hover:text-accent md:min-w-0">
+                  <span className="font-display text-large uppercase leading-none transition-colors group-hover:text-accent md:min-w-0">
                     {item.name}
                   </span>
                   <p className="text-sm leading-relaxed text-muted transition-colors group-hover:text-white/80 md:ml-auto md:text-right">
