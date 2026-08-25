@@ -87,7 +87,8 @@ export function Hero() {
           srcSet="/assets/hero2-archival-layer-724.webp 724w, /assets/hero2-archival-layer-opt.webp 1448w"
           sizes="(max-width: 1448px) 100vw, 1448px"
           alt=""
-          className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
+          className="hero-fade hero-fade-photo pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
+          style={{ ["--hero-from" as any]: "0.35", ["--hero-delay" as any]: "0s", ["--hero-dur" as any]: "0.7s" }}
           aria-hidden="true"
           decoding="async"
         />
@@ -98,7 +99,8 @@ export function Hero() {
           srcSet="/assets/hero2-skillz-layer-724.webp 724w, /assets/hero2-skillz-layer-opt.webp 1448w"
           sizes="(max-width: 1448px) 100vw, 1448px"
           alt=""
-          className="pointer-events-none absolute inset-0 z-10 h-full w-full object-cover"
+          className="hero-reveal pointer-events-none absolute inset-0 z-10 h-full w-full object-cover"
+          style={{ ["--hero-rise" as any]: "-8px", ["--hero-delay" as any]: "0.3s", ["--hero-dur" as any]: "0.55s" }}
           aria-hidden="true"
           decoding="async"
         />
@@ -131,7 +133,12 @@ export function Hero() {
           </filter>
         </svg>
 
-        <div ref={masterRef} className="pointer-events-none absolute inset-0 z-20" aria-hidden="true">
+        <div
+          ref={masterRef}
+          className="hero-fade hero-fade-photo pointer-events-none absolute inset-0 z-20"
+          style={{ ["--hero-delay" as any]: "0.1s", ["--hero-dur" as any]: "0.45s" }}
+          aria-hidden="true"
+        >
           <img
             src={site.hero2Master ?? "/assets/skillz-hero2-master-opt.webp"}
             srcSet="/assets/skillz-hero2-master-724.webp 724w, /assets/skillz-hero2-master-1448.webp 1448w, /assets/skillz-hero2-master-opt.webp 2896w"
@@ -150,12 +157,16 @@ export function Hero() {
           alt="DJ Lethal"
           fill
           sizes="(max-width: 1448px) 100vw, 1448px"
-          className="pointer-events-none z-30 object-cover"
+          className="hero-reveal pointer-events-none z-30 object-cover"
+          style={{ ["--hero-rise" as any]: "6px", ["--hero-delay" as any]: "0.42s", ["--hero-dur" as any]: "0.42s" }}
         />
 
         {/* Exact reference-derived EOTO artwork layer.
             Shifted left with the supporting-copy block below so its text clears the jacket. */}
-        <div className="pointer-events-none absolute inset-0 z-30" style={{ transform: "translateX(-3%)" }}>
+        <div
+          className="hero-reveal-shift-eoto pointer-events-none absolute inset-0 z-30"
+          style={{ transform: "translateX(-3%)", ["--hero-delay" as any]: "0.48s", ["--hero-dur" as any]: "0.4s" }}
+        >
           <Image
             src="/assets/hero2-eoto-layer.webp"
             alt="Each One Teach One"
@@ -173,8 +184,8 @@ export function Hero() {
             The same text stays in an sr-only line so screen readers hear it once at
             every breakpoint. */}
         <div
-          className="pointer-events-none absolute inset-0 z-40"
-          style={{ transform: "translateX(-3%)" }}
+          className="hero-reveal-shift pointer-events-none absolute inset-0 z-40"
+          style={{ transform: "translateX(-3%)", ["--hero-delay" as any]: "0.62s", ["--hero-dur" as any]: "0.4s" }}
         >
           <Image
             src="/assets/hero2-supporting-copy-layer.webp"
@@ -207,7 +218,8 @@ export function Hero() {
           alt=""
           fill
           sizes="(max-width: 1448px) 100vw, 1448px"
-          className="pointer-events-none z-40 hidden object-cover md:block"
+          className="hero-fade pointer-events-none z-40 hidden object-cover md:block"
+          style={{ ["--hero-delay" as any]: "0.7s", ["--hero-dur" as any]: "0.4s" }}
           aria-hidden="true"
         />
         {/* Desktop: boxed link over the raster text (Pass-2 approved geometry) — the
@@ -229,7 +241,10 @@ export function Hero() {
           aria-label="Enter the HQ"
           className="group absolute left-[77.2%] top-[83.1%] z-[45] inline-flex rounded-sm before:absolute before:-inset-2 before:content-[''] focus-visible:outline-2 focus-visible:outline-accent md:hidden"
         >
-          <span className="inline-flex items-center gap-[0.7em] font-display text-[clamp(0.875rem,2.35vw,1.35rem)] uppercase leading-none tracking-[0.06em] text-white">
+          <span
+            className="hero-fade inline-flex items-center gap-[0.7em] font-display text-[clamp(0.875rem,2.35vw,1.35rem)] uppercase leading-none tracking-[0.06em] text-white"
+            style={{ ["--hero-delay" as any]: "0.7s", ["--hero-dur" as any]: "0.4s" }}
+          >
             <span className="relative">
               Enter the HQ
               <span
@@ -273,7 +288,8 @@ export function Hero() {
       />
 
       <div
-        className="absolute bottom-0 left-0 right-0 z-50 flex items-center overflow-hidden bg-accent h-[4.15%]"
+        className="hero-fade absolute bottom-0 left-0 right-0 z-50 flex items-center overflow-hidden bg-accent h-[4.15%]"
+        style={{ ["--hero-delay" as any]: "0.72s", ["--hero-dur" as any]: "0.35s" }}
         aria-hidden="true"
       >
         <div className="animate-marquee flex w-max">
