@@ -20,6 +20,22 @@ const marqueeItems = [
 const values = ["Culture.", "Education.", "Turntablism.", "Legacy.", "Worldwide."];
 
 /**
+ * Native anchor navigation only — no preventDefault, no smooth scroll. A click
+ * on a fragment link whose hash is ALREADY the current URL hash is a no-op in
+ * every browser (same-document navigation to the same fragment), so a second
+ * click after the first navigation — or after a reload that restored the hash —
+ * silently does nothing. Re-trigger the same instant jump in that case; the
+ * browser handles every other case natively. scroll-margin on the section is
+ * honored, so the landing is identical to a native jump.
+ */
+const enterHQ = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const href = e.currentTarget.getAttribute("href");
+  if (href && window.location.hash === href) {
+    document.querySelector(href)?.scrollIntoView({ behavior: "auto", block: "start" });
+  }
+};
+
+/**
  * Hero 2 — North Star reconstruction.
  *
  * The approved 1448×1086 reference is treated as the composition authority.
@@ -227,6 +243,7 @@ export function Hero() {
         <Link
           href="#what-i-do"
           aria-label="Enter the HQ"
+          onClick={enterHQ}
           className="group absolute left-[76%] right-[7%] top-[80%] bottom-[11%] z-[45] hidden rounded-sm before:absolute before:-inset-2 before:content-[''] focus-visible:outline-2 focus-visible:outline-accent md:block"
         >
           <span
@@ -239,6 +256,7 @@ export function Hero() {
         <Link
           href="#what-i-do"
           aria-label="Enter the HQ"
+          onClick={enterHQ}
           className="group absolute left-[77.2%] top-[83.1%] z-[45] inline-flex rounded-sm before:absolute before:-inset-2 before:content-[''] focus-visible:outline-2 focus-visible:outline-accent md:hidden"
         >
           <span
