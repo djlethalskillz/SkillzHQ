@@ -137,7 +137,11 @@ export function Hero() {
           </p>
         </div>
 
-        {/* Exact reference-derived CTA artwork, with a transparent live link over the same geometry. */}
+        {/* Exact reference-derived CTA artwork, with a live link over the same geometry.
+            The artwork layer stays full-frame (its text is baked at 83.7–85.4% frame
+            height); the link box above it is aligned to that measured text region so
+            hover/focus/click land on the visible text, not the empty space below it.
+            Interaction language: yellow underline reveal + press dim — no button shape. */}
         <Image
           src="/assets/hero2-cta-layer.webp"
           alt=""
@@ -149,8 +153,12 @@ export function Hero() {
         <Link
           href="#what-i-do"
           aria-label="Enter the HQ"
-          className="absolute bottom-[7.8%] right-[7.2%] z-[45] h-[8%] w-[17%] rounded-sm focus-visible:outline-2 focus-visible:outline-accent"
+          className="group absolute left-[76%] right-[7%] top-[80%] bottom-[11%] z-[45] rounded-sm before:absolute before:-inset-2 before:content-[''] focus-visible:outline-2 focus-visible:outline-accent"
         >
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute bottom-[35%] left-[7.1%] right-[11.2%] h-0.5 origin-left scale-x-0 bg-accent transition-transform duration-200 group-hover:scale-x-100 group-focus-visible:scale-x-100 group-active:opacity-60"
+          />
           <span className="sr-only">Enter the HQ</span>
         </Link>
 
