@@ -285,6 +285,31 @@ body {
   opacity: 1;
 }
 
+/* ---------- WATCH / LISTEN — MEDIA INDEX SPOTLIGHT ---------- */
+/* Same "one facet on stage" grammar as the discipline index, at section
+   level: hover/focus one media panel and it holds full presence while the
+   other recedes (opacity-only, no layout, no movement). The :has guard on
+   the hover rule means nothing dims while the pointer sits in the gap
+   between panels. The [data-media] attribute on the restore rules pushes
+   them past the dim rules when states overlap (hover one panel while the
+   other holds focus) — the active panel always wins. Focus inside an
+   iframe moves into the embed's own document, so :focus-visible never
+   fires there: embedded media stays fully present and usable. Rest state
+   unchanged. Reduced motion inherits the global 0.01ms override below. */
+.media-panel {
+  transition: opacity 180ms var(--ease-out-soft);
+}
+
+.media-index:has(.media-panel:hover) > * > .media-panel:not(:hover),
+.media-index:has(:focus-visible) > * > .media-panel:not(:has(:focus-visible)) {
+  opacity: 0.45;
+}
+
+.media-index:has(.media-panel:hover) > * > .media-panel[data-media]:hover,
+.media-index:has(:focus-visible) > * > .media-panel[data-media]:has(:focus-visible) {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
     animation: none;
