@@ -81,7 +81,7 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-elevated">
+    <footer className="overflow-hidden border-t border-white/10 bg-elevated">
       <div className="mx-auto w-full max-w-[1520px] px-6 py-12 md:px-10 md:py-16">
         <VinylPlayer />
         <Reveal>
@@ -89,7 +89,7 @@ export default function Footer() {
             aria-label="Follow Skillz"
             className="border-b border-white/10 pb-16 pt-16 text-center md:pb-24 md:pt-20"
           >
-            <h2 className="font-display text-giant uppercase leading-none text-white">
+            <h2 className="font-display text-giant uppercase leading-none text-white transition-colors duration-200 hover:text-accent">
               Stay Connected
             </h2>
             <ul className="mt-12 flex flex-wrap items-center justify-center gap-x-10 gap-y-8 md:gap-x-14">
@@ -116,14 +116,27 @@ export default function Footer() {
             </ul>
           </section>
         </Reveal>
-        <div className="pt-16 text-center md:pt-20">
-          <p className="text-[11px] uppercase tracking-[0.35em] text-white/70">
+        <div className="relative pt-16 text-center md:pt-20">
+          {/* Ghosted identity artwork — supplied DJ Lethal Skillz logo, white-keyed (brightness-0 invert, same approach as the hero white-key filter). Fixed scale, centered on the identity block. */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[440px] w-[440px] -translate-x-1/2 -translate-y-[calc(50%+45px)] opacity-[0.07] md:h-[1050px] md:w-[1050px] md:-translate-y-[calc(50%+75px)]"
+          >
+            <img
+              src="/assets/dj-lethal-skillz-logo-transparent.webp"
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="h-full w-full brightness-0 invert"
+            />
+          </div>
+          <p className="relative z-10 text-[11px] uppercase tracking-[0.35em] text-white/70">
             {site.name}
           </p>
-          <p className="mt-4 font-display text-giant uppercase leading-none text-accent">
+          <p className="relative z-10 mt-4 font-display text-giant uppercase leading-none text-accent">
             {site.shortName}
           </p>
-          <p className="mx-auto mt-10 max-w-[40ch] font-arch-mono text-xs uppercase tracking-[0.3em] text-white/60">
+          <p className="relative z-10 mx-auto mt-10 max-w-[40ch] font-arch-mono text-xs uppercase tracking-[0.3em] text-white/60">
             Each one teach one.
           </p>
         </div>
