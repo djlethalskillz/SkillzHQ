@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
 import { FragmentsChapter } from "@/components/fragments";
+import { fragments } from "@/lib/fragments";
 import { site } from "@/lib/site";
 
 /**
@@ -19,12 +20,18 @@ function Chapter({
   note,
   panelId,
   staggered = false,
+  summary,
   children,
 }: {
   name: string;
   note: string;
   panelId?: string;
   staggered?: boolean;
+  /** Existing editorial text rendered sr-only while the chapter is closed, so
+   *  the verified content is crawlable in the initial HTML without mounting
+   *  (or fetching) the chapter's media. Removed on first open — the chapter
+   *  then renders the same text itself, so no duplication at any moment. */
+  summary?: string;
   children: ReactNode;
 }) {
   const [open, setOpen] = useState(false);
@@ -100,6 +107,7 @@ function Chapter({
       >
         <div className="overflow-hidden">{hasOpenedRef.current ? children : null}</div>
       </div>
+      {!hasOpenedRef.current && summary ? <div className="sr-only">{summary}</div> : null}
     </>
   );
 }
@@ -109,6 +117,7 @@ type Discipline = {
   note: string;
   panelId?: string;
   staggered?: boolean;
+  summary?: string;
   chapter?: ReactNode;
 };
 
@@ -117,6 +126,7 @@ const disciplines: Discipline[] = [
     name: "DJ",
     note: "Clubs · Festivals · Private Events · Gigs",
     panelId: "dj-archive-panel",
+    summary: `${site.djArchive.alt}. ${site.djArchive.caption}.`,
     chapter: (
       <figure className="flex flex-col items-center gap-4 border-t border-white/10 py-10 md:py-14">
         {/* Living collage: approved PNG master underneath, 4 video cells overlaid at
@@ -167,6 +177,7 @@ const disciplines: Discipline[] = [
     note: "Performance · Scratch Craft · Workshops",
     panelId: "turntablism-archive-panel",
     staggered: true,
+    summary: `${site.turntablism.editorial.headline} ${site.turntablism.editorial.body.join(" ")}`,
     chapter: (
       <div className="border-t border-white/10 py-10 md:py-14">
         {/* THE CRAFT — approved living loop stays the primary anchor */}
@@ -236,6 +247,7 @@ const disciplines: Discipline[] = [
     name: "Speaking",
     note: "Talks · Panels · Keynotes · Conversations",
     panelId: "speaking-archive-panel",
+    summary: `${site.speaking.positioning} ${site.speaking.signature.line}`,
     chapter: <SpeakingChapter />,
   },
   {
@@ -243,12 +255,14 @@ const disciplines: Discipline[] = [
     note: "Beats · Scratch Hooks · Mixing & Mastering · Collaboration",
     panelId: "producer-archive-panel",
     staggered: true,
+    summary: `${site.producer.positioning} ${site.producer.signature.line}`,
     chapter: <ProducerChapter />,
   },
   {
     name: "Fragments",
     note: "The Archive · People · Places · Moments",
     panelId: "fragments-archive-panel",
+    summary: `${fragments.statement.headline} ${fragments.statement.body.join(" ")}`,
     chapter: <FragmentsChapter />,
   },
 ];
@@ -684,6 +698,7 @@ export function WhatIDo() {
                   note={item.note}
                   panelId={item.panelId}
                   staggered={item.staggered}
+                  summary={item.summary}
                 >
                   {item.chapter}
                 </Chapter>

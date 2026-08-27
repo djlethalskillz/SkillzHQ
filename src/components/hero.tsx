@@ -280,8 +280,7 @@ export function Hero() {
         </Link>
 
         <div className="sr-only">
-          <h1>SKILLZ</h1>
-          <p>DJ LETHAL</p>
+          <h1>DJ LETHAL SKILLZ</h1>
           <p>Each One Teach One</p>
         </div>
 

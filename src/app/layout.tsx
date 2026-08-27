@@ -84,17 +84,28 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               "@graph": [
                 {
                   "@type": "WebSite",
+                  "@id": "https://djlethalskillz.com/#website",
                   name: "DJ Lethal Skillz",
                   url: "https://djlethalskillz.com/",
                 },
                 {
                   "@type": "Person",
+                  "@id": "https://djlethalskillz.com/#person",
                   name: "DJ Lethal Skillz",
                   url: "https://djlethalskillz.com/",
+                  image: "https://djlethalskillz.com/assets/djlethalskillz-og-image.jpg",
+                  description:
+                    "DJ Lethal Skillz: commercial DJ, turntablist and producer. Available for bookings, festivals, workshops, speaking and creative collaborations.",
                   jobTitle: "DJ · Turntablist · Producer",
+                  knowsAbout: ["Turntablism", "Hip-hop"],
                   sameAs: [
                     "https://www.youtube.com/@djlethalskillz",
                     "https://open.spotify.com/artist/7F3kgeoTzXbi5JLPylw4qW",
+                    "https://music.apple.com/au/artist/dj-lethal-skillz/301489359",
+                    "https://tidal.com/artist/4004977/u",
+                    "https://www.instagram.com/djlethalskillz/",
+                    "https://www.facebook.com/djlethalskillz961/",
+                    "https://medium.com/@djlethalskillz",
                   ],
                 },
               ],
