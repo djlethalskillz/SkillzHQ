@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useAnthem } from "@/lib/anthem-audio";
 
 function formatTime(s: number) {
   if (!Number.isFinite(s) || s < 0) return "0:00";
@@ -13,17 +13,7 @@ const GROOVES = "repeating-radial-gradient(circle at center, #0b0b0b 0 2px, #1d1
 
 /** Tiny editorial vinyl player — one track, one play/pause moment. */
 export function VinylPlayer() {
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const [playing, setPlaying] = useState(false);
-  const [duration, setDuration] = useState(0);
-  const [time, setTime] = useState(0);
-
-  const toggle = () => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    if (audio.paused) void audio.play();
-    else audio.pause();
-  };
+  const { playing, duration, time, toggle } = useAnthem();
 
   return (
     <section aria-label="Listen to The Anthem" className="py-6 md:py-7">
@@ -87,20 +77,6 @@ export function VinylPlayer() {
           {formatTime(time)} / {formatTime(duration)}
         </p>
       </div>
-
-      <audio
-        ref={audioRef}
-        src="/assets/dj-lethal-skillz-the-anthem.mp3"
-        preload="none"
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-        onEnded={() => {
-          setPlaying(false);
-          setTime(0);
-        }}
-        onTimeUpdate={(e) => setTime(e.currentTarget.currentTime)}
-        onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
-      />
     </section>
   );
 }

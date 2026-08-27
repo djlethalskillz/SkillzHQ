@@ -255,6 +255,12 @@ function FragmentsScene() {
     if (reduced) return;
     let raf = 0;
     let last = performance.now();
+    // Virtual clock: accumulates real dt (milliseconds) only while the scene
+    // is visible. Every time-based cycle (orbit phase, presence fade, wobble,
+    // scale breathing, entrance settle) derives from it, so pausing the
+    // engine offscreen freezes the field exactly and resuming continues from
+    // the same phase — no snap, no reset. dt stays real-time for motion pace.
+    let clock = 0;
 
     interface Pose {
       x: number;
@@ -374,6 +380,7 @@ function FragmentsScene() {
       let dt = (now - last) / 1000;
       last = now;
       if (dt > 0.1) dt = 0.1; // tab-switch guard
+      clock += dt * 1000; // ms, matching the now-derived site formulas
       const vw_ = window.innerWidth;
       const vh_ = window.innerHeight;
       const k = vh_ / vw_;
@@ -419,7 +426,7 @@ function FragmentsScene() {
             sT: rnd(32, 60),
             sPhase: rnd(0, Math.PI * 2),
             tau: rnd(0.7, 1.1) * (f.layer === "deep" ? 1.25 : 1),
-            firstUntil: now + 2600,
+            firstUntil: clock + 2600,
           };
           pose.set(id, p);
         }
@@ -430,7 +437,7 @@ function FragmentsScene() {
         const breathe =
           1 +
           p.breatheAmp *
-            Math.sin((2 * Math.PI * now) / 1000 / p.breatheT + p.breathePhase);
+            Math.sin((2 * Math.PI * clock) / 1000 / p.breatheT + p.breathePhase);
         const r = p.radius * breathe;
         let ax = bx + Math.cos(th) * r;
         let ay = by + Math.sin(th) * r * k;
@@ -455,7 +462,7 @@ function FragmentsScene() {
         ay = Math.max(-0.06 * vh_, Math.min(1.06 * vh_, ay));
         // Fragments trail the orbit with a soft lerp — no snaps. The entrance
         // settle lerps slower so the wake-up motion reads clearly.
-        const tau = now < p.firstUntil ? 2.4 : p.tau;
+        const tau = clock < p.firstUntil ? 2.4 : p.tau;
         const st = 1 - Math.exp(-dt / tau);
         p.x += (ax - bx - p.x) * st;
         p.y += (ay - by - p.y) * st;
@@ -464,13 +471,13 @@ function FragmentsScene() {
         const rotTarget =
           f.rot +
           p.wobbleAmp *
-            Math.sin((2 * Math.PI * now) / 1000 / p.wobbleT + p.wobblePhase);
+            Math.sin((2 * Math.PI * clock) / 1000 / p.wobbleT + p.wobblePhase);
         p.rot += (rotTarget - p.rot) * st * 0.5;
-        const sTarget = 1 + p.sAmp * Math.sin((2 * Math.PI * now) / 1000 / p.sT + p.sPhase);
+        const sTarget = 1 + p.sAmp * Math.sin((2 * Math.PI * clock) / 1000 / p.sT + p.sPhase);
         p.s += (sTarget - p.s) * st * 0.4;
         let op = 1;
         if (f.presence) {
-          const pu = 2 * Math.PI * (now / 1000 / f.presence.period + f.presence.phase);
+          const pu = 2 * Math.PI * (clock / 1000 / f.presence.period + f.presence.phase);
           op = f.presence.min + (1 - f.presence.min) * 0.5 * (1 + Math.cos(pu));
         }
         el.style.transform = `translate3d(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px, 0) rotate(${p.rot.toFixed(2)}deg) scale(${p.s.toFixed(3)})`;
@@ -480,8 +487,31 @@ function FragmentsScene() {
     };
     raf = requestAnimationFrame(tick);
     window.addEventListener("resize", readZone);
+    // Offscreen pause: the engine only runs while the scene intersects the
+    // viewport. The virtual clock freezes with it, so every time-based cycle
+    // resumes exactly where it stopped. Poses are preserved — only the rAF
+    // loop stops. threshold 0 = resume on the first pixel of entry; the
+    // equality guard prevents observer churn at the boundary.
+    let onScreen = true;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting === onScreen) return;
+        onScreen = entry.isIntersecting;
+        if (onScreen) {
+          last = performance.now(); // dt cap would absorb this anyway
+          raf = requestAnimationFrame(tick);
+        } else if (raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      },
+      { threshold: 0 }
+    );
+    const sceneEl = parallaxRef.current;
+    if (sceneEl) io.observe(sceneEl);
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       window.removeEventListener("resize", readZone);
     };
   }, [reduced]);

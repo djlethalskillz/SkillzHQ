@@ -3,6 +3,7 @@ import { Anton, Big_Shoulders, Caveat, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { AnthemProvider } from "@/lib/anthem-audio";
 
 const anton = Anton({
   weight: "400",
@@ -106,9 +107,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <Header />
-        <main id="content">{children}</main>
-        <Footer />
+        <AnthemProvider>
+          <Header />
+          <main id="content">{children}</main>
+          <Footer />
+        </AnthemProvider>
       </body>
     </html>
   );

@@ -11,35 +11,6 @@ const footerLinks = [
 
 const socials = [
   {
-    label: "Instagram",
-    href: "https://www.instagram.com/djlethalskillz/",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-        <rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4" />
-        <circle cx="12" cy="12" r="4.2" />
-        <circle cx="17.2" cy="6.8" r="1.15" fill="currentColor" stroke="none" />
-      </svg>
-    ),
-  },
-  {
-    label: "YouTube",
-    href: "https://www.youtube.com/djlethalskillz",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z" />
-      </svg>
-    ),
-  },
-  {
-    label: "Facebook",
-    href: "https://www.facebook.com/djlethalskillz961/",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4h-3V12h3V9.4c0-3 1.8-4.7 4.6-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z" />
-      </svg>
-    ),
-  },
-  {
     label: "Spotify",
     href: "https://open.spotify.com/artist/7F3kgeoTzXbi5JLPylw4qW",
     icon: (
@@ -67,6 +38,35 @@ const socials = [
     ),
   },
   {
+    label: "YouTube",
+    href: "https://www.youtube.com/djlethalskillz",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z" />
+      </svg>
+    ),
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/djlethalskillz/",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4" />
+        <circle cx="12" cy="12" r="4.2" />
+        <circle cx="17.2" cy="6.8" r="1.15" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/djlethalskillz961/",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4h-3V12h3V9.4c0-3 1.8-4.7 4.6-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.4l-.5 3.5h-2.9v8.4A12 12 0 0 0 24 12z" />
+      </svg>
+    ),
+  },
+  {
     label: "Medium",
     href: "https://medium.com/@djlethalskillz",
     icon: (
@@ -85,14 +85,14 @@ export default function Footer() {
       <div className="mx-auto w-full max-w-[1520px] px-6 py-12 md:px-10 md:py-16">
         <VinylPlayer />
         <Reveal>
-          <section aria-label="Follow Skillz" className="pb-14 md:pb-20">
-            <p className="text-[11px] uppercase tracking-[0.25em] text-muted">
+          <section
+            aria-label="Follow Skillz"
+            className="border-b border-white/10 pb-16 pt-16 text-center md:pb-24 md:pt-20"
+          >
+            <h2 className="font-display text-giant uppercase leading-none text-white">
               Stay Connected
-            </p>
-            <h2 className="mt-3 font-display text-large uppercase leading-none">
-              Follow Skillz
             </h2>
-            <ul className="mt-10 flex flex-wrap gap-x-10 gap-y-8 md:mt-12">
+            <ul className="mt-12 flex flex-wrap items-center justify-center gap-x-10 gap-y-8 md:gap-x-14">
               {socials.map((social) => (
                 <li key={social.label}>
                   <a
@@ -100,10 +100,10 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${social.label} (opens in new tab)`}
-                    className="group flex w-16 flex-col items-center gap-2"
+                    className="group flex w-20 flex-col items-center gap-3"
                   >
-                    <span className="flex h-[44px] w-[44px] items-center justify-center rounded-full border border-accent/35 text-accent transition-colors group-hover:border-accent group-hover:text-accent">
-                      <span className="flex h-[20px] w-[20px] items-center justify-center [&_svg]:h-full [&_svg]:w-full">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-full border border-accent/35 text-accent transition-colors group-hover:border-accent group-hover:text-accent">
+                      <span className="flex h-6 w-6 items-center justify-center [&_svg]:h-full [&_svg]:w-full">
                         {social.icon}
                       </span>
                     </span>
@@ -116,15 +116,18 @@ export default function Footer() {
             </ul>
           </section>
         </Reveal>
-        <div className="flex flex-col gap-10 border-t border-white/10 pt-12 md:flex-row md:items-end md:justify-between md:pt-16">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.25em] text-muted">
-              {site.name}
-            </p>
-            <p className="mt-3 font-display text-giant uppercase leading-none">
-              {site.shortName}
-            </p>
-          </div>
+        <div className="pt-16 text-center md:pt-20">
+          <p className="text-[11px] uppercase tracking-[0.35em] text-white/70">
+            {site.name}
+          </p>
+          <p className="mt-4 font-display text-giant uppercase leading-none text-accent">
+            {site.shortName}
+          </p>
+          <p className="mx-auto mt-10 max-w-[40ch] font-arch-mono text-xs uppercase tracking-[0.3em] text-white/60">
+            Each one teach one.
+          </p>
+        </div>
+        <div className="mt-16 flex flex-col gap-10 border-t border-white/10 pt-12 md:flex-row md:items-end md:justify-between md:pt-16">
           <nav
             className="flex flex-col gap-3 text-sm text-white/70 md:items-end"
             aria-label="Footer"
