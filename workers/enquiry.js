@@ -15,6 +15,8 @@
  *   RESEND_FROM            — verified sender, e.g. "SkillzHQ <enquiries@djlethalskillz.com>"
  */
 
+import { handleFrequency } from "./frequency.js";
+
 const BRIEFS = [
   "Performance",
   "Workshop / Masterclass",
@@ -43,6 +45,12 @@ function json(data, status) {
 export default {
   async fetch(request, env) {
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS });
+
+    // Frequency signup is a sibling route on the same worker.
+    if (new URL(request.url).pathname === "/api/frequency") {
+      return handleFrequency(request, env);
+    }
+
     if (request.method !== "POST") return json({ error: "method-not-allowed" }, 405);
 
     const { RESEND_API_KEY, ENQUIRY_DESTINATION, RESEND_FROM } = env;

@@ -459,6 +459,13 @@ export const site = {
    */
   enquiryEndpoint: "/api/enquiry",
 
+  /**
+   * Frequency signup endpoint — same-origin POST to the same delivery worker
+   * (Cloudflare Worker, route /api/frequency). The Kit API key lives only
+   * in the worker's environment secrets, never in the client.
+   */
+  frequencyEndpoint: "/api/frequency",
+
   media: {
     /** Official Skillz YouTube channel. */
     youtube: { label: "YouTube", url: "https://www.youtube.com/@djlethalskillz" } as MediaLink,

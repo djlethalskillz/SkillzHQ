@@ -2,6 +2,7 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 import { Reveal } from "@/components/reveal";
 import { VinylPlayer } from "@/components/vinyl-player";
+import { Frequency } from "@/components/frequency";
 
 const footerLinks = [
   { href: "#what-i-do", label: "What I Do" },
@@ -116,6 +117,13 @@ export default function Footer() {
             </ul>
           </section>
         </Reveal>
+        {/* Skillz Frequency — last content block on the page, between Stay
+            Connected and the closing identity block. The negative margins
+            cancel the footer container padding so the section aligns to the
+            same 1520px grid as the numbered chapters above. */}
+        <div className="-mx-6 md:-mx-10">
+          <Frequency />
+        </div>
         <div className="relative pt-16 text-center md:pt-20">
           {/* Ghosted identity artwork — supplied DJ Lethal Skillz logo, white-keyed (brightness-0 invert, same approach as the hero white-key filter). Fixed scale, centered on the identity block. */}
           <div
