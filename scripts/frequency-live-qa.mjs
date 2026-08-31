@@ -54,7 +54,7 @@ async function check(viewport, label) {
       if (!sec || !footer) return false;
       const secRect = sec.getBoundingClientRect();
       const identity = [...footer.querySelectorAll("p")].find((p) =>
-        p.textContent.trim() === "DJ LETHAL SKILLZ"
+        p.textContent.trim() === "SKILLZ"
       );
       if (!identity) return false;
       return identity.getBoundingClientRect().top > secRect.top;
