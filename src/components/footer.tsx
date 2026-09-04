@@ -4,10 +4,12 @@ import { Reveal } from "@/components/reveal";
 import { VinylPlayer } from "@/components/vinyl-player";
 import { Frequency } from "@/components/frequency";
 
+// Hash targets are path-absolute ("/#…") so they also work from the
+// /life-archive page, where the home sections are not on the page.
 const footerLinks = [
-  { href: "#what-i-do", label: "What I Do" },
-  { href: "#book", label: "Book Skillz" },
-  { href: "#watch-listen", label: "Watch / Listen" },
+  { href: "/#what-i-do", label: "What I Do" },
+  { href: "/#book", label: "Book Skillz" },
+  { href: "/#watch-listen", label: "Watch / Listen" },
 ];
 
 const socials = [
@@ -163,7 +165,7 @@ export default function Footer() {
               </Link>
             ))}
             <Link
-              href="#book"
+              href="/#book"
               className="rounded-full bg-accent px-6 py-3 font-semibold uppercase tracking-wider text-black transition-colors hover:bg-white"
             >
               Book Skillz
@@ -172,9 +174,9 @@ export default function Footer() {
         </div>
         <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-muted md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
-          <a href="#landing" className="transition-colors hover:text-white">
+          <Link href="/#landing" className="transition-colors hover:text-white">
             Back to top
-          </a>
+          </Link>
         </div>
       </div>
     </footer>

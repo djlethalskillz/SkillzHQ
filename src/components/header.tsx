@@ -4,9 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { site } from "@/lib/site";
 
+// Hash targets are path-absolute ("/#…") so they also work from the
+// /life-archive page, where the home sections are not on the page.
 const navLinks = [
-  { href: "#what-i-do", label: "What I Do" },
-  { href: "#watch-listen", label: "Watch / Listen" },
+  { href: "/#what-i-do", label: "What I Do" },
+  { href: "/#watch-listen", label: "Watch / Listen" },
+  { href: "/life-archive", label: "Life Archive" },
 ];
 
 export default function Header() {
@@ -31,7 +34,7 @@ export default function Header() {
     <header className="absolute inset-x-0 top-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur">
       <div className="mx-auto flex w-full max-w-[1520px] items-center justify-between px-6 py-2.5 md:px-10">
         <Link
-          href="#landing"
+          href="/#landing"
           className="flex items-baseline gap-3"
           onClick={() => setOpen(false)}
         >
@@ -62,7 +65,7 @@ export default function Header() {
             Download EPK
           </a>
           <Link
-            href="#book"
+            href="/#book"
             className="rounded-full bg-accent px-6 py-3 text-sm font-semibold uppercase tracking-wider text-black transition-colors hover:bg-white"
           >
             Book Skillz
@@ -125,7 +128,7 @@ export default function Header() {
             </a>
           </nav>
           <Link
-            href="#book"
+            href="/#book"
             onClick={() => setOpen(false)}
             className="rounded-full bg-accent px-6 py-4 text-center font-display text-2xl uppercase tracking-wider text-black transition-colors hover:bg-white"
           >
