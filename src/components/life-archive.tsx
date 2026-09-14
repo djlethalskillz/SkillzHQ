@@ -26,6 +26,15 @@ type LifeCrate = {
  */
 const CRATES: LifeCrate[] = [
   {
+    number: "04",
+    title: "A Rap Show Hired Me. I Wasn't the Rapper. |",
+    accent: "Lebanon 2015",
+    youtubeId: "tVs4qlzzU00",
+    year: "2015",
+    place: "Lebanon",
+    note: "In 2015, the Malaysian TV production Hip Hoppin' Asia: The Saga Continues came to Lebanon to explore hip hop culture, and I was hired as its Location Manager. Years later, I went back through the original episode and cut this LifeCrate edit: not the full episode, but my personal archival look at that chapter.",
+  },
+  {
     number: "03",
     title: "PhonoSapien: The Monk of the Third World",
     accent: "| DJ Lethal Skillz",
