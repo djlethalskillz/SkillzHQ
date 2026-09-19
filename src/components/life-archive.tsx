@@ -26,6 +26,13 @@ type LifeCrate = {
  */
 const CRATES: LifeCrate[] = [
   {
+    number: "05",
+    title: "Lebanese DJ History, From My View:",
+    accent: "Turntablism Before the Internet",
+    youtubeId: "fqUqwGuvFEc",
+    note: "There was a whole DJ culture in Lebanon that most people never saw: pirate radio, cassettes, VHS, underground battles, records with their labels covered so no one could see what was being played. I grew up in Beirut during the war and learned turntablism from tapes, with no tutorials and no internet. This is my own view of that history, not the complete one.",
+  },
+  {
     number: "04",
     title: "A Rap Show Hired Me. I Wasn't the Rapper. |",
     accent: "Lebanon 2015",
