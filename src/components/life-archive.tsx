@@ -4,6 +4,8 @@ import { Reveal } from "@/components/reveal";
 type LifeCrate = {
   /** Crate designation — the entry number, oldest to newest. */
   number: string;
+  /** Label shown before the number; defaults to "Life Crate". */
+  label?: string;
   /** Official title, verbatim — white portion. */
   title: string;
   /** Editorial accent tail of the title (yellow), e.g. "| DJ Lethal Skillz". */
@@ -26,18 +28,27 @@ type LifeCrate = {
  */
 const CRATES: LifeCrate[] = [
   {
-    number: "09",
+    number: "10",
+    label: "Music Video Archive",
     title: "DJ LETHAL SKILLZ MUSIC VIDEO ARCHIVE",
     accent: "· VOL. 2",
     youtubeId: "9oT5hj4XVXA",
     note: "The crate gets deeper. Volume 2 moves through records, collaborations and images from Lebanon to Malaysia, Indonesia, Detroit, Turkey, Austria and Egypt. Some of these records were released. Some lived in the archive. This isn't a greatest hits reel. It's a document of the work, the people around it, and the places it travelled through.",
   },
   {
-    number: "08",
+    number: "09",
     title: "AL JISR | الجسر - A Short Documentary Film",
     accent: "· Big Hass × DJ Lethal Skillz",
     youtubeId: "nmNOF_aVE2I",
     note: "A short documentary film about a bridge built through music. A story about hip-hop, culture, connection, and the relationship between artists and scenes across Beirut, Dubai, and beyond.",
+  },
+  {
+    number: "08",
+    label: "Music Video Archive",
+    title: "DJ Lethal Skillz - Music Video Archive",
+    accent: "· Vol. 1",
+    youtubeId: "OD4WStbsP6k",
+    note: "For a long time, I was told I was crazy. I left the corporate world to make music. At the time, none of it looked like an archive. It was just life. This first volume brings together fragments from that journey: different years, different places, different people, connected through the music and the work. This is Volume 1. And I'm still digging.",
   },
   {
     number: "07",
@@ -123,7 +134,7 @@ function Crate({ crate, index, latest }: { crate: LifeCrate; index: number; late
       <article className="border-t border-white/10 py-16 md:py-24">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
           <p className="font-arch-mono text-[11px] uppercase tracking-[0.3em] text-accent">
-            Life Crate {crate.number}
+            {crate.label ?? "Life Crate"} {crate.number}
           </p>
           <p className="font-arch-mono text-[11px] uppercase tracking-[0.3em] text-muted">
             {meta ? (

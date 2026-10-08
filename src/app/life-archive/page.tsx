@@ -4,20 +4,20 @@ import { LifeArchive } from "@/components/life-archive";
 export const metadata: Metadata = {
   title: "Life Archive · DJ Lethal Skillz",
   description:
-    "The Life Archive: films from the life and work of DJ Lethal Skillz — Music Video Archive Vol. 2, AL JISR, Why Does Hip Hop Mention Beirut? Volume 2, I Grew Up in Beirut, Lebanese DJ History From My View, A Rap Show Hired Me, PhonoSapien, 961 Underground, Safeit bi 3akss el Seir. Newest first.",
+    "The Life Archive: films from the life and work of DJ Lethal Skillz — Music Video Archive Vol. 2, AL JISR, Music Video Archive Vol. 1, Why Does Hip Hop Mention Beirut? Volume 2, I Grew Up in Beirut, Lebanese DJ History From My View, A Rap Show Hired Me, PhonoSapien, 961 Underground, Safeit bi 3akss el Seir. Newest first.",
   alternates: {
     canonical: "https://djlethalskillz.com/life-archive",
   },
   openGraph: {
     title: "Life Archive · DJ Lethal Skillz",
     description:
-      "The Life Archive: films from the life and work of DJ Lethal Skillz — Music Video Archive Vol. 2, AL JISR, Why Does Hip Hop Mention Beirut? Volume 2, I Grew Up in Beirut, Lebanese DJ History From My View, A Rap Show Hired Me, PhonoSapien, 961 Underground, Safeit bi 3akss el Seir. Newest first.",
+      "The Life Archive: films from the life and work of DJ Lethal Skillz — Music Video Archive Vol. 2, AL JISR, Music Video Archive Vol. 1, Why Does Hip Hop Mention Beirut? Volume 2, I Grew Up in Beirut, Lebanese DJ History From My View, A Rap Show Hired Me, PhonoSapien, 961 Underground, Safeit bi 3akss el Seir. Newest first.",
     url: "https://djlethalskillz.com/life-archive",
   },
   twitter: {
     title: "Life Archive · DJ Lethal Skillz",
     description:
-      "The Life Archive: films from the life and work of DJ Lethal Skillz — Music Video Archive Vol. 2, AL JISR, Why Does Hip Hop Mention Beirut? Volume 2, I Grew Up in Beirut, Lebanese DJ History From My View, A Rap Show Hired Me, PhonoSapien, 961 Underground, Safeit bi 3akss el Seir. Newest first.",
+      "The Life Archive: films from the life and work of DJ Lethal Skillz — Music Video Archive Vol. 2, AL JISR, Music Video Archive Vol. 1, Why Does Hip Hop Mention Beirut? Volume 2, I Grew Up in Beirut, Lebanese DJ History From My View, A Rap Show Hired Me, PhonoSapien, 961 Underground, Safeit bi 3akss el Seir. Newest first.",
   },
 };
 
