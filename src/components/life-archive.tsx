@@ -26,6 +26,35 @@ type LifeCrate = {
  */
 const CRATES: LifeCrate[] = [
   {
+    number: "09",
+    title: "DJ LETHAL SKILLZ MUSIC VIDEO ARCHIVE",
+    accent: "· VOL. 2",
+    youtubeId: "9oT5hj4XVXA",
+    note: "The crate gets deeper. Volume 2 moves through records, collaborations and images from Lebanon to Malaysia, Indonesia, Detroit, Turkey, Austria and Egypt. Some of these records were released. Some lived in the archive. This isn't a greatest hits reel. It's a document of the work, the people around it, and the places it travelled through.",
+  },
+  {
+    number: "08",
+    title: "AL JISR | الجسر - A Short Documentary Film",
+    accent: "· Big Hass × DJ Lethal Skillz",
+    youtubeId: "nmNOF_aVE2I",
+    note: "A short documentary film about a bridge built through music. A story about hip-hop, culture, connection, and the relationship between artists and scenes across Beirut, Dubai, and beyond.",
+  },
+  {
+    number: "07",
+    title: "Why Does Hip Hop Mention Beirut? |",
+    accent: "Volume 2 (2007–2018)",
+    youtubeId: "sDNSaki3DMY",
+    year: "2007–2018",
+    note: "Beirut has appeared in hip hop records across the world for decades. Volume 2 continues the archive with 14 documented references from 2007 to 2018, tracing how Beirut appeared in the work of artists from different countries, scenes and generations. This is an ongoing documentary archive, not a definitive list.",
+  },
+  {
+    number: "06",
+    title: "I Grew Up in Beirut.",
+    accent: "Hip Hop Kept Saying Its Name.",
+    youtubeId: "3Ev_4wHD1Rw",
+    note: "As a kid I listened to American hip hop and French rap, and every now and then a record would say my city's name. Usually it meant war. Digging through the crates, I kept finding Beirut and Lebanon in records I already owned. The film puts 45 of those mentions, from 1991 to 2009, in chronological order, each one played from the record itself. This is the Beirut episode.",
+  },
+  {
     number: "05",
     title: "Lebanese DJ History, From My View:",
     accent: "Turntablism Before the Internet",
