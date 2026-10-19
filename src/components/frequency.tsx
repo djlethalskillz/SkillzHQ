@@ -86,7 +86,10 @@ export function Frequency() {
             <div className="text-center">{done}</div>
           ) : (
             <>
-              <form onSubmit={onSubmit} noValidate className="flex flex-col gap-6 md:flex-row md:items-end">
+              {/* Audit CT-13: explicit POST so a JS-less native submit can never
+                  put the email address into a URL (the static host rejects a
+                  POST to "/"; the fetch above is the only delivery route). */}
+              <form onSubmit={onSubmit} noValidate method="post" action="/" className="flex flex-col gap-6 md:flex-row md:items-end">
                 <div className="flex-1">
                   <label
                     htmlFor="frequency-email"

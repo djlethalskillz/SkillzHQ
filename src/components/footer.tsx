@@ -3,6 +3,7 @@ import { site } from "@/lib/site";
 import { Reveal } from "@/components/reveal";
 import { VinylPlayer } from "@/components/vinyl-player";
 import { Frequency } from "@/components/frequency";
+import { NextStop } from "@/components/next-stop";
 
 // Hash targets are path-absolute ("/#…") so they also work from the
 // /life-archive page, where the home sections are not on the page.
@@ -86,6 +87,7 @@ export default function Footer() {
   return (
     <footer className="overflow-hidden border-t border-white/10 bg-elevated">
       <div className="mx-auto w-full max-w-[1520px] px-6 py-12 md:px-10 md:py-16">
+        <NextStop />
         <VinylPlayer />
         <Reveal>
           <section
@@ -159,7 +161,7 @@ export default function Footer() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="transition-colors hover:text-white"
+                className="inline-flex min-h-11 items-center transition-colors hover:text-white md:min-h-0 md:py-1"
               >
                 {link.label}
               </Link>
@@ -174,7 +176,7 @@ export default function Footer() {
         </div>
         <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-muted md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} {site.name}. All rights reserved.</p>
-          <Link href="/#landing" className="transition-colors hover:text-white">
+          <Link href="/#landing" className="inline-flex min-h-11 items-center transition-colors hover:text-white">
             Back to top
           </Link>
         </div>

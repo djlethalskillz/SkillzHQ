@@ -146,7 +146,7 @@ function BriefForm({ brief }: { brief: Brief }) {
 }
 
 export function Booking() {
-  const [open, setOpen] = useState(false); // section panel
+  const [open, setOpen] = useState(true); // section panel — DEMO: open by default, one less click to the call sheet
   const [openIndex, setOpenIndex] = useState<number | null>(null); // expanded row
   const [formIndex, setFormIndex] = useState<number | null>(null); // row hosting the live form
   const [closingIndex, setClosingIndex] = useState<number | null>(null); // old form until collapse ends
@@ -197,8 +197,16 @@ export function Booking() {
     openIndex === null ? DEFAULT_TAGLINE : bookingBriefs[openIndex].tagline;
 
   return (
-    <section id="book" className="bg-accent text-black scroll-mt-20" aria-label="Book Skillz">
-      <div className="mx-auto w-full max-w-[1520px] px-6 py-24 md:px-10 md:py-40">
+    <section id="book" className="relative overflow-hidden bg-accent text-black scroll-mt-20" aria-labelledby="book-heading">
+      <h2 id="book-heading" className="sr-only">Book Skillz</h2>
+      {/* DEMO: the call sheet carries its chapter numeral like every slate. */}
+      <span
+        aria-hidden="true"
+        className="slate-num slate-num--ink pointer-events-none absolute -top-[0.12em] right-[-0.04em] select-none text-[clamp(8rem,26vw,24rem)]"
+      >
+        03
+      </span>
+      <div className="relative mx-auto w-full max-w-[1520px] px-6 py-24 md:px-10 md:py-40">
         {/* BOOK SKILLZ row is the trigger — same expanding chapter grammar as What I Do. */}
         <Reveal>
           <button
@@ -280,7 +288,7 @@ export function Booking() {
                         onClick={() => selectEngagementType(type)}
                         className="flex items-center gap-3 rounded-full border border-black/25 px-5 py-2.5 text-left transition-colors hover:border-black hover:bg-black/5"
                       >
-                        <span className="font-arch-mono text-xs text-black/40">
+                        <span className="font-arch-mono text-xs text-black/65">
                           {String(i + 1).padStart(2, "0")}
                         </span>
                         <span className="font-display text-base uppercase leading-none md:text-lg">
@@ -293,7 +301,7 @@ export function Booking() {
                 <button
                   type="button"
                   onClick={scrollToBriefList}
-                  className="mt-4 font-arch-mono text-[11px] uppercase tracking-[0.2em] text-black/50 underline decoration-black/30 underline-offset-4 transition-colors hover:text-black"
+                  className="mt-4 font-arch-mono text-[11px] uppercase tracking-[0.2em] text-black/65 underline decoration-black/30 underline-offset-4 transition-colors hover:text-black"
                 >
                   See everything
                 </button>
@@ -330,7 +338,7 @@ export function Booking() {
                         <span className="flex min-w-0 items-center gap-4 md:gap-6">
                           <span
                             className={`font-arch-mono text-xs ${
-                              expanded ? "text-accent" : "text-black/40"
+                              expanded ? "text-accent" : "text-black/65"
                             }`}
                           >
                             {String(i + 1).padStart(2, "0")}
@@ -341,7 +349,7 @@ export function Booking() {
                             </span>
                             <span
                               className={`truncate font-arch-mono text-[11px] italic tracking-wide ${
-                                expanded ? "text-white/60" : "text-black/50"
+                                expanded ? "text-white/70" : "text-black/65"
                               }`}
                             >
                               {brief.helper}
@@ -353,7 +361,7 @@ export function Booking() {
                           className={`font-arch-mono text-xl transition-[transform,color] duration-300 ease-out ${
                             expanded
                               ? "rotate-45 text-accent"
-                              : "text-black/40"
+                              : "text-black/65"
                           }`}
                         >
                           +

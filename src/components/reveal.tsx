@@ -8,7 +8,13 @@ type RevealProps = {
   delay?: number;
 };
 
-/** Fades content in on first scroll into view. Skips animation for prefers-reduced-motion. */
+/**
+ * Fades content in on first scroll into view.
+ * DEMO fix (audit CT-02): the server HTML is the visible state. The hidden
+ * start state applies only under `html.js` (set by an inline script before
+ * first paint), so a failed or disabled script never leaves a blank page.
+ * prefers-reduced-motion is handled by the global CSS transition override.
+ */
 export function Reveal({ children, className = "", delay = 0 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -16,8 +22,6 @@ export function Reveal({ children, className = "", delay = 0 }: RevealProps) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    // prefers-reduced-motion is handled in CSS (transition-duration override),
-    // so the observer reveal renders instantly for those users.
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -35,9 +39,7 @@ export function Reveal({ children, className = "", delay = 0 }: RevealProps) {
     <div
       ref={ref}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
-      className={`transition-all duration-700 ease-out ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-      } ${className}`}
+      className={`reveal ${visible ? "is-in" : ""} ${className}`}
     >
       {children}
     </div>

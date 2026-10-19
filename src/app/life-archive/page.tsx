@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ViewTransition } from "react";
 import { LifeArchive } from "@/components/life-archive";
 
 export const metadata: Metadata = {
@@ -34,5 +35,11 @@ export const metadata: Metadata = {
 };
 
 export default function LifeArchivePage() {
-  return <LifeArchive />;
+  return (
+    <ViewTransition enter="doc-cut-in" exit="doc-cut-out" default="none">
+      <div>
+        <LifeArchive />
+      </div>
+    </ViewTransition>
+  );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
@@ -15,18 +15,25 @@ import { site } from "@/lib/site";
  * inward arrows) centered between title and descriptor; vinyl mark at the
  * row's right edge. No modal.
  */
+type Peek = { src: string; caption: string };
+
 function Chapter({
   name,
   note,
   panelId,
   staggered = false,
   summary,
+  peek,
+  index,
   children,
 }: {
   name: string;
   note: string;
   panelId?: string;
   staggered?: boolean;
+  /** DEMO: the print pulled up from behind the crate divider on hover/focus. */
+  peek?: Peek;
+  index: number;
   /** Existing editorial text rendered sr-only while the chapter is closed, so
    *  the verified content is crawlable in the initial HTML without mounting
    *  (or fetching) the chapter's media. Removed on first open — the chapter
@@ -40,8 +47,21 @@ function Chapter({
   // media until the visitor opens it the first time. Once opened, stays
   // mounted permanently — closing/reopening after that is unchanged from
   // today (same elements, same play()/pause(), instant resume).
-  const hasOpenedRef = useRef(false);
-  if (open) hasOpenedRef.current = true;
+  // DEMO: state instead of a ref read during render (react-hooks/refs).
+  const [hasOpened, setHasOpened] = useState(false);
+  const num = String(index + 1).padStart(2, "0");
+
+  // DEMO fix (audit CT-07): reduced motion means no autoplaying loops — every
+  // video in an opened chapter is paused and given native controls instead.
+  useEffect(() => {
+    if (!open) return;
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    panelRef.current?.querySelectorAll("video").forEach((v) => {
+      v.autoplay = false;
+      v.pause();
+      v.controls = true;
+    });
+  }, [open]);
 
   return (
     <>
@@ -50,20 +70,35 @@ function Chapter({
         onClick={() => {
           const next = !open;
           setOpen(next);
+          if (next) setHasOpened(true);
           // Drive playback from the user gesture: Chrome defers the autoplay
           // attribute while the panel is collapsed, so it never starts on its own.
           const videos = panelRef.current?.querySelectorAll("video");
           if (!videos) return;
-          videos.forEach((v) => (next ? void v.play() : v.pause()));
+          const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          videos.forEach((v) => (next && !reduce ? void v.play() : v.pause()));
         }}
         aria-expanded={open}
         aria-controls={panelId}
-        className={`group flex w-full cursor-pointer flex-col gap-2 py-8 text-left transition-colors md:flex-row md:items-baseline md:justify-between md:gap-6 md:py-10 ${
+        className={`group relative flex w-full cursor-pointer flex-col gap-2 py-8 text-left transition-colors md:flex-row md:items-baseline md:justify-between md:gap-6 md:py-10 ${
           staggered ? "md:pl-[10%]" : ""
         }`}
       >
-        <span className="font-display text-large uppercase leading-none transition-colors group-hover:text-accent md:min-w-0">
-          {name}
+        {peek ? (
+          <span className="pull-window" aria-hidden="true">
+            <figure className="pull-print">
+              <img src={peek.src} alt="" loading="lazy" decoding="async" />
+              <figcaption>{peek.caption}</figcaption>
+            </figure>
+          </span>
+        ) : null}
+        <span className="flex items-baseline gap-4 md:min-w-0 md:gap-6">
+          <span className="font-arch-mono text-xs text-white/60 transition-colors group-hover:text-accent group-aria-expanded:text-accent">
+            {num}
+          </span>
+          <span className="font-display text-large uppercase leading-none transition-colors group-hover:text-accent">
+            {name}
+          </span>
         </span>
         {/* OPEN CRATE — approved graffiti artwork (three PNGs), centered between title and descriptor; hidden at rest, revealed on hover/focus/open */}
         <span className="crate mx-auto flex items-center md:mx-0" aria-hidden="true">
@@ -95,8 +130,19 @@ function Chapter({
         <span className="text-sm leading-relaxed text-muted transition-colors group-hover:text-white/80 md:text-right">
           {note}
         </span>
-        <span className="vinyl-wrap ml-auto self-center md:ml-0" aria-hidden="true">
-          <span className="vinyl" />
+        <span className="ml-auto flex items-center gap-4 self-end md:ml-0 md:self-center" aria-hidden="true">
+          {peek ? (
+            <img
+              src={peek.src}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className="h-12 w-16 rotate-[-2deg] border-[3px] border-b-[10px] border-[#ece8de] object-cover shadow-[0_6px_14px_rgba(0,0,0,0.5)] md:hidden"
+            />
+          ) : null}
+          <span className="vinyl-wrap">
+            <span className="vinyl" />
+          </span>
         </span>
       </button>
       <div
@@ -105,9 +151,25 @@ function Chapter({
         className="grid transition-[grid-template-rows] duration-700 ease-[cubic-bezier(.22,.61,.36,1)] motion-reduce:transition-none"
         style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
       >
-        <div className="overflow-hidden">{hasOpenedRef.current ? children : null}</div>
+        <div className="overflow-hidden">
+          {hasOpened ? (
+            <>
+              {/* DEMO: a documentary cut — the slate bar wipes in before the chapter. */}
+              <div
+                aria-hidden="true"
+                className="chapter-cut flex items-center justify-between bg-accent px-4 py-2 font-arch-mono text-[11px] uppercase tracking-[0.3em] text-black md:px-6"
+              >
+                <span>
+                  02 · {num} — {name}
+                </span>
+                <span>Open crate</span>
+              </div>
+              {children}
+            </>
+          ) : null}
+        </div>
       </div>
-      {!hasOpenedRef.current && summary ? <div className="sr-only">{summary}</div> : null}
+      {!hasOpened && summary ? <div className="sr-only">{summary}</div> : null}
     </>
   );
 }
@@ -118,6 +180,7 @@ type Discipline = {
   panelId?: string;
   staggered?: boolean;
   summary?: string;
+  peek?: Peek;
   chapter?: ReactNode;
 };
 
@@ -126,6 +189,7 @@ const disciplines: Discipline[] = [
     name: "DJ",
     note: "Clubs · Festivals · Private Events · Gigs",
     panelId: "dj-archive-panel",
+    peek: { src: "/assets/peek/dj.webp", caption: site.djArchive.caption },
     summary: `${site.djArchive.alt}. ${site.djArchive.caption}.`,
     chapter: (
       <figure className="flex flex-col items-center gap-4 border-t border-white/10 py-10 md:py-14">
@@ -176,6 +240,7 @@ const disciplines: Discipline[] = [
     name: "Turntablism",
     note: "Performance · Scratch Craft · Workshops",
     panelId: "turntablism-archive-panel",
+    peek: { src: "/assets/peek/turntablism.webp", caption: site.turntablism.caption },
     staggered: true,
     summary: `${site.turntablism.editorial.headline} ${site.turntablism.editorial.body.join(" ")}`,
     chapter: (
@@ -247,6 +312,7 @@ const disciplines: Discipline[] = [
     name: "Speaking",
     note: "Talks · Panels · Keynotes · Conversations",
     panelId: "speaking-archive-panel",
+    peek: { src: "/assets/peek/speaking.webp", caption: "Raising The Bar · Kuala Lumpur" },
     summary: `${site.speaking.positioning} ${site.speaking.signature.line}`,
     chapter: <SpeakingChapter />,
   },
@@ -254,6 +320,7 @@ const disciplines: Discipline[] = [
     name: "Producer",
     note: "Beats · Scratch Hooks · Mixing & Mastering · Collaboration",
     panelId: "producer-archive-panel",
+    peek: { src: "/assets/peek/producer.webp", caption: "Karmageddon" },
     staggered: true,
     summary: `${site.producer.positioning} ${site.producer.signature.line}`,
     chapter: <ProducerChapter />,
@@ -262,6 +329,7 @@ const disciplines: Discipline[] = [
     name: "Fragments",
     note: "The Archive · People · Places · Moments",
     panelId: "fragments-archive-panel",
+    peek: { src: "/assets/peek/fragments.webp", caption: fragments.hero.name },
     summary: `${fragments.statement.headline} ${fragments.statement.body.join(" ")}`,
     chapter: <FragmentsChapter />,
   },
@@ -699,6 +767,8 @@ export function WhatIDo() {
                   panelId={item.panelId}
                   staggered={item.staggered}
                   summary={item.summary}
+                  peek={item.peek}
+                  index={i}
                 >
                   {item.chapter}
                 </Chapter>

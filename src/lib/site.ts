@@ -58,7 +58,8 @@ export const site = {
   /** DJ archive collage — approved iteration-2 master as static base (never flattened with video).
       Cleaned derivative served to visitors; canonical PNG kept untouched as source of truth. */
   djArchive: {
-    src: "/assets/dj-lethal-skillz-collage-clean.png",
+    // DEMO (audit CT-03): WebP at identical 1920×1080 pixels, 209 KB vs 2.19 MB PNG.
+    src: "/assets/dj-lethal-skillz-collage-clean.webp",
     alt: "DJ Lethal Skillz · Performance Archive",
     caption: "DJ · PERFORMANCE ARCHIVE",
     /** 4 approved living cells overlaid on the master. Panel geometry in 1920×1080 master coords. */
@@ -74,7 +75,8 @@ export const site = {
   turntablism: {
     src: "/assets/turntablism-living-loop.mp4",
     webm: "/assets/turntablism-living-loop.webm",
-    poster: "/assets/turntablism-living-loop-poster.png",
+    // DEMO (audit CT-03): WebP at identical 1920×1080 pixels, 96 KB vs 1.48 MB PNG.
+    poster: "/assets/turntablism-living-loop-poster.webp",
     caption: "Turntablism · The Instrument",
     // REV T5: editorial block — approved copy, no dashes, no in-copy yellow.
     // White = editorial voice (Speaking restraint), yellow reserved for the

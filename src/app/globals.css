@@ -450,3 +450,487 @@ body {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* =====================================================================
+   DEMO — "THE DIG": a documentary pressed to vinyl.
+   Everything below is progressive enhancement: the static HTML is always
+   the visible, readable state; motion only animates FROM hidden when JS
+   (html.js) or scroll timelines (@supports) are present, and never under
+   prefers-reduced-motion.
+   ===================================================================== */
+
+:root {
+  --paper-sleeve: #ece8de;
+  --ink: #0a0a0a;
+  --groove: repeating-radial-gradient(circle at center, #0c0c0c 0 1.5px, #191919 1.5px 3px);
+}
+
+/* ---------- Reveal (fixes audit CT-02: visible without JS) ---------- */
+.reveal {
+  transition:
+    opacity 0.8s var(--ease-out-soft),
+    transform 0.8s var(--ease-out-soft);
+}
+.js .reveal:not(.is-in) {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* ---------- Global film grain (static, sits on top of everything) ---------- */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 65;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+/* ---------- Groove progress: the needle's position on the side ---------- */
+.groove-progress {
+  display: none;
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .groove-progress {
+      display: block;
+      position: fixed;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 2px;
+      z-index: 90;
+      background: var(--color-accent);
+      transform-origin: 0 50%;
+      animation: groove-progress linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+}
+@keyframes groove-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Opening: the needle drops (first visit only) ---------- */
+.opening {
+  position: absolute;
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: #000;
+  pointer-events: none;
+  animation: opening-lift 0.75s cubic-bezier(0.76, 0, 0.24, 1) 1.05s forwards;
+}
+.opening-needle {
+  display: block;
+  width: min(62vw, 520px);
+  height: 1px;
+  background: var(--color-accent);
+  transform-origin: 0 50%;
+  animation: opening-needle 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) 0.1s both;
+}
+.opening-label {
+  opacity: 0;
+  animation: opening-label 0.5s ease-out 0.35s forwards;
+}
+@keyframes opening-needle {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes opening-label {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes opening-lift {
+  to {
+    clip-path: inset(0 0 100% 0);
+    visibility: hidden;
+  }
+}
+
+/* The hero's own entrance waits for the needle to lift. */
+.has-opening .hero-fade,
+.has-opening .hero-reveal,
+.has-opening .hero-reveal-shift,
+.has-opening .hero-reveal-shift-eoto {
+  animation-delay: calc(var(--hero-delay, 0s) + 1.25s);
+}
+
+/* ---------- Hero: documentary cut on scroll-out ---------- */
+.hero-cut {
+  position: absolute;
+  inset: 0;
+  z-index: 56;
+  background: #000;
+  opacity: var(--cut, 0);
+  pointer-events: none;
+}
+
+/* ---------- Slates: chapter headers as film slates ---------- */
+.slate-num {
+  font-family: var(--font-arch);
+  font-weight: 900;
+  line-height: 0.78;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.24);
+}
+.slate-num--ink {
+  -webkit-text-stroke-color: rgba(0, 0, 0, 0.28);
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .slate-num {
+      animation: slate-num linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+    .slate-rule {
+      animation: slate-rule linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+  }
+}
+@keyframes slate-num {
+  from {
+    transform: translateX(-8%);
+    opacity: 0.15;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.slate-rule {
+  transform-origin: 0 50%;
+}
+@keyframes slate-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- The crate: discipline rows pull a print up from behind the divider ---------- */
+.pull-window {
+  position: absolute;
+  bottom: 100%;
+  left: 52%;
+  width: clamp(150px, 15vw, 230px);
+  height: clamp(130px, 13vw, 200px);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+}
+.pull-print {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 6px 6px 22px;
+  background: var(--paper-sleeve);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.55);
+  transform: translateY(105%) rotate(-3deg);
+  transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.pull-print img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.pull-print figcaption {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 5px;
+  font-family: var(--font-arch-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(20, 18, 16, 0.8);
+}
+@media (hover: hover) and (min-width: 768px) {
+  .group:hover .pull-print,
+  .group:focus-visible .pull-print {
+    transform: translateY(14%) rotate(-2deg);
+  }
+}
+@media (hover: none), (max-width: 767px) {
+  .pull-window {
+    display: none;
+  }
+}
+
+/* Chapter cut: when a chapter opens, a slate bar wipes across first. */
+.chapter-cut {
+  animation: chapter-cut 0.6s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+@keyframes chapter-cut {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* ---------- Sleeves (Life Archive + media) ---------- */
+.sleeve {
+  position: relative;
+  isolation: isolate;
+}
+.sleeve-disc {
+  position: absolute;
+  top: 4%;
+  bottom: 4%;
+  right: 0;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--groove);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 10px 30px rgba(0, 0, 0, 0.6);
+  z-index: -1;
+  transform: translateX(10%);
+  transition: transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.sleeve-disc::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from var(--sheen, 210deg), transparent 0 40deg, rgba(255, 255, 255, 0.09) 60deg, transparent 90deg 220deg, rgba(255, 255, 255, 0.07) 240deg, transparent 270deg);
+}
+.sleeve-disc::after {
+  content: "";
+  position: absolute;
+  inset: 34%;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: inset 0 0 0 6px #0b0b0b;
+}
+.sleeve:hover .sleeve-disc,
+.sleeve:focus-within .sleeve-disc {
+  transform: translateX(34%);
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sleeve-disc {
+      animation: disc-out linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 50%;
+    }
+    .sleeve:hover .sleeve-disc,
+    .sleeve:focus-within .sleeve-disc {
+      animation: none;
+      transform: translateX(34%);
+    }
+    .sleeve-face {
+      animation: sleeve-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+    .title-words .w {
+      animation: word-in linear both;
+      animation-timeline: view();
+      /* Each word finishes as soon as it is fully inside the viewport, so a
+         visitor who stops scrolling never reads a half-faded title. */
+      animation-range: entry calc(var(--i, 0) * 3%) entry calc(55% + var(--i, 0) * 3%);
+    }
+  }
+}
+@keyframes disc-out {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(24%);
+  }
+}
+/* Transform only: fading the paper face would let the disc behind it show
+   through the film still. */
+@keyframes sleeve-in {
+  from {
+    /* small travel: the paper must never slide over the caption text below */
+    transform: translateY(3%) rotate(-1.2deg);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes word-in {
+  from {
+    transform: translateY(0.45em);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.title-words .w {
+  display: inline-block;
+}
+
+/* Sleeve paper face: a printed card holding the film still. */
+.sleeve-face {
+  position: relative;
+  background: var(--paper-sleeve);
+  padding: clamp(8px, 1.1vw, 14px) clamp(8px, 1.1vw, 14px) clamp(34px, 3.4vw, 46px);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.sleeve-face::after {
+  /* the print's own grain, on the object, not the screen */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.18;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* Film still facade: poster -> projector flicker -> player */
+.projector-flick {
+  animation: projector-flick 0.42s steps(6) both;
+}
+@keyframes projector-flick {
+  0% {
+    filter: brightness(1);
+  }
+  30% {
+    filter: brightness(1.6) contrast(1.2);
+  }
+  55% {
+    filter: brightness(0.5);
+  }
+  75% {
+    filter: brightness(1.3);
+  }
+  100% {
+    filter: brightness(0);
+  }
+}
+
+/* ---------- The record (Life Archive masthead) ---------- */
+.record {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--groove);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+.record-sheen {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from var(--sheen, 200deg), transparent 0 30deg, rgba(255, 255, 255, 0.13) 50deg, transparent 75deg 200deg, rgba(255, 255, 255, 0.1) 225deg, transparent 250deg);
+  transition: background 0.2s linear;
+}
+.record-label {
+  position: absolute;
+  inset: 31%;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+.record-spin {
+  animation: vinyl-spin 14s linear infinite;
+}
+
+/* ---------- Crate index: record spines ---------- */
+.spine {
+  transition:
+    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    background-color 0.2s,
+    color 0.2s;
+}
+.spine:hover,
+.spine:focus-visible {
+  transform: translateY(-14px);
+  background-color: var(--color-accent);
+  color: #000;
+}
+
+/* ---------- Mobile tracklist menu ---------- */
+.menu-record {
+  position: absolute;
+  right: -38vw;
+  bottom: -30vw;
+  width: 92vw;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* ---------- View transitions: route changes cut like a documentary ---------- */
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+::view-transition-old(.doc-cut-out) {
+  animation: vt-out 0.28s cubic-bezier(0.55, 0, 1, 0.45) both;
+}
+::view-transition-new(.doc-cut-in) {
+  animation: vt-in 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) 0.18s both;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    filter: brightness(0.2);
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opening,
+  .record-spin {
+    animation: none;
+  }
+  .opening {
+    display: none;
+  }
+  .pull-print,
+  .sleeve-disc {
+    transition: none;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

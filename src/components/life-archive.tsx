@@ -1,5 +1,8 @@
+import Link from "next/link";
 import { site } from "@/lib/site";
 import { Reveal } from "@/components/reveal";
+import { FilmFacade } from "@/components/film-facade";
+import { ArchiveRecord } from "@/components/archive-record";
 
 type LifeCrate = {
   /** Crate designation — the entry number, oldest to newest. */
@@ -25,6 +28,9 @@ type LifeCrate = {
  * The Life Archive — newest first. Manually maintained: future crates are
  * added by hand at the top of this list. No CMS, no database.
  * Editorial notes are first-person archive copy, used verbatim.
+ * DEMO: data identical to production b226695; presentation only changed.
+ * Each film's still is its own YouTube cover, stored locally at
+ * /assets/life-archive/<youtubeId>.webp (see the asset register).
  */
 const CRATES: LifeCrate[] = [
   {
@@ -107,115 +113,237 @@ const CRATES: LifeCrate[] = [
   },
 ];
 
-function CrateEmbed({ crate, title }: { crate: LifeCrate; title: string }) {
-  const start = crate.start ? `?start=${crate.start}` : "";
-  const src = `https://www.youtube-nocookie.com/embed/${crate.youtubeId}${start}`;
+const RTL = /[֐-ࣿ]/;
+
+/** Title assembled word by word on scroll (CSS view timeline). Strings with
+ *  right-to-left script are never split, so Arabic keeps its shaping and
+ *  reading order. The full title is exposed once to assistive tech. */
+function TitleWords({ text, offset = 0, accent = false }: { text: string; offset?: number; accent?: boolean }) {
+  const parts = text.split(" ").reduce<string[]>((acc, w) => {
+    if (RTL.test(w) && acc.length && RTL.test(acc[acc.length - 1])) acc[acc.length - 1] += ` ${w}`;
+    else acc.push(w);
+    return acc;
+  }, []);
   return (
-    <iframe
-      src={src}
-      title={`${title} — YouTube`}
-      loading="lazy"
-      allow="encrypted-media; fullscreen; picture-in-picture"
-      className="aspect-video w-full border-0 bg-black"
-    />
+    <>
+      {parts.map((w, i) => (
+        <span
+          key={`${w}-${i}`}
+          className={`w ${accent ? "text-accent" : ""}`}
+          dir={RTL.test(w) ? "rtl" : undefined}
+          style={{ ["--i" as string]: offset + i }}
+        >
+          {w}
+          {i < parts.length - 1 ? " " : ""}
+        </span>
+      ))}
+    </>
   );
 }
 
-function Crate({ crate, index, latest }: { crate: LifeCrate; index: number; latest: boolean }) {
-  const meta = [crate.year, crate.place].filter(Boolean).join(" · ");
-  const watchHref = `https://www.youtube.com/watch?v=${crate.youtubeId}${
-    crate.start ? `&t=${crate.start}s` : ""
-  }`;
-  // Full approved title (white base + yellow accent tail), also used for the
-  // iframe's accessible name.
+function crateId(c: LifeCrate) {
+  return `crate-${c.number}`;
+}
+
+function Sleeve({ crate, priority }: { crate: LifeCrate; priority?: boolean }) {
   const fullTitle = crate.accent ? `${crate.title} ${crate.accent}` : crate.title;
+  const meta = [crate.year, crate.place].filter(Boolean).join(" · ");
   return (
-    <Reveal delay={index * 60}>
-      <article className="border-t border-white/10 py-16 md:py-24">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between">
-          <p className="font-arch-mono text-[11px] uppercase tracking-[0.3em] text-accent">
+    <div className="sleeve">
+      <div aria-hidden="true" className="sleeve-disc" />
+      <figure className="sleeve-face">
+        <FilmFacade
+          youtubeId={crate.youtubeId}
+          title={fullTitle}
+          start={crate.start}
+          still={`/assets/life-archive/${crate.youtubeId}.webp`}
+          stillSmall={`/assets/life-archive/${crate.youtubeId}-640.webp`}
+          priority={priority}
+        />
+        <figcaption className="absolute bottom-[10px] left-[14px] right-[14px] flex items-baseline justify-between gap-4 font-arch-mono text-[10px] uppercase tracking-[0.16em] text-black/70 md:bottom-[14px]">
+          <span>
             {crate.label ?? "Life Crate"} {crate.number}
-          </p>
-          <p className="font-arch-mono text-[11px] uppercase tracking-[0.3em] text-muted">
-            {meta ? (
-              <>
-                {meta}
-                <span aria-hidden="true"> · </span>
-              </>
-            ) : null}
-            <a
-              href={watchHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/70 transition-colors hover:text-accent"
-            >
-              Watch on YouTube
-            </a>
-          </p>
-        </div>
-        <h2
-          className={`mt-6 font-display uppercase leading-[0.95] md:mt-8 ${
-            latest ? "text-giant" : "text-large"
-          }`}
-        >
-          {crate.title}
+          </span>
+          {meta ? <span>{meta}</span> : null}
+        </figcaption>
+      </figure>
+    </div>
+  );
+}
+
+function CrateText({ crate, big }: { crate: LifeCrate; big?: boolean }) {
+  const fullTitle = crate.accent ? `${crate.title} ${crate.accent}` : crate.title;
+  const watchHref = `https://www.youtube.com/watch?v=${crate.youtubeId}${crate.start ? `&t=${crate.start}s` : ""}`;
+  const titleWords = crate.title.split(" ").length;
+  return (
+    <div className="relative">
+      <span
+        aria-hidden="true"
+        className="slate-num pointer-events-none absolute -top-[0.42em] right-0 select-none text-[clamp(6rem,14vw,13rem)] md:-top-[0.5em]"
+      >
+        {crate.number}
+      </span>
+      <p className="relative font-arch-mono text-[11px] uppercase tracking-[0.3em] text-accent">
+        {crate.label ?? "Life Crate"} {crate.number}
+      </p>
+      <h2
+        className={`relative mt-5 font-display uppercase leading-[0.92] md:mt-6 ${
+          big ? "text-[clamp(2.6rem,6.4vw,6.8rem)]" : "text-[clamp(1.9rem,3.4vw,3.4rem)]"
+        }`}
+      >
+        <span className="sr-only">{fullTitle}</span>
+        <span aria-hidden="true" className="title-words">
+          <TitleWords text={crate.title} />
           {crate.accent ? (
             <>
               {" "}
-              <span className="text-accent">{crate.accent}</span>
+              <TitleWords text={crate.accent} offset={titleWords} accent />
             </>
           ) : null}
-        </h2>
-        {crate.note ? (
-          <p className="mt-5 max-w-[46ch] text-sm leading-relaxed text-muted md:mt-6">
-            {crate.note}
-          </p>
-        ) : null}
-        <div className="mt-10 md:mt-14">
-          <CrateEmbed crate={crate} title={fullTitle} />
-        </div>
+        </span>
+      </h2>
+      {crate.note ? (
+        <p className="relative mt-6 max-w-[48ch] text-sm leading-relaxed text-white/70 md:text-[15px]">{crate.note}</p>
+      ) : null}
+      <a
+        href={watchHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="relative mt-6 inline-flex min-h-11 items-center gap-2 font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/70 transition-colors hover:text-accent"
+      >
+        Watch on YouTube <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  );
+}
+
+function Crate({ crate, index }: { crate: LifeCrate; index: number }) {
+  if (index === 0) {
+    // The newest record leads at full scale — the crate's front sleeve.
+    return (
+      <article id={crateId(crate)} className="scroll-mt-24 border-t border-white/10 py-16 md:py-28">
+        <Reveal>
+          <div className="grid gap-14 md:grid-cols-12 md:gap-x-10 md:gap-y-16">
+            <div className="md:col-span-12 md:pr-[8%]">
+              <Sleeve crate={crate} priority />
+            </div>
+            <div className="md:col-span-10 md:col-start-2">
+              <CrateText crate={crate} big />
+            </div>
+          </div>
+        </Reveal>
       </article>
-    </Reveal>
+    );
+  }
+  // Rhythm before symmetry: sleeves alternate sides and drift off the grid.
+  const flip = index % 2 === 1;
+  return (
+    <article id={crateId(crate)} className="scroll-mt-24 border-t border-white/10 py-16 md:py-24">
+      <Reveal>
+        <div className="grid items-center gap-10 md:grid-cols-12 md:gap-12">
+          <div
+            className={`md:col-span-7 ${
+              flip ? "md:order-2 md:col-start-6 md:mt-16 md:pr-[6%]" : "md:pr-[8%]"
+            }`}
+          >
+            <Sleeve crate={crate} />
+          </div>
+          <div className={`md:col-span-5 ${flip ? "md:order-1 md:col-start-1" : "md:pl-4"}`}>
+            <CrateText crate={crate} />
+          </div>
+        </div>
+      </Reveal>
+    </article>
   );
 }
 
 export function LifeArchive() {
   return (
-    <div className="mx-auto w-full max-w-[1520px] px-6 pb-16 pt-32 md:px-10 md:pb-24 md:pt-44">
-      {/* Masthead — header sits absolutely over the page, so the archive
-          opens below it with the same vertical scale as a hero. */}
-      <Reveal>
-        <header className="border-b border-white/10 pb-10 md:pb-14">
-          <p className="font-arch-mono text-[11px] uppercase tracking-[0.3em] text-accent">
-            The Archive
-          </p>
-          <h1 className="mt-5 font-display text-giant uppercase leading-none">
-            Life Archive
-          </h1>
-          <p className="mt-6 max-w-[52ch] text-sm leading-relaxed text-muted md:mt-8 md:text-base">
-            Films from the life and work of DJ Lethal Skillz, kept here by
-            hand.
-          </p>
+    <div className="overflow-x-clip">
+      <div className="mx-auto w-full max-w-[1520px] px-6 pb-16 pt-28 md:px-10 md:pb-24 md:pt-40">
+        {/* Masthead: the archive is a record you are about to play. */}
+        <header className="grid items-center gap-12 pb-12 md:grid-cols-12 md:pb-20">
+          <Reveal className="md:col-span-7">
+            <p className="font-arch-mono text-[11px] uppercase tracking-[0.3em] text-accent">The Archive</p>
+            <h1 className="mt-5 font-display text-[clamp(4rem,13vw,12.5rem)] uppercase leading-[0.82]">
+              Life
+              <br />
+              Archive
+            </h1>
+            <p className="mt-8 max-w-[44ch] text-base leading-relaxed text-white/75 md:text-lg">
+              Films from the life and work of DJ Lethal Skillz, kept here by hand.
+            </p>
+            <p className="mt-6 font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/50">
+              {CRATES.length} films · newest first
+            </p>
+          </Reveal>
+          <div className="relative md:col-span-5">
+            <ArchiveRecord className="mx-auto w-[min(78vw,460px)]">
+              <div className="record-label">
+                <div className="record-spin flex h-full w-full flex-col items-center justify-center rounded-full">
+                  <span className="font-arch-mono text-[clamp(7px,0.9vw,10px)] uppercase tracking-[0.3em]">SkillzHQ</span>
+                  <span className="mt-1 font-display text-[clamp(1.1rem,2.6vw,2.2rem)] uppercase leading-none">Life Archive</span>
+                  <span className="mt-1 font-arch-mono text-[clamp(7px,0.9vw,10px)] uppercase tracking-[0.3em]">
+                    {CRATES[CRATES.length - 1].number} — {CRATES[0].number}
+                  </span>
+                </div>
+              </div>
+            </ArchiveRecord>
+          </div>
         </header>
-      </Reveal>
 
-      {/* Newest entry first. */}
-      {CRATES.map((crate, i) => (
-        <Crate key={crate.number} crate={crate} index={i} latest={i === 0} />
-      ))}
+        {/* Crate index: the spines, newest to oldest. Native horizontal
+            scroll on small screens (no scroll hijacking). */}
+        <nav aria-label="Films in the archive" className="border-t border-white/10 pt-8">
+          <p className="font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/50">Flip through the crate</p>
+          <ol className="-mx-6 mt-6 flex gap-2 overflow-x-auto px-6 pb-4 pt-4 md:mx-0 md:grid md:grid-cols-10 md:overflow-visible md:px-0">
+            {CRATES.map((c) => (
+              <li key={c.number} className="shrink-0">
+                <a
+                  href={`#${crateId(c)}`}
+                  className="spine flex h-52 w-16 flex-col gap-3 overflow-hidden border border-white/15 bg-[#121212] px-2 py-3 text-white md:h-64 md:w-auto"
+                >
+                  <span className="font-display text-2xl leading-none">{c.number}</span>
+                  {/* The spine carries the film's own title, read bottom-to-top
+                      like a record on a shelf; clipped by the spine's height. */}
+                  <span
+                    aria-hidden="true"
+                    className="min-h-0 flex-1 self-center overflow-hidden whitespace-nowrap font-display text-[15px] uppercase leading-none tracking-wide [writing-mode:vertical-rl] rotate-180"
+                  >
+                    {c.title.replace(/[|:,-]+\s*$/, "").trim()}
+                  </span>
+                  <span className="sr-only">{c.accent ? `${c.title} ${c.accent}` : c.title}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </nav>
 
-      <Reveal>
-        <div className="border-t border-white/10 pt-10 md:pt-12">
-          <a
-            href={site.media.youtube!.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/70 transition-colors hover:text-accent"
-          >
-            More films on {site.media.youtube!.label}
-          </a>
+        <div className="mt-10">
+          {CRATES.map((crate, i) => (
+            <Crate key={crate.number} crate={crate} index={i} />
+          ))}
         </div>
-      </Reveal>
+
+        <Reveal>
+          <div className="flex flex-col gap-6 border-t border-white/10 pt-10 md:flex-row md:items-center md:justify-between md:pt-12">
+            <a
+              href={site.media.youtube!.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/70 transition-colors hover:text-accent"
+            >
+              More films on {site.media.youtube!.label} ↗
+            </a>
+            <Link
+              href="/#landing"
+              className="inline-flex min-h-11 items-center gap-3 font-display text-2xl uppercase text-white transition-colors hover:text-accent"
+            >
+              <span aria-hidden="true">←</span> Back to the HQ
+            </Link>
+          </div>
+        </Reveal>
+      </div>
     </div>
   );
 }

@@ -68,7 +68,7 @@ export function AnthemBridge() {
           >
             {playing ? "Now playing" : "Turn the sound on"}
           </p>
-          <p className="mt-2 font-arch-mono text-[10px] uppercase tracking-[0.2em] text-white/35">
+          <p className="mt-2 font-arch-mono text-[10px] uppercase tracking-[0.2em] text-white/60">
             33 rpm · 117 seconds
           </p>
         </span>

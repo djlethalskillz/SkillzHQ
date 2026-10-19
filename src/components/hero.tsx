@@ -1,6 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+declare global {
+  interface Window {
+    /** DEMO: set after the first hero mount so the opening plays once per visit. */
+    __skzOpened?: boolean;
+  }
+}
 import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/lib/site";
@@ -47,23 +54,40 @@ export function Hero() {
   const archRef = useRef<HTMLImageElement>(null);
   const masterRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLImageElement>(null);
+  const skillzRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  // DEMO: the needle-drop opening plays on the first mount of a visit only
+  // (server HTML includes it, so first paint and hydration agree; a client
+  // navigation back to the HQ skips it).
+  const [showOpening] = useState(() => typeof window === "undefined" || !window.__skzOpened);
+  useEffect(() => {
+    window.__skzOpened = true;
+  }, []);
 
-  // Pass 4: restrained scroll-linked depth. Pure translate3d on selected layers;
-  // rates are a fraction of the frame height, offset = rate × frameH × scroll
-  // progress (0 at rest, max at full exit). Rest state is offset 0, so the
-  // composition is pixel-identical to the static baseline. Identity layers
-  // (SKILLZ, DJ LETHAL, EOTO, support copy, CTA) never move. Transform-only:
-  // no layout reads beyond one rect per frame, no re-renders, passive listener.
+  // Pass 4 scroll depth, extended for the demo:
+  //  - pointer depth (fine pointers only): background layers drift a few px
+  //    against the pointer, the portrait moves as ONE rigid print (never
+  //    warped), identity type (DJ LETHAL, EOTO, copy, CTA) never moves;
+  //  - documentary cut on exit: the frame dims toward black as it leaves.
+  // Transform/opacity only, one rAF, passive listeners, off under reduced motion.
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const desktop = window.matchMedia("(min-width: 768px)");
+    const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
     const arch = archRef.current;
     const master = masterRef.current;
     const backdrop = backdropRef.current;
+    const skillz = skillzRef.current;
     const frame = frameRef.current;
-    if (!arch || !master || !backdrop || !frame) return;
+    const section = sectionRef.current;
+    if (!arch || !master || !backdrop || !frame || !skillz || !section) return;
     const RATES = { arch: 0.015, master: 0.025 }; // bg slowest, midground slightly more
+    const DEPTH = { backdrop: 16, arch: 11, skillz: 5, master: 3 }; // px at full pointer offset
     let raf = 0;
+    let tx = 0;
+    let ty = 0; // pointer target (-1..1)
+    let px = 0;
+    let py = 0; // eased pointer
     const update = () => {
       raf = 0;
       const r = frame.getBoundingClientRect();
@@ -71,27 +95,58 @@ export function Hero() {
       const m = desktop.matches ? 1 : 0.5; // mobile: half the movement
       const yArch = RATES.arch * r.height * p * m;
       const yMaster = RATES.master * r.height * p * m;
-      arch.style.transform = `translate3d(0, ${yArch}px, 0)`;
-      master.style.transform = `translate3d(0, ${yMaster}px, 0)`;
-      backdrop.style.transform = `translate3d(0, ${yArch}px, 0) scale(1.05)`;
+      px += (tx - px) * 0.08;
+      py += (ty - py) * 0.08;
+      const d = (k: keyof typeof DEPTH) => `${(-px * DEPTH[k]).toFixed(2)}px, ${(-py * DEPTH[k]).toFixed(2)}px`;
+      arch.style.transform = `translate3d(0, ${yArch}px, 0) translate(${d("arch")})`;
+      master.style.transform = `translate3d(0, ${yMaster}px, 0) translate(${d("master")})`;
+      backdrop.style.transform = `translate3d(0, ${yArch}px, 0) translate(${d("backdrop")}) scale(1.05)`;
+      skillz.style.transform = `translate(${d("skillz")})`;
+      section.style.setProperty("--cut", (p * 0.75).toFixed(3));
+      if (Math.abs(tx - px) > 0.001 || Math.abs(ty - py) > 0.001) raf = requestAnimationFrame(update);
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update);
     };
+    const onPointer = (e: PointerEvent) => {
+      if (!fine.matches) return;
+      const r = frame.getBoundingClientRect();
+      if (r.bottom < 0) return;
+      tx = Math.max(-1, Math.min(1, (e.clientX - (r.left + r.width / 2)) / (r.width / 2)));
+      ty = Math.max(-1, Math.min(1, (e.clientY - (r.top + r.height / 2)) / (r.height / 2)));
+      if (!raf) raf = requestAnimationFrame(update);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("pointermove", onPointer, { passive: true });
     update();
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("pointermove", onPointer);
       if (raf) cancelAnimationFrame(raf);
     };
   }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="landing"
       aria-label="DJ Lethal Skillz · Each One Teach One"
-      className="relative flex min-h-[60svh] items-center overflow-hidden bg-black scroll-mt-20 md:min-h-0"
+      className={`relative flex min-h-[60svh] items-center overflow-hidden bg-black scroll-mt-20 md:min-h-0 ${
+        showOpening ? "has-opening" : ""
+      }`}
     >
+      {showOpening ? (
+        <div className="opening" aria-hidden="true">
+          <span className="opening-label font-arch-mono text-[11px] uppercase tracking-[0.4em] text-white/80">
+            SkillzHQ
+          </span>
+          <span className="opening-needle" />
+          <span className="opening-label font-arch-mono text-[10px] uppercase tracking-[0.4em] text-accent">
+            Digital Headquarters
+          </span>
+        </div>
+      ) : null}
+      <div className="hero-cut" aria-hidden="true" />
       <div
         ref={frameRef}
         className="relative mx-auto aspect-[4/3] w-full max-w-[1448px] overflow-hidden bg-black md:w-[min(100%,calc(100svh*4/3))] md:max-w-none"
@@ -104,22 +159,25 @@ export function Hero() {
           sizes="(max-width: 1448px) 100vw, 1448px"
           alt=""
           className="hero-fade hero-fade-photo pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
-          style={{ ["--hero-from" as any]: "0.35", ["--hero-delay" as any]: "0s", ["--hero-dur" as any]: "0.7s" }}
+          style={{ ["--hero-from" as string]: "0.35", ["--hero-delay" as string]: "0s", ["--hero-dur" as string]: "0.7s" }}
           aria-hidden="true"
           decoding="async"
         />
 
-        {/* Exact reference-derived SKILLZ artwork layer. */}
-        <img
-          src="/assets/hero2-skillz-layer-opt.webp"
-          srcSet="/assets/hero2-skillz-layer-724.webp 724w, /assets/hero2-skillz-layer-opt.webp 1448w"
-          sizes="(max-width: 1448px) 100vw, 1448px"
-          alt=""
-          className="hero-reveal pointer-events-none absolute inset-0 z-10 h-full w-full object-cover"
-          style={{ ["--hero-rise" as any]: "-8px", ["--hero-delay" as any]: "0.3s", ["--hero-dur" as any]: "0.55s" }}
-          aria-hidden="true"
-          decoding="async"
-        />
+        {/* Exact reference-derived SKILLZ artwork layer. Wrapped so pointer
+            depth can move it without fighting the entrance keyframes. */}
+        <div ref={skillzRef} className="pointer-events-none absolute inset-0 z-10">
+          <img
+            src="/assets/hero2-skillz-layer-opt.webp"
+            srcSet="/assets/hero2-skillz-layer-724.webp 724w, /assets/hero2-skillz-layer-opt.webp 1448w"
+            sizes="(max-width: 1448px) 100vw, 1448px"
+            alt=""
+            className="hero-reveal absolute inset-0 h-full w-full object-cover"
+            style={{ ["--hero-rise" as string]: "-8px", ["--hero-delay" as string]: "0.3s", ["--hero-dur" as string]: "0.55s" }}
+            aria-hidden="true"
+            decoding="async"
+          />
+        </div>
 
         {/* Canonical MASTER subject — source untouched, white studio field keyed at render time. */}
         <svg width="0" height="0" aria-hidden="true" focusable="false" className="absolute">
@@ -152,7 +210,7 @@ export function Hero() {
         <div
           ref={masterRef}
           className="hero-fade hero-fade-photo pointer-events-none absolute inset-0 z-20"
-          style={{ ["--hero-delay" as any]: "0.1s", ["--hero-dur" as any]: "0.45s" }}
+          style={{ ["--hero-delay" as string]: "0.1s", ["--hero-dur" as string]: "0.45s" }}
           aria-hidden="true"
         >
           <img
@@ -174,14 +232,14 @@ export function Hero() {
           fill
           sizes="(max-width: 1448px) 100vw, 1448px"
           className="hero-reveal pointer-events-none z-30 object-cover"
-          style={{ ["--hero-rise" as any]: "6px", ["--hero-delay" as any]: "0.42s", ["--hero-dur" as any]: "0.42s" }}
+          style={{ ["--hero-rise" as string]: "6px", ["--hero-delay" as string]: "0.42s", ["--hero-dur" as string]: "0.42s" }}
         />
 
         {/* Exact reference-derived EOTO artwork layer.
             Shifted left with the supporting-copy block below so its text clears the jacket. */}
         <div
           className="hero-reveal-shift-eoto pointer-events-none absolute inset-0 z-30"
-          style={{ transform: "translateX(-3%)", ["--hero-delay" as any]: "0.48s", ["--hero-dur" as any]: "0.4s" }}
+          style={{ transform: "translateX(-3%)", ["--hero-delay" as string]: "0.48s", ["--hero-dur" as string]: "0.4s" }}
         >
           <Image
             src="/assets/hero2-eoto-layer.webp"
@@ -201,7 +259,7 @@ export function Hero() {
             every breakpoint. */}
         <div
           className="hero-reveal-shift pointer-events-none absolute inset-0 z-40"
-          style={{ transform: "translateX(-3%)", ["--hero-delay" as any]: "0.62s", ["--hero-dur" as any]: "0.4s" }}
+          style={{ transform: "translateX(-3%)", ["--hero-delay" as string]: "0.62s", ["--hero-dur" as string]: "0.4s" }}
         >
           <Image
             src="/assets/hero2-supporting-copy-layer.webp"
@@ -219,7 +277,10 @@ export function Hero() {
             <span className="block">Turntablism. Legacy.</span>
           </p>
           <p className="sr-only">Culture. Education. Turntablism. Legacy.</p>
-          <p className="pointer-events-none absolute left-[9.2%] top-[88.4%] font-body text-[clamp(0.65rem,1.4vw,1rem)] uppercase leading-none tracking-[0.25em] text-white">
+          {/* DEMO fix (audit CT-05): on mobile the live two-line tagline above
+              overlapped this line by 8–10 px; it now sits lower below md.
+              Desktop position unchanged (raster lockup). */}
+          <p className="pointer-events-none absolute left-[9.2%] top-[92.6%] md:top-[88.4%] font-body text-[clamp(0.65rem,1.4vw,1rem)] uppercase leading-none tracking-[0.25em] text-white">
             {values[4]}
           </p>
         </div>
@@ -235,7 +296,7 @@ export function Hero() {
           fill
           sizes="(max-width: 1448px) 100vw, 1448px"
           className="hero-fade pointer-events-none z-40 hidden object-cover md:block"
-          style={{ ["--hero-delay" as any]: "0.7s", ["--hero-dur" as any]: "0.4s" }}
+          style={{ ["--hero-delay" as string]: "0.7s", ["--hero-dur" as string]: "0.4s" }}
           aria-hidden="true"
         />
         {/* Desktop: boxed link over the raster text (Pass-2 approved geometry) — the
@@ -257,11 +318,11 @@ export function Hero() {
           href="#what-i-do"
           aria-label="Enter the HQ"
           onClick={enterHQ}
-          className="group absolute left-[77.2%] top-[83.1%] z-[45] inline-flex rounded-sm before:absolute before:-inset-2 before:content-[''] focus-visible:outline-2 focus-visible:outline-accent md:hidden"
+          className="group absolute left-[77.2%] top-[83.1%] z-[45] -m-3 inline-flex rounded-sm p-3 before:absolute before:-inset-2 before:content-[''] focus-visible:outline-2 focus-visible:outline-accent md:hidden"
         >
           <span
             className="hero-fade inline-flex items-center gap-[0.7em] font-display text-[clamp(0.875rem,2.35vw,1.35rem)] uppercase leading-none tracking-[0.06em] text-white"
-            style={{ ["--hero-delay" as any]: "0.7s", ["--hero-dur" as any]: "0.4s" }}
+            style={{ ["--hero-delay" as string]: "0.7s", ["--hero-dur" as string]: "0.4s" }}
           >
             <span className="relative">
               Enter the HQ
@@ -306,7 +367,7 @@ export function Hero() {
 
       <div
         className="hero-fade absolute bottom-0 left-0 right-0 z-50 flex items-center overflow-hidden bg-accent h-[4.15%]"
-        style={{ ["--hero-delay" as any]: "0.72s", ["--hero-dur" as any]: "0.35s" }}
+        style={{ ["--hero-delay" as string]: "0.72s", ["--hero-dur" as string]: "0.35s" }}
         aria-hidden="true"
       >
         <div className="animate-marquee flex w-max">

@@ -1,13 +1,14 @@
 import { site } from "@/lib/site";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
+import { FilmFacade } from "@/components/film-facade";
+import { SpotifyFacade } from "@/components/spotify-facade";
 
 const SPOTIFY_EMBED =
   "https://open.spotify.com/embed/artist/7F3kgeoTzXbi5JLPylw4qW?utm_source=skillzhq&theme=0";
 
 /** Official channel pick: DJ Lethal Skillz — Dynamic DJ Set (turntablism set). */
 const YOUTUBE_VIDEO = "SQRaL2YMKSI";
-const YOUTUBE_EMBED = `https://www.youtube-nocookie.com/embed/${YOUTUBE_VIDEO}`;
 
 function WatchPanel() {
   const link = site.media.youtube!;
@@ -22,13 +23,15 @@ function WatchPanel() {
             Watch
           </h3>
         </div>
-        <iframe
-          src={YOUTUBE_EMBED}
-          title="DJ Lethal Skillz Freestyle Scratch — YouTube"
-          loading="lazy"
-          allow="encrypted-media; fullscreen; picture-in-picture"
-          className="mt-8 aspect-video w-full shrink-0 border-0 bg-black"
-        />
+        {/* DEMO: on-demand player (audit CT-08). The still is this video's
+            own YouTube cover (hq 480×360 — no higher resolution was fetched). */}
+        <div className="mt-8 shrink-0">
+          <FilmFacade
+            youtubeId={YOUTUBE_VIDEO}
+            title="DJ Lethal Skillz Freestyle Scratch"
+            still="/assets/life-archive/SQRaL2YMKSI.webp"
+          />
+        </div>
         <a
           href={link.url}
           target="_blank"
@@ -55,13 +58,7 @@ function ListenPanel() {
             Listen
           </h3>
         </div>
-        <iframe
-          src={SPOTIFY_EMBED}
-          title="Skillz on Spotify — artist profile"
-          loading="lazy"
-          allow="encrypted-media; clipboard-write; fullscreen"
-          className="mt-8 h-[352px] w-full shrink-0 border-0 bg-black"
-        />
+        <SpotifyFacade embed={SPOTIFY_EMBED} href={link.url} />
         <a
           href={link.url}
           target="_blank"

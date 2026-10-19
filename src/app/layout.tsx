@@ -75,7 +75,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${anton.variable} ${caveat.variable} ${bigShoulders.variable} ${jetbrains.variable} h-full antialiased`}
     >
+      <head>
+        {/* DEMO: mark JS before first paint so reveal/motion start states are
+            only ever applied when a script is actually running (audit CT-02). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
+      </head>
       <body className="min-h-full bg-background font-body text-foreground">
+        <div className="groove-progress" aria-hidden="true" />
+        <div className="grain film-grain" aria-hidden="true" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
