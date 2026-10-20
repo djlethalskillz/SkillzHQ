@@ -690,119 +690,180 @@ body {
   }
 }
 
-/* ---------- Sleeves (Life Archive + media) ---------- */
-.sleeve {
+/* ---------- Life Archive: the spatial crate ----------
+   Real CSS 3D: one perspective camera, one preserve-3d scene graph (crate →
+   floor, walls, records), every record a two-sided plane. Sizes are custom
+   properties so the same geometry scales from 360 px phones to desktop. The
+   stories beside the crate are the readable content; the crate only needs a
+   script to be operable, so without one it is not shown and all ten stories
+   stack as a list. */
+.sa-scene {
+  --s: clamp(150px, 25vw, 250px); /* record (sleeve) edge */
+  --cw: calc(var(--s) + 44px); /* crate width (x) */
+  --cd: clamp(250px, 38vw, 400px); /* crate depth (z) */
+  --ch: calc(var(--s) * 0.55); /* crate wall height (y) */
+  /* the front record sits half a sleeve behind the front wall, so records
+     that fall forward clear it */
+  --gap: calc((var(--cd) - var(--s) * 0.5 - 30px) / 9);
   position: relative;
-  isolation: isolate;
+  height: calc(var(--s) * 2.15);
+  perspective: 1300px;
+  perspective-origin: 50% 30%;
+  overflow: hidden;
+  touch-action: pan-y;
+  cursor: grab;
 }
-.sleeve-disc {
+.sa-scene:active {
+  cursor: grabbing;
+}
+.sa-crate {
   position: absolute;
-  top: 4%;
-  bottom: 4%;
-  right: 0;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--groove);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 10px 30px rgba(0, 0, 0, 0.6);
-  z-index: -1;
-  transform: translateX(10%);
-  transition: transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+  left: 50%;
+  top: 58%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--pitch, -14deg)) rotateY(var(--yaw, -26deg));
+  transition: transform 0.6s var(--ease-out-soft);
 }
-.sleeve-disc::before {
-  content: "";
+.sa-face {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 2px, transparent 2px 22px),
+    linear-gradient(#2a2622, #1a1714);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.sa-floor {
+  width: var(--cw);
+  height: var(--cd);
+  transform: translate(-50%, -50%) translateY(calc(var(--ch) / 2)) rotateX(90deg);
+  background: linear-gradient(#141210, #0c0b0a);
+}
+.sa-wall-back,
+.sa-wall-front {
+  width: var(--cw);
+  height: var(--ch);
+}
+.sa-wall-back {
+  transform: translate(-50%, -50%) translateZ(calc(var(--cd) / -2));
+}
+.sa-wall-front {
+  transform: translate(-50%, -50%) translateZ(calc(var(--cd) / 2));
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 2px, transparent 2px 22px),
+    linear-gradient(#3a332c, #221e1a);
+}
+.sa-wall-left,
+.sa-wall-right {
+  width: var(--cd);
+  height: var(--ch);
+}
+.sa-wall-left {
+  transform: translate(-50%, -50%) translateX(calc(var(--cw) / -2)) rotateY(90deg);
+}
+.sa-wall-right {
+  transform: translate(-50%, -50%) translateX(calc(var(--cw) / 2)) rotateY(90deg);
+}
+.sa-stencil {
   position: absolute;
   inset: 0;
-  border-radius: 50%;
-  background: conic-gradient(from var(--sheen, 210deg), transparent 0 40deg, rgba(255, 255, 255, 0.09) 60deg, transparent 90deg 220deg, rgba(255, 255, 255, 0.07) 240deg, transparent 270deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 230, 0, 0.75);
+  letter-spacing: 0.3em;
 }
-.sleeve-disc::after {
-  content: "";
+/* A record: placed by index along z, pivoting on its bottom edge. */
+.sa-record {
   position: absolute;
-  inset: 34%;
-  border-radius: 50%;
-  background: var(--color-accent);
-  box-shadow: inset 0 0 0 6px #0b0b0b;
+  left: 0;
+  top: 0;
+  width: var(--s);
+  height: var(--s);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform-origin: 50% 100%;
+  transform:
+    translate(-50%, -100%) translateY(calc(var(--ch) / 2))
+    translateZ(calc(var(--cd) / 2 - var(--s) * 0.5 - var(--i) * var(--gap))) translateY(var(--lift, 0px))
+    rotateX(var(--tilt, 6deg));
+  transition: transform 0.55s var(--ease-out-soft);
 }
-.sleeve:hover .sleeve-disc,
-.sleeve:focus-within .sleeve-disc {
-  transform: translateX(34%);
+.sa-record:focus-visible {
+  outline: none;
 }
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .sleeve-disc {
-      animation: disc-out linear both;
-      animation-timeline: view();
-      animation-range: entry 20% cover 50%;
-    }
-    .sleeve:hover .sleeve-disc,
-    .sleeve:focus-within .sleeve-disc {
-      animation: none;
-      transform: translateX(34%);
-    }
-    .sleeve-face {
-      animation: sleeve-in linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 35%;
-    }
-    .title-words .w {
-      animation: word-in linear both;
-      animation-timeline: view();
-      /* Each word finishes as soon as it is fully inside the viewport, so a
-         visitor who stops scrolling never reads a half-faded title. */
-      animation-range: entry calc(var(--i, 0) * 3%) entry calc(55% + var(--i, 0) * 3%);
-    }
-  }
+.sa-record:focus-visible .sa-sleeve-front {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
 }
-@keyframes disc-out {
-  from {
-    transform: translateX(0%);
-  }
-  to {
-    transform: translateX(24%);
-  }
+.sa-sleeve-front,
+.sa-sleeve-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
-/* Transform only: fading the paper face would let the disc behind it show
-   through the film still. */
-@keyframes sleeve-in {
-  from {
-    /* small travel: the paper must never slide over the caption text below */
-    transform: translateY(3%) rotate(-1.2deg);
-  }
-  to {
-    transform: none;
-  }
-}
-@keyframes word-in {
-  from {
-    transform: translateY(0.45em);
-    opacity: 0;
-  }
-  to {
-    transform: none;
-    opacity: 1;
-  }
-}
-.title-words .w {
-  display: inline-block;
-}
-
-/* Sleeve paper face: a printed card holding the film still. */
-.sleeve-face {
-  position: relative;
+.sa-sleeve-front {
+  display: flex;
+  flex-direction: column;
   background: var(--paper-sleeve);
-  padding: clamp(8px, 1.1vw, 14px) clamp(8px, 1.1vw, 14px) clamp(34px, 3.4vw, 46px);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.55), 0 2px 6px rgba(0, 0, 0, 0.4);
+  padding: 7%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
 }
-.sleeve-face::after {
-  /* the print's own grain, on the object, not the screen */
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.18;
-  mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
-  background-size: 160px 160px;
+.sa-sleeve-back {
+  transform: rotateY(180deg);
+  background: #121212;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.sa-btn {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 0 1rem;
+  font-family: var(--font-arch-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+.sa-btn:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.sa-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+/* With a script: only the selected story shows. Without one: the crate and
+   its controls (which need a script) are hidden and all stories stack. */
+.js .sa-story:not(.is-selected) {
+  display: none;
+}
+html:not(.js) .sa-scene,
+html:not(.js) .sa-controls {
+  display: none;
+}
+html:not(.js) .sa-story + .sa-story {
+  margin-top: 4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 3rem;
+}
+/* No 3D support: the scene cannot be drawn, the index and stories remain. */
+@supports not (transform-style: preserve-3d) {
+  .sa-scene {
+    display: none;
+  }
 }
 
 /* Film still facade: poster -> projector flicker -> player */
@@ -859,20 +920,6 @@ body {
   animation: vinyl-spin 14s linear infinite;
 }
 
-/* ---------- Crate index: record spines ---------- */
-.spine {
-  transition:
-    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
-    background-color 0.2s,
-    color 0.2s;
-}
-.spine:hover,
-.spine:focus-visible {
-  transform: translateY(-14px);
-  background-color: var(--color-accent);
-  color: #000;
-}
-
 /* ---------- Mobile tracklist menu ---------- */
 .menu-record {
   position: absolute;
@@ -925,7 +972,8 @@ body {
     display: none;
   }
   .pull-print,
-  .sleeve-disc {
+  .sa-crate,
+  .sa-record {
     transition: none;
   }
   ::view-transition-group(*),

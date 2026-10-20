@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { Reveal } from "@/components/reveal";
-import { FilmFacade } from "@/components/film-facade";
 import { ArchiveRecord } from "@/components/archive-record";
+import { SpatialArchive } from "@/components/spatial-archive";
 
-type LifeCrate = {
+export type LifeCrate = {
   /** Crate designation — the entry number, oldest to newest. */
   number: string;
   /** Label shown before the number; defaults to "Life Crate". */
@@ -113,150 +113,6 @@ const CRATES: LifeCrate[] = [
   },
 ];
 
-const RTL = /[֐-ࣿ]/;
-
-/** Title assembled word by word on scroll (CSS view timeline). Strings with
- *  right-to-left script are never split, so Arabic keeps its shaping and
- *  reading order. The full title is exposed once to assistive tech. */
-function TitleWords({ text, offset = 0, accent = false }: { text: string; offset?: number; accent?: boolean }) {
-  const parts = text.split(" ").reduce<string[]>((acc, w) => {
-    if (RTL.test(w) && acc.length && RTL.test(acc[acc.length - 1])) acc[acc.length - 1] += ` ${w}`;
-    else acc.push(w);
-    return acc;
-  }, []);
-  return (
-    <>
-      {parts.map((w, i) => (
-        <span
-          key={`${w}-${i}`}
-          className={`w ${accent ? "text-accent" : ""}`}
-          dir={RTL.test(w) ? "rtl" : undefined}
-          style={{ ["--i" as string]: offset + i }}
-        >
-          {w}
-          {i < parts.length - 1 ? " " : ""}
-        </span>
-      ))}
-    </>
-  );
-}
-
-function crateId(c: LifeCrate) {
-  return `crate-${c.number}`;
-}
-
-function Sleeve({ crate, priority }: { crate: LifeCrate; priority?: boolean }) {
-  const fullTitle = crate.accent ? `${crate.title} ${crate.accent}` : crate.title;
-  const meta = [crate.year, crate.place].filter(Boolean).join(" · ");
-  return (
-    <div className="sleeve">
-      <div aria-hidden="true" className="sleeve-disc" />
-      <figure className="sleeve-face">
-        <FilmFacade
-          youtubeId={crate.youtubeId}
-          title={fullTitle}
-          start={crate.start}
-          still={`/assets/life-archive/${crate.youtubeId}.webp`}
-          stillSmall={`/assets/life-archive/${crate.youtubeId}-640.webp`}
-          priority={priority}
-        />
-        <figcaption className="absolute bottom-[10px] left-[14px] right-[14px] flex items-baseline justify-between gap-4 font-arch-mono text-[10px] uppercase tracking-[0.16em] text-black/70 md:bottom-[14px]">
-          <span>
-            {crate.label ?? "Life Crate"} {crate.number}
-          </span>
-          {meta ? <span>{meta}</span> : null}
-        </figcaption>
-      </figure>
-    </div>
-  );
-}
-
-function CrateText({ crate, big }: { crate: LifeCrate; big?: boolean }) {
-  const fullTitle = crate.accent ? `${crate.title} ${crate.accent}` : crate.title;
-  const watchHref = `https://www.youtube.com/watch?v=${crate.youtubeId}${crate.start ? `&t=${crate.start}s` : ""}`;
-  const titleWords = crate.title.split(" ").length;
-  return (
-    <div className="relative">
-      <span
-        aria-hidden="true"
-        className="slate-num pointer-events-none absolute -top-[0.42em] right-0 select-none text-[clamp(6rem,14vw,13rem)] md:-top-[0.5em]"
-      >
-        {crate.number}
-      </span>
-      <p className="relative font-arch-mono text-[11px] uppercase tracking-[0.3em] text-accent">
-        {crate.label ?? "Life Crate"} {crate.number}
-      </p>
-      <h2
-        className={`relative mt-5 font-display uppercase leading-[0.92] md:mt-6 ${
-          big ? "text-[clamp(2.6rem,6.4vw,6.8rem)]" : "text-[clamp(1.9rem,3.4vw,3.4rem)]"
-        }`}
-      >
-        <span className="sr-only">{fullTitle}</span>
-        <span aria-hidden="true" className="title-words">
-          <TitleWords text={crate.title} />
-          {crate.accent ? (
-            <>
-              {" "}
-              <TitleWords text={crate.accent} offset={titleWords} accent />
-            </>
-          ) : null}
-        </span>
-      </h2>
-      {crate.note ? (
-        <p className="relative mt-6 max-w-[48ch] text-sm leading-relaxed text-white/70 md:text-[15px]">{crate.note}</p>
-      ) : null}
-      <a
-        href={watchHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="relative mt-6 inline-flex min-h-11 items-center gap-2 font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/70 transition-colors hover:text-accent"
-      >
-        Watch on YouTube <span aria-hidden="true">↗</span>
-      </a>
-    </div>
-  );
-}
-
-function Crate({ crate, index }: { crate: LifeCrate; index: number }) {
-  if (index === 0) {
-    // The newest record leads at full scale — the crate's front sleeve.
-    return (
-      <article id={crateId(crate)} className="scroll-mt-24 border-t border-white/10 py-16 md:py-28">
-        <Reveal>
-          <div className="grid gap-14 md:grid-cols-12 md:gap-x-10 md:gap-y-16">
-            <div className="md:col-span-12 md:pr-[8%]">
-              <Sleeve crate={crate} priority />
-            </div>
-            <div className="md:col-span-10 md:col-start-2">
-              <CrateText crate={crate} big />
-            </div>
-          </div>
-        </Reveal>
-      </article>
-    );
-  }
-  // Rhythm before symmetry: sleeves alternate sides and drift off the grid.
-  const flip = index % 2 === 1;
-  return (
-    <article id={crateId(crate)} className="scroll-mt-24 border-t border-white/10 py-16 md:py-24">
-      <Reveal>
-        <div className="grid items-center gap-10 md:grid-cols-12 md:gap-12">
-          <div
-            className={`md:col-span-7 ${
-              flip ? "md:order-2 md:col-start-6 md:mt-16 md:pr-[6%]" : "md:pr-[8%]"
-            }`}
-          >
-            <Sleeve crate={crate} />
-          </div>
-          <div className={`md:col-span-5 ${flip ? "md:order-1 md:col-start-1" : "md:pl-4"}`}>
-            <CrateText crate={crate} />
-          </div>
-        </div>
-      </Reveal>
-    </article>
-  );
-}
-
 export function LifeArchive() {
   return (
     <div className="overflow-x-clip">
@@ -292,41 +148,14 @@ export function LifeArchive() {
           </div>
         </header>
 
-        {/* Crate index: the spines, newest to oldest. Native horizontal
-            scroll on small screens (no scroll hijacking). */}
-        <nav aria-label="Films in the archive" className="border-t border-white/10 pt-8">
-          <p className="font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/50">Flip through the crate</p>
-          <ol className="-mx-6 mt-6 flex gap-2 overflow-x-auto px-6 pb-4 pt-4 md:mx-0 md:grid md:grid-cols-10 md:overflow-visible md:px-0">
-            {CRATES.map((c) => (
-              <li key={c.number} className="shrink-0">
-                <a
-                  href={`#${crateId(c)}`}
-                  className="spine flex h-52 w-16 flex-col gap-3 overflow-hidden border border-white/15 bg-[#121212] px-2 py-3 text-white md:h-64 md:w-auto"
-                >
-                  <span className="font-display text-2xl leading-none">{c.number}</span>
-                  {/* The spine carries the film's own title, read bottom-to-top
-                      like a record on a shelf; clipped by the spine's height. */}
-                  <span
-                    aria-hidden="true"
-                    className="min-h-0 flex-1 self-center overflow-hidden whitespace-nowrap font-display text-[15px] uppercase leading-none tracking-wide [writing-mode:vertical-rl] rotate-180"
-                  >
-                    {c.title.replace(/[|:,-]+\s*$/, "").trim()}
-                  </span>
-                  <span className="sr-only">{c.accent ? `${c.title} ${c.accent}` : c.title}</span>
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-
-        <div className="mt-10">
-          {CRATES.map((crate, i) => (
-            <Crate key={crate.number} crate={crate} index={i} />
-          ))}
-        </div>
+        {/* The crate: dig through the films in space, read the one you pull. */}
+        <section aria-label="Flip through the crate" className="border-t border-white/10 pt-8 md:pt-10">
+          <p className="mb-6 font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/50 md:mb-8">Flip through the crate</p>
+          <SpatialArchive crates={CRATES} />
+        </section>
 
         <Reveal>
-          <div className="flex flex-col gap-6 border-t border-white/10 pt-10 md:flex-row md:items-center md:justify-between md:pt-12">
+          <div className="mt-16 flex flex-col gap-6 border-t border-white/10 pt-10 md:mt-24 md:flex-row md:items-center md:justify-between md:pt-12">
             <a
               href={site.media.youtube!.url}
               target="_blank"
