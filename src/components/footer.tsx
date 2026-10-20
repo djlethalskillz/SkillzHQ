@@ -42,6 +42,16 @@ const socials = [
     ),
   },
   {
+    // PROTOTYPE: Bandcamp mark as the plain parallelogram (Simple Icons path, CC0).
+    label: "Bandcamp",
+    href: "https://djlethalskillz.bandcamp.com/",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M0 18.75l7.437-13.5H24l-7.438 13.5H0z" />
+      </svg>
+    ),
+  },
+  {
     label: "YouTube",
     href: "https://www.youtube.com/djlethalskillz",
     icon: (

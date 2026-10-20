@@ -7,12 +7,15 @@ import { site } from "@/lib/site";
 
 // Hash targets are path-absolute ("/#…") so they also work from the
 // /life-archive page, where the home sections are not on the page.
-// Notes are the site's existing chapter lines (no new copy).
+// Notes are the site's existing chapter lines (no new copy), except the
+// Bandcamp prototype's note, which is DRAFT.
 const chapters = [
   { n: "02", href: "/#what-i-do", label: "What I Do", note: "Five disciplines, one practice." },
   { n: "03", href: "/#book", label: "Book Skillz", note: "Let's create something people will remember." },
   { n: "04", href: "/#watch-listen", label: "Watch / Listen", note: "Performance footage and music." },
   { n: "A", href: "/life-archive", label: "Life Archive", note: "Films from the life and work of DJ Lethal Skillz, kept here by hand." },
+  // PROTOTYPE: note is DRAFT copy.
+  { n: "B", href: "/bandcamp", label: "Bandcamp", note: "Albums and tracks, as released on Bandcamp." },
 ];
 
 const EPK = "/assets/DJ_LETHAL_SKILLZ_EPK.pdf";

@@ -1,0 +1,179 @@
+/* PROTOTYPE · /bandcamp — warm crate palette, scoped to this page.
+   Amber, burnt orange and cream sit beside the site's black and yellow; each
+   release adds its own colour (--tone, sampled from its cover). */
+.page {
+  --bc-amber: #f2a33a;
+  --bc-burnt: #c4561f;
+  --bc-cream: #f1e6cf;
+  --bc-ink: #0d0805;
+  background:
+    radial-gradient(120% 60% at 85% 0%, rgba(196, 86, 31, 0.28), transparent 60%),
+    linear-gradient(180deg, #160c06 0%, var(--bc-ink) 38%, #000 100%);
+  color: var(--bc-cream);
+}
+
+/* ---------- The deck: the featured release ---------- */
+.stage {
+  position: relative;
+  isolation: isolate;
+  border-top: 1px solid rgba(241, 230, 207, 0.14);
+  border-bottom: 1px solid rgba(241, 230, 207, 0.14);
+}
+.stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(60% 70% at 28% 50%, color-mix(in srgb, var(--tone) 55%, transparent), transparent 70%),
+    radial-gradient(40% 50% at 90% 90%, rgba(242, 163, 58, 0.16), transparent 70%);
+  transition: opacity 0.4s ease;
+}
+
+/* Sleeve with the record pulled halfway out to the right. The box is wider than
+   the sleeve so the record never leaves it (no page overflow). */
+.composition {
+  position: relative;
+  width: min(100%, 700px);
+  aspect-ratio: 1.62;
+}
+.sleeve {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  width: 61.7%;
+  aspect-ratio: 1;
+  background: var(--bc-cream);
+  padding: 2.2%;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 2px 0 rgba(255, 255, 255, 0.08) inset;
+  transform: rotate(-1.5deg);
+}
+.sleeve img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sleeveEdge {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 2.2%;
+  background: linear-gradient(90deg, rgba(196, 86, 31, 0.55), rgba(242, 163, 58, 0.55));
+}
+.disc {
+  position: absolute;
+  right: 0;
+  top: 3%;
+  z-index: 1;
+  width: 58%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--groove);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  animation: pull-out 0.9s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+.disc::after {
+  /* light falling across the grooves */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 210deg, transparent 0 30deg, rgba(255, 255, 255, 0.12) 50deg, transparent 75deg 200deg, rgba(242, 163, 58, 0.1) 225deg, transparent 250deg);
+}
+.discLabel {
+  position: absolute;
+  inset: 32%;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 0 0 3px var(--tone), inset 0 0 0 1px rgba(0, 0, 0, 0.3);
+}
+.discLabel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.discLabel::after {
+  /* spindle hole */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 9%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--bc-ink);
+  transform: translate(-50%, -50%);
+}
+.spinning .discLabel {
+  animation: spin 6s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes pull-out {
+  from {
+    transform: translateX(-34%) rotate(-40deg);
+  }
+}
+
+/* ---------- The crate: every release, by its cover ---------- */
+.card {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+.cardArt {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+}
+.cardArt::before {
+  /* the record inside the sleeve, rising when you dig */
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 0;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--groove);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.cardArt img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.55);
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.card:hover .cardArt::before,
+.card:focus-visible .cardArt::before,
+.card[aria-pressed="true"] .cardArt::before {
+  transform: translateY(-16%);
+}
+.card:hover .cardArt img,
+.card:focus-visible .cardArt img {
+  transform: translateY(3px);
+}
+.card[aria-pressed="true"] .cardArt img {
+  outline: 3px solid var(--bc-amber);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .disc,
+  .spinning .discLabel {
+    animation: none;
+  }
+  .cardArt::before,
+  .cardArt img {
+    transition: none;
+  }
+}
