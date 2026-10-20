@@ -12,7 +12,10 @@ export function NextStop() {
   const pathname = usePathname();
   const toArchive = pathname !== "/life-archive";
   const href = toArchive ? "/life-archive" : "/#landing";
-  const still = toArchive ? "/assets/life-archive/9oT5hj4XVXA-640.webp" : "/assets/hero2-archival-layer-724.webp";
+  // Back to the HQ shows the composed hero (the canonical hero reference), not
+  // the hero's archival layer: that file is a ~96 % transparent compositing
+  // layer and reads as a blank sheet on this paper card.
+  const still = toArchive ? "/assets/life-archive/9oT5hj4XVXA-640.webp" : "/assets/dj-lethal-skillz-hero2-reference-724.webp";
 
   return (
     <Link
