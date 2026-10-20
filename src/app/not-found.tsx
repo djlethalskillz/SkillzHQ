@@ -1,8 +1,16 @@
 import Link from "next/link";
 
+/* GitHub Pages serves each page at /route (route.html), so /route/ falls through
+ * to this 404 page. Retry once without the trailing slash, keeping ?query and
+ * #hash. The retried URL has no trailing slash, so a genuinely missing page
+ * lands back here and stays. Runs only when this page is loaded directly. */
+const TRAILING_SLASH_FALLBACK =
+  'var p=location.pathname;if(p.length>1&&p.charAt(p.length-1)==="/"){var q=p.replace(/\\/+$/,"");if(q)location.replace(q+location.search+location.hash)}';
+
 export default function NotFound() {
   return (
     <div className="relative mx-auto flex min-h-[80svh] w-full max-w-[1520px] flex-col justify-center overflow-hidden px-6 pb-20 pt-32 md:px-10">
+      <script dangerouslySetInnerHTML={{ __html: TRAILING_SLASH_FALLBACK }} />
       <span
         aria-hidden="true"
         className="slate-num pointer-events-none absolute right-[-0.05em] top-1/2 -translate-y-1/2 select-none text-[clamp(10rem,34vw,30rem)]"
