@@ -866,6 +866,84 @@ html:not(.js) .sa-story + .sa-story {
   }
 }
 
+/* ---------- Life Archive: Arabic identity (typography-led) ----------
+   The owner's Arabic name, مهارات قاتلة, in one calligraphic hand (see
+   arabic-inscription.tsx), stands on the crate rule behind the masthead
+   record, which overlaps its tallest strokes; the caption row carries the
+   words as text. المعرفة قوة sits as a captioned catalogue note. Static: no
+   motion. Scoped to the Life Archive wrapper.
+   Name geometry: height = width / 3.526; baseline at 0.7215 of the height. */
+.la-identity {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(180deg, #000 0%, #070605 34%, #050404 72%, #000 100%);
+}
+.la-name {
+  --w: clamp(360px, 46vw, 660px);
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  right: 26px;
+  top: calc(var(--w) * -0.2046);
+  width: var(--w);
+  height: auto;
+  color: rgba(236, 232, 222, 0.2);
+}
+/* Catalogue rule: a hairline with ticks at both ends. */
+.la-rule::before,
+.la-rule::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  pointer-events: none;
+}
+.la-rule::before {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.14);
+}
+.la-rule::after {
+  height: 7px;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.32)) left top / 1px 7px no-repeat,
+    linear-gradient(rgba(255, 255, 255, 0.32), rgba(255, 255, 255, 0.32)) right top / 1px 7px no-repeat;
+}
+.la-note {
+  margin: 0;
+}
+.la-note-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: rgba(236, 232, 222, 0.34);
+}
+/* Wide screens: in the crate's top-left margin. */
+.la-note--field {
+  position: absolute;
+  left: 0;
+  top: 96px;
+  width: clamp(150px, 14vw, 210px);
+}
+.la-note--close {
+  display: none;
+}
+/* Phones: the name spans the gap between record and rule; the note moves
+   under the closing rule, in the flow, clear of the story's links. */
+@media (max-width: 767px) {
+  .la-name {
+    --w: 84vw;
+    right: 6px;
+  }
+  .la-note--field {
+    display: none;
+  }
+  .la-note--close {
+    display: block;
+    width: 150px;
+  }
+}
+
 /* Film still facade: poster -> projector flicker -> player */
 .projector-flick {
   animation: projector-flick 0.42s steps(6) both;

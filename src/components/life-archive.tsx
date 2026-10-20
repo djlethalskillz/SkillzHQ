@@ -3,6 +3,22 @@ import { site } from "@/lib/site";
 import { Reveal } from "@/components/reveal";
 import { ArchiveRecord } from "@/components/archive-record";
 import { SpatialArchive } from "@/components/spatial-archive";
+import { Inscription } from "@/components/arabic-inscription";
+
+/** المعرفة قوة with its English caption: the Arabic is never shown without it. */
+function KnowledgeNote({ className }: { className: string }) {
+  return (
+    <figure className={className}>
+      <Inscription phrase="knowledge" className="la-note-art" />
+      <figcaption className="mt-2 font-arch-mono text-[10px] uppercase tracking-[0.25em] text-white/60">
+        <span lang="ar" dir="rtl" className="font-sans text-[12px] normal-case tracking-normal">
+          المعرفة قوة
+        </span>{" "}
+        · Knowledge is power
+      </figcaption>
+    </figure>
+  );
+}
 
 export type LifeCrate = {
   /** Crate designation — the entry number, oldest to newest. */
@@ -115,7 +131,7 @@ const CRATES: LifeCrate[] = [
 
 export function LifeArchive() {
   return (
-    <div className="overflow-x-clip">
+    <div className="la-identity overflow-x-clip">
       <div className="mx-auto w-full max-w-[1520px] px-6 pb-16 pt-28 md:px-10 md:pb-24 md:pt-40">
         {/* Masthead: the archive is a record you are about to play. */}
         <header className="grid items-center gap-12 pb-12 md:grid-cols-12 md:pb-20">
@@ -149,13 +165,27 @@ export function LifeArchive() {
         </header>
 
         {/* The crate: dig through the films in space, read the one you pull. */}
-        <section aria-label="Flip through the crate" className="border-t border-white/10 pt-8 md:pt-10">
-          <p className="mb-6 font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/50 md:mb-8">Flip through the crate</p>
+        <section aria-label="Flip through the crate" className="la-rule relative pt-8 md:pt-10">
+          {/* The name in Arabic stands on the crate rule, its tall strokes
+              tucked behind the record; the caption beside it carries the words. */}
+          <Inscription phrase="name" className="la-name" />
+          <div className="mb-6 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 font-arch-mono text-[11px] uppercase tracking-[0.3em] md:mb-8">
+            <p className="text-white/50">Flip through the crate</p>
+            <p className="text-white/60">
+              <span lang="ar" dir="rtl" className="font-sans text-[13px] normal-case tracking-normal">
+                مهارات قاتلة
+              </span>{" "}
+              · Lethal Skillz
+            </p>
+          </div>
+          <KnowledgeNote className="la-note la-note--field" />
           <SpatialArchive crates={CRATES} />
         </section>
 
         <Reveal>
-          <div className="mt-16 flex flex-col gap-6 border-t border-white/10 pt-10 md:mt-24 md:flex-row md:items-center md:justify-between md:pt-12">
+          <div className="la-rule relative mt-16 flex flex-col gap-6 pt-10 md:mt-24 md:flex-row md:items-center md:justify-between md:pt-12">
+            {/* Phones: the knowledge note closes the page instead of sitting by the crate. */}
+            <KnowledgeNote className="la-note la-note--close" />
             <a
               href={site.media.youtube!.url}
               target="_blank"
