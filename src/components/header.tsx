@@ -103,7 +103,7 @@ export default function Header() {
             Download EPK
           </a>
           <Link
-            href="/#book"
+            href="/book"
             className="rounded-full bg-accent px-6 py-3 text-sm font-semibold uppercase tracking-wider text-black transition-colors hover:bg-white"
           >
             Book Skillz
@@ -192,7 +192,7 @@ export default function Header() {
               Download EPK
             </a>
             <Link
-              href="/#book"
+              href="/book"
               onClick={() => close(false)}
               className="rounded-full bg-accent px-7 py-4 font-display text-xl uppercase tracking-wider text-black"
             >

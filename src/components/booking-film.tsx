@@ -16,7 +16,7 @@ const BOOKING_FILM = {
   secondTier: ["Beirut & the Middle East", "Nov — Dec 2026"],
   copy: "Back in the region for the first time in two years. Booking club and festival sets, turntablism workshops and talks across Beirut and the Middle East.",
   services: ["Perform", "Teach", "Speak"],
-  cta: { label: "Book Skillz", href: "#book" },
+  cta: { label: "Book Skillz", href: "/book" },
   // The booking address printed in the EPK (DJ_LETHAL_SKILLZ_EPK.pdf, p.2) —
   // the fallback when the enquiry form can't deliver. VERIFY: mailbox monitored.
   email: "bookings@djlethalskillz.com",
