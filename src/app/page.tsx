@@ -1,6 +1,6 @@
 import { ViewTransition } from "react";
 import { Hero } from "@/components/hero";
-import { AnthemBridge } from "@/components/anthem-bridge";
+import { BookingFilm } from "@/components/booking-film";
 import { WhatIDo } from "@/components/what-i-do";
 import { Booking } from "@/components/booking";
 import { WatchListen } from "@/components/watch-listen";
@@ -12,7 +12,7 @@ export default function Home() {
     <ViewTransition enter="doc-cut-in" exit="doc-cut-out" default="none">
       <div>
         <Hero />
-        <AnthemBridge />
+        <BookingFilm />
         <WhatIDo />
         <Booking />
         <WatchListen />

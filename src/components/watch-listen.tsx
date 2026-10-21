@@ -83,7 +83,7 @@ export function WatchListen() {
         title="Watch / Listen"
         note="Performance footage and music."
       />
-      <div className="media-index mt-12 grid gap-6 md:mt-16 md:grid-cols-2">
+      <div className="media-index mt-12 grid grid-cols-1 gap-6 md:mt-16 md:grid-cols-2">
         <WatchPanel />
         <ListenPanel />
       </div>
