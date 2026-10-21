@@ -194,6 +194,13 @@ export function LifeArchive() {
             >
               More films on {site.media.youtube!.label} ↗
             </a>
+            {/* The other half of the archive: people, places and moments live in Fragments on the HQ. */}
+            <Link
+              href="/#what-i-do"
+              className="inline-flex min-h-11 items-center font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/70 transition-colors hover:text-accent"
+            >
+              People, places, moments: Fragments →
+            </Link>
             <Link
               href="/#landing"
               className="inline-flex min-h-11 items-center gap-3 font-display text-2xl uppercase text-white transition-colors hover:text-accent"
