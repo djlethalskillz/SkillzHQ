@@ -48,7 +48,7 @@ export type LifeCrate = {
  * Each film's still is its own YouTube cover, stored locally at
  * /assets/life-archive/<youtubeId>.webp (see the asset register).
  */
-const CRATES: LifeCrate[] = [
+export const CRATES: LifeCrate[] = [
   {
     number: "10",
     label: "Music Video Archive",
