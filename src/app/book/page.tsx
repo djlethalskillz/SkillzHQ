@@ -60,8 +60,8 @@ export default function BookPage() {
             <Reveal className="lg:col-span-8">
               <p className="font-arch-mono text-[11px] uppercase tracking-[0.3em] text-accent">{EPK_TAGLINE[0]}</p>
               <h1 className="mt-5 font-display text-[clamp(3rem,11vw,10rem)] uppercase leading-[0.86]">
-                <span className="block">Book</span>
-                <span className="block lg:pl-[12%]">DJ Lethal</span>
+                <span className="block">Book</span>{" "}
+                <span className="block lg:pl-[12%]">DJ Lethal</span>{" "}
                 <span className="block">Skillz</span>
               </h1>
             </Reveal>
