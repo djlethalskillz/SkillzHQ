@@ -9,7 +9,7 @@ import { NextStop } from "@/components/next-stop";
 // /life-archive page, where the home sections are not on the page.
 const footerLinks = [
   { href: "/#what-i-do", label: "What I Do" },
-  { href: "/#book", label: "Book Skillz" },
+  { href: "/book", label: "Book Skillz" },
   { href: "/#watch-listen", label: "Watch / Listen" },
 ];
 
@@ -177,7 +177,7 @@ export default function Footer() {
               </Link>
             ))}
             <Link
-              href="/#book"
+              href="/book"
               className="rounded-full bg-accent px-6 py-3 font-semibold uppercase tracking-wider text-black transition-colors hover:bg-white"
             >
               Book Skillz
