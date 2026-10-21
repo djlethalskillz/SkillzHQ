@@ -25,3 +25,19 @@ routes = [
 [vars]
 RESEND_FROM = "SkillzHQ <enquiries@djlethalskillz.com>"
 KIT_FORM_ID = "9864310"
+
+# Workers Logs — mirrors the dashboard settings (logs on, every invocation
+# logged and persisted; traces off). Wrangler treats this file as the source
+# of truth on deploy, so keep it in step with the dashboard.
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+invocation_logs = true
+persist = true
+
+[observability.traces]
+enabled = false
