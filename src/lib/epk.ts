@@ -1,13 +1,23 @@
 /**
- * Lines from the EPK (public/assets/DJ_LETHAL_SKILLZ_EPK.pdf), verbatim.
- * Shown on /book (owner lock amendment, 2026-10-21).
+ * Lines from the EPK (public/assets/DJ_LETHAL_SKILLZ_EPK.pdf, 3 pages), verbatim.
+ * Shown on /book (owner lock amendment, 2026-10-21). Each line cites its EPK
+ * page; the EPK sets them in capitals, the site sets them in CSS uppercase or
+ * sentence case. Add nothing here that is not printed in the EPK.
+ * Not used: the EPK p.1 quote "THE MIDDLE EAST'S PREMIERE TURNTABLIST."
+ * (credited there to Red Bull Music Academy): source and spelling are open
+ * questions for the owner.
  */
 
 export const EPK_PDF = "/assets/DJ_LETHAL_SKILLZ_EPK.pdf";
+// EPK p.2, under "BOOK DJ LETHAL SKILLZ"
 export const BOOKINGS_EMAIL = "bookings@djlethalskillz.com";
 
-export const EPK_TAGLINE = ["DJ · Turntablist · Producer", "Beirut · Kuala Lumpur · Worldwide"] as const;
+export const EPK_TAGLINE = [
+  "DJ · Turntablist · Producer", // EPK p.1, top line
+  "Beirut · Kuala Lumpur · Worldwide", // EPK p.1, bottom line
+] as const;
 
+// EPK p.2, "BOOK SKILLZ": the three numbered columns, every line as printed.
 export const EPK_SERVICES = [
   {
     n: "01",
@@ -45,6 +55,8 @@ export const EPK_SERVICES = [
   },
 ] as const;
 
+// EPK p.3, "RECEIPTS": heading and the twelve numbered captions, as printed.
+// The heading refers to the EPK's own previous pages (open question for the owner).
 export const EPK_RECEIPTS_HEADING = "Every claim on the previous two pages, on paper.";
 
 export const EPK_RECEIPTS = [
