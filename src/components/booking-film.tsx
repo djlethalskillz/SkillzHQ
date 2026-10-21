@@ -17,9 +17,6 @@ const BOOKING_FILM = {
   copy: "Back in the region for the first time in two years. Booking club and festival sets, turntablism workshops and talks across Beirut and the Middle East.",
   services: ["Perform", "Teach", "Speak"],
   cta: { label: "Book Skillz", href: "/book" },
-  // The booking address printed in the EPK (DJ_LETHAL_SKILLZ_EPK.pdf, p.2) —
-  // the fallback when the enquiry form can't deliver (owner confirmed 2026-10-21).
-  email: "bookings@djlethalskillz.com",
 };
 
 /**
@@ -97,7 +94,7 @@ function Film() {
 
 /** Between the hero and What I Do: the film is the evidence, the type is the moment. */
 export function BookingFilm() {
-  const { marker, secondTier, copy, services, cta, email } = BOOKING_FILM;
+  const { marker, secondTier, copy, services, cta } = BOOKING_FILM;
 
   return (
     <section
@@ -144,15 +141,6 @@ export function BookingFilm() {
           >
             {cta.label}
           </a>
-          <p className="mt-5 font-arch-mono text-[11px] uppercase tracking-[0.25em] text-white/60">
-            Or email{" "}
-            <a
-              href={`mailto:${email}`}
-              className="normal-case tracking-normal text-white underline decoration-white/30 underline-offset-4 transition-colors hover:text-accent"
-            >
-              {email}
-            </a>
-          </p>
         </Reveal>
       </div>
     </section>

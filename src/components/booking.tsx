@@ -3,6 +3,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import Image from "next/image";
 import { bookingBriefs, engagementTypes, site } from "@/lib/site";
+import { BOOKINGS_EMAIL } from "@/lib/epk";
 import { Reveal } from "@/components/reveal";
 
 type Brief = (typeof bookingBriefs)[number];
@@ -134,9 +135,20 @@ function BriefForm({ brief }: { brief: Brief }) {
               {state === "sending" ? "Sending…" : "Submit"}
             </button>
             <p aria-live="polite" className="text-xs uppercase tracking-[0.2em] text-white/70">
-              {state === "error"
-                ? "Something went wrong — please try again."
-                : "No spam. This goes straight to the team."}
+              {state === "error" ? (
+                <>
+                  Something went wrong — please try again, or email{" "}
+                  <a
+                    href={`mailto:${BOOKINGS_EMAIL}`}
+                    className="normal-case tracking-normal text-white underline decoration-white/40 underline-offset-4 transition-colors hover:text-accent"
+                  >
+                    {BOOKINGS_EMAIL}
+                  </a>
+                  .
+                </>
+              ) : (
+                "No spam. This goes straight to the team."
+              )}
             </p>
           </div>
         </form>
