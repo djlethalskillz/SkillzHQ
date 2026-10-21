@@ -1,0 +1,65 @@
+name: Form monitor
+
+# Daily no-mail probe of the booking form and newsletter endpoints.
+# An empty JSON body fails validation before the Worker calls Resend or Kit,
+# so nothing is sent. The Worker checks its secrets first, so a 400 also
+# proves they are set. See docs/HOSTING_RUNBOOK.md sections 7-9.
+
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: form-monitor
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SITE: https://djlethalskillz.com
+    steps:
+      - name: Probe endpoints (no mail is sent)
+        shell: bash
+        run: |
+          set -u
+          fail=0
+
+          # check <label> <method> <path> <expected status> <expected body>
+          check() {
+            local label="$1" method="$2" path="$3" want_status="$4" want_body="$5"
+            local args=(-sS -o body.txt -w '%{http_code}' --max-time 20 --retry 2 --retry-delay 5 -X "$method")
+            if [ "$method" = "POST" ]; then
+              args+=(-H 'Content-Type: application/json' -d '{}')
+            fi
+            local status body
+            status=$(curl "${args[@]}" "$SITE$path") || status="curl-error"
+            body=$(cat body.txt 2>/dev/null || true)
+            rm -f body.txt
+            if [ "$status" = "$want_status" ] && [ "$body" = "$want_body" ]; then
+              echo "PASS  $label -> $status $body"
+            else
+              echo "::error title=$label::expected $want_status '$want_body', got $status '$body'"
+              fail=1
+            fi
+          }
+
+          check "OPTIONS /api/enquiry"   OPTIONS /api/enquiry   204 ''
+          check "OPTIONS /api/frequency" OPTIONS /api/frequency 204 ''
+          check "POST {} /api/enquiry"   POST    /api/enquiry   400 '{"error":"invalid-category"}'
+          check "POST {} /api/frequency" POST    /api/frequency 400 '{"error":"invalid-email"}'
+
+          server=$(curl -sSI --max-time 20 --retry 2 "$SITE/" | tr -d '\r' | awk -F': ' 'tolower($1)=="server" {print tolower($2)}')
+          if [ "$server" = "cloudflare" ]; then
+            echo "PASS  HEAD / -> server: $server"
+          else
+            echo "::error title=HEAD /::expected server cloudflare, got '$server' (apex not proxied? see runbook section 8)"
+            fail=1
+          fi
+
+          exit "$fail"

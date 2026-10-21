@@ -1,3 +1,5 @@
+[![Form monitor](https://github.com/djlethalskillz/SkillzHQ/actions/workflows/form-monitor.yml/badge.svg)](https://github.com/djlethalskillz/SkillzHQ/actions/workflows/form-monitor.yml)
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
