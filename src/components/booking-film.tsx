@@ -20,22 +20,16 @@ const BOOKING_FILM = {
 };
 
 /**
- * Poster -> player. The poster is YouTube's own cover for the film (maxres,
- * hq fallback); the privacy-enhanced player mounts only when the visitor
- * presses play, and the HQ's Anthem stops so two soundtracks never overlap.
+ * Poster -> player. The poster is the film's own YouTube cover, stored locally
+ * like every Life Archive still, so nothing loads from YouTube until the visitor
+ * presses play; then the privacy-enhanced player mounts and the HQ's Anthem
+ * stops so two soundtracks never overlap.
  */
 function Film() {
   const { youtubeId, title } = BOOKING_FILM;
   const { playing, toggle } = useAnthem();
   const [state, setState] = useState<"poster" | "flick" | "player">("poster");
-  const [poster, setPoster] = useState(`https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`);
-  const hq = `https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`;
-
-  // A missing maxres cover fails or comes back as YouTube's 120 px placeholder.
-  // Also checked on mount: the poster can fail before hydration attaches onError.
-  function checkPoster(img: HTMLImageElement | null) {
-    if (img?.complete && img.naturalWidth <= 120 && img.src !== hq) setPoster(hq);
-  }
+  const poster = `/assets/booking-film/${youtubeId}.jpg`;
 
   function play() {
     if (playing) toggle();
@@ -71,13 +65,12 @@ function Film() {
       className="group/film relative block aspect-video w-full cursor-pointer overflow-hidden bg-black"
     >
       <img
-        ref={checkPoster}
         src={poster}
         alt=""
+        width={1280}
+        height={720}
         loading="lazy"
         decoding="async"
-        onLoad={(e) => checkPoster(e.currentTarget)}
-        onError={(e) => checkPoster(e.currentTarget)}
         className={`absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover/film:scale-[1.015] ${
           state === "flick" ? "projector-flick" : ""
         }`}
