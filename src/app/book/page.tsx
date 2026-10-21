@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { ViewTransition } from "react";
 import { Booking } from "@/components/booking";
 import { Reveal } from "@/components/reveal";
-import { VerifyMarker } from "@/components/verify-marker";
 import {
   BOOKINGS_EMAIL,
   EPK_PDF,
@@ -48,9 +47,9 @@ export const metadata: Metadata = {
 const STEP = ["", "md:mt-16", "md:mt-32"];
 
 /**
- * PREVIEW (Lane B): the booking path as an EPK page. Everything above the
- * form is the EPK's own wording, held under [VERIFY] markers; the form is
- * the site's existing <Booking />, unchanged.
+ * The booking path as an EPK page (owner lock amendment, 2026-10-21).
+ * Everything above the form is the EPK's own wording, verbatim and cited by
+ * page in src/lib/epk.ts; the form is the site's existing <Booking />.
  */
 export default function BookPage() {
   return (
@@ -80,12 +79,9 @@ export default function BookPage() {
           </header>
 
           <section aria-labelledby="book-services" className="mt-16 border-t border-white/10 pt-8 md:mt-24">
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
-              <h2 id="book-services" className="font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/50">
-                {EPK_SERVICES.map((s) => s.name).join(" · ")}
-              </h2>
-              <VerifyMarker>EPK lines current and cleared for the site</VerifyMarker>
-            </div>
+            <h2 id="book-services" className="font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/50">
+              {EPK_SERVICES.map((s) => s.name).join(" · ")}
+            </h2>
             <ol className="mt-10 grid gap-14 md:grid-cols-3 md:gap-8 lg:gap-12">
               {EPK_SERVICES.map((s, i) => (
                 <li key={s.name} className={STEP[i]}>
@@ -117,7 +113,6 @@ export default function BookPage() {
               <p className="mt-4 max-w-[32ch] font-arch-mono text-[11px] uppercase leading-relaxed tracking-[0.25em] text-white/60">
                 {EPK_RECEIPTS_HEADING}
               </p>
-              <VerifyMarker className="mt-5">EPK lines current and cleared for the site</VerifyMarker>
             </Reveal>
             <ol className="grid gap-x-8 sm:grid-cols-2 lg:col-span-8 xl:grid-cols-3">
               {EPK_RECEIPTS.map((r) => (
@@ -147,10 +142,7 @@ export default function BookPage() {
               >
                 {BOOKINGS_EMAIL}
               </a>
-              <p className="mt-4">
-                <VerifyMarker>mailbox live and monitored?</VerifyMarker>
-              </p>
-              {/* DRAFT copy: the mailbox is the fallback when the form fails. */}
+              {/* The mailbox is the fallback when the form fails (owner-approved copy, 2026-10-21). */}
               <p className="mt-4 max-w-[48ch] text-sm leading-relaxed text-white/60">
                 If the form below doesn&apos;t go through, email directly.
               </p>

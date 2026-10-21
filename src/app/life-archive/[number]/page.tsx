@@ -5,13 +5,13 @@ import { ViewTransition } from "react";
 import { CRATES, type LifeCrate } from "@/lib/life-archive";
 import { FilmFacade } from "@/components/film-facade";
 import { Reveal } from "@/components/reveal";
-import { VerifyMarker } from "@/components/verify-marker";
 import s from "./film.module.css";
 
 /**
- * PREVIEW (Lane B): one static page per film in the Life Archive, built only
- * from the CRATES data and each film's local still. Unknown facts are shown
- * as [VERIFY: …] markers, never filled in.
+ * One static page per film in the Life Archive, built only from the CRATES
+ * data and each film's local still. Unknown facts (year, place, credits,
+ * captions, upload date) are omitted, never shown empty or guessed; the list
+ * of what is missing lives in the audit's OPEN-QUESTIONS.md, not on the page.
  */
 
 const ORIGIN = "https://djlethalskillz.com";
@@ -74,7 +74,6 @@ export default async function FilmPage({ params }: PageProps<"/life-archive/[num
   const newer = CRATES[i - 1];
   const older = CRATES[i + 1];
   const meta = [c.year, c.place].filter(Boolean).join(" · ");
-  const missing = [!c.year && "year", !c.place && "place", "credits", "upload date"].filter(Boolean).join(" · ");
   const url = `${ORIGIN}/life-archive/${c.number}`;
 
   // Same series = an explicit shared label (e.g. Music Video Archive Vol. 1 ↔ Vol. 2).
@@ -188,14 +187,7 @@ export default async function FilmPage({ params }: PageProps<"/life-archive/[num
                 ) : null}
                 <dt className="text-white/50">Source</dt>
                 <dd className="break-words text-white/85">YouTube · {c.youtubeId}</dd>
-                <dt className="text-white/50">Captions</dt>
-                <dd>
-                  <VerifyMarker>captions on YouTube?</VerifyMarker>
-                </dd>
               </dl>
-              <p className="mt-6">
-                <VerifyMarker>{missing}</VerifyMarker>
-              </p>
             </div>
           </section>
 

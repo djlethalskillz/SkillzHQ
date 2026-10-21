@@ -1,7 +1,6 @@
 /**
  * Lines from the EPK (public/assets/DJ_LETHAL_SKILLZ_EPK.pdf), verbatim.
- * PREVIEW: shown on /book under a [VERIFY] marker until the owner confirms
- * they are current and cleared for the site.
+ * Shown on /book (owner lock amendment, 2026-10-21).
  */
 
 export const EPK_PDF = "/assets/DJ_LETHAL_SKILLZ_EPK.pdf";

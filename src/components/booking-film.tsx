@@ -18,7 +18,7 @@ const BOOKING_FILM = {
   services: ["Perform", "Teach", "Speak"],
   cta: { label: "Book Skillz", href: "/book" },
   // The booking address printed in the EPK (DJ_LETHAL_SKILLZ_EPK.pdf, p.2) —
-  // the fallback when the enquiry form can't deliver. VERIFY: mailbox monitored.
+  // the fallback when the enquiry form can't deliver (owner confirmed 2026-10-21).
   email: "bookings@djlethalskillz.com",
 };
 
@@ -152,9 +152,6 @@ export function BookingFilm() {
             >
               {email}
             </a>
-          </p>
-          <p className="mt-1 font-arch-mono text-[10px] uppercase tracking-[0.2em] text-accent">
-            [VERIFY: mailbox live and monitored?]
           </p>
         </Reveal>
       </div>
