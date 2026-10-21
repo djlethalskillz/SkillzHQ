@@ -5,9 +5,8 @@ import { CRATES } from "@/lib/life-archive";
 
 const SITE = "https://djlethalskillz.com";
 
-// The films as structured data: one VideoObject per crate, newest first, built
-// from the same CRATES list the page renders. VERIFY: uploadDate (required for
-// video rich results) is not in the source data and is deliberately left out.
+// The films as a summary list: each entry points at the film's own page, which
+// carries the one VideoObject for that film (single source, no duplicates).
 const FILMS_JSONLD = {
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -18,15 +17,7 @@ const FILMS_JSONLD = {
   itemListElement: CRATES.map((c, i) => ({
     "@type": "ListItem",
     position: i + 1,
-    item: {
-      "@type": "VideoObject",
-      name: c.accent ? `${c.title} ${c.accent.replace(/^·\s*/, "")}` : c.title,
-      ...(c.note ? { description: c.note } : {}),
-      thumbnailUrl: `${SITE}/assets/life-archive/${c.youtubeId}.webp`,
-      embedUrl: `https://www.youtube-nocookie.com/embed/${c.youtubeId}`,
-      url: `${SITE}/life-archive#crate-${c.number}`,
-      author: { "@id": `${SITE}/#person` },
-    },
+    url: `${SITE}/life-archive/${c.number}`,
   })),
 };
 

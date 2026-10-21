@@ -97,7 +97,8 @@ export default async function FilmPage({ params }: PageProps<"/life-archive/[num
     thumbnailUrl: `${ORIGIN}${still(c)}`,
     embedUrl: `https://www.youtube-nocookie.com/embed/${c.youtubeId}`,
     url,
-    // VERIFY: uploadDate needed for rich results
+    author: { "@id": `${ORIGIN}/#person` },
+    // uploadDate is omitted until an approved value exists (OPEN-QUESTIONS.md)
   };
 
   return (
