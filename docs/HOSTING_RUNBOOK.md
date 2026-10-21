@@ -8,7 +8,7 @@ How the site is hosted, which settings must not change, and how to check the boo
 |---|---|---|
 | Static site | GitHub Pages, repo `djlethalskillz/SkillzHQ`, built by `.github/workflows/deploy.yml` | Every push to `main` or `master` rebuilds and deploys `out/` |
 | DNS + edge | Cloudflare zone `djlethalskillz.com` (nameservers `olga.ns.cloudflare.com`, `sid.ns.cloudflare.com`) | Proxies the apex so the Worker can run; handles Email Routing |
-| Form Worker | Cloudflare Worker `skillzhq-enquiry` (`wrangler.toml`, `workers/enquiry.js`, `workers/frequency.js`) | `/api/enquiry` → Resend → owner inbox; `/api/frequency` → Kit (double opt-in) |
+| Form Worker | Cloudflare Worker `skillzhq-enquiry` (`wrangler.toml`, `workers/enquiry.js`, `workers/frequency.js`) | `/api/enquiry` → Resend → owner inbox (the booking form on `/book` and on the HQ at `/#book`); `/api/frequency` → Kit (double opt-in, the newsletter in the footer of every page) |
 | Outbound mail | Resend (sends through Amazon SES, subdomain `send.djlethalskillz.com`) | Delivers booking enquiries |
 | Newsletter | Kit (ConvertKit) | Stores subscribers, sends the confirmation email |
 | Inbound mail | Cloudflare Email Routing | Receives mail for `@djlethalskillz.com` addresses |
@@ -39,7 +39,7 @@ Rules:
 
 `/api/enquiry` and `/api/frequency` are not files on GitHub Pages. They are **Cloudflare Worker routes**: Cloudflare intercepts the request at its edge and runs `skillzhq-enquiry` before the request would reach GitHub. Worker routes only fire for hostnames whose traffic passes through Cloudflare, so the apex must be proxied (orange cloud).
 
-If the apex is DNS-only, browsers talk straight to GitHub Pages, which has no `/api/*`: `GET` returns `404` and `POST`/`OPTIONS` return `405` from `Server: GitHub.com`. The form shows "Something went wrong" to every visitor.
+If the apex is DNS-only, browsers talk straight to GitHub Pages, which has no `/api/*`: `GET` returns `404` and `POST`/`OPTIONS` return `405` from `Server: GitHub.com`. The form shows "Something went wrong — please try again, or email bookings@djlethalskillz.com." to every visitor. The address in that message is the only way an enquiry still gets through.
 
 The trade-off: GitHub Pages renews its certificate only when the apex points straight at GitHub. Section 6 explains how to live with that.
 
@@ -102,7 +102,9 @@ curl -sI https://djlethalskillz.com/
 
 The **Form monitor** workflow (`.github/workflows/form-monitor.yml`) runs exactly these checks once a day and on demand (section 9).
 
-To prove real delivery, send one genuine enquiry from the site and confirm it arrives. Only the owner should do this.
+To prove real delivery, send one genuine enquiry from `https://djlethalskillz.com/book` and confirm it arrives. Only the owner should do this.
+
+Also check after a site release: `https://djlethalskillz.com/book`, one film page (for example `/life-archive/01`) and `https://djlethalskillz.com/sitemap.xml` all return `200`. These are static files on GitHub Pages; a missing one means the release did not include the new routes.
 
 ## 8. Troubleshooting
 
