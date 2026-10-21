@@ -117,6 +117,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
                     "https://www.instagram.com/djlethalskillz/",
                     "https://www.facebook.com/djlethalskillz961/",
                     "https://medium.com/@djlethalskillz",
+                    "https://djlethalskillz.bandcamp.com/",
                   ],
                 },
               ],
