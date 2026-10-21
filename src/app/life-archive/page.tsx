@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ViewTransition } from "react";
-import { CRATES, LifeArchive } from "@/components/life-archive";
+import { LifeArchive } from "@/components/life-archive";
+import { CRATES } from "@/lib/life-archive";
 
 const SITE = "https://djlethalskillz.com";
 

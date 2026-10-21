@@ -9,8 +9,9 @@ import {
   type KeyboardEvent,
   type PointerEvent,
 } from "react";
+import Link from "next/link";
 import { FilmFacade } from "@/components/film-facade";
-import type { LifeCrate } from "@/components/life-archive";
+import type { LifeCrate } from "@/lib/life-archive";
 
 const fullTitle = (c: LifeCrate) => (c.accent ? `${c.title} ${c.accent}` : c.title);
 const meta = (c: LifeCrate) => [c.year, c.place].filter(Boolean).join(" · ");
@@ -280,6 +281,12 @@ export function SpatialArchive({ crates }: { crates: LifeCrate[] }) {
               >
                 Watch on YouTube <span aria-hidden="true">↗</span>
               </a>
+              <Link
+                href={`/life-archive/${c.number}`}
+                className="relative inline-flex min-h-11 items-center gap-2 font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/75 transition-colors hover:text-accent"
+              >
+                Open the film page <span aria-hidden="true">→</span>
+              </Link>
               <button
                 type="button"
                 onClick={() => records.current[i]?.focus()}
