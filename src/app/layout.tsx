@@ -37,9 +37,8 @@ export const metadata: Metadata = {
   title: "DJ Lethal Skillz · DJ · Turntablist · Producer",
   description:
     "DJ Lethal Skillz: commercial DJ, turntablist and producer. Available for bookings, festivals, workshops, speaking and creative collaborations.",
-  alternates: {
-    canonical: "https://djlethalskillz.com/",
-  },
+  // No site-wide canonical: each page sets its own, so the 404 page (which inherits this
+  // layout) no longer claims to be the home page (audit E-06).
   openGraph: {
     title: "DJ Lethal Skillz · DJ · Turntablist · Producer",
     description:

@@ -1,9 +1,16 @@
 import { ViewTransition } from "react";
+import type { Metadata } from "next";
 import { Hero } from "@/components/hero";
 import { BookingFilm } from "@/components/booking-film";
 import { WhatIDo } from "@/components/what-i-do";
 import { Booking } from "@/components/booking";
 import { WatchListen } from "@/components/watch-listen";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "https://djlethalskillz.com/",
+  },
+};
 
 export default function Home() {
   return (
