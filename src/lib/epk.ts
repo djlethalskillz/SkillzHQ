@@ -8,7 +8,9 @@
  * questions for the owner.
  */
 
-export const EPK_PDF = "/assets/DJ_LETHAL_SKILLZ_EPK.pdf";
+// Visitors download the web copy (images re-encoded at 200 dpi; text, vectors and layout untouched).
+// The original stays alongside as the source of truth; rebuild the copy with scripts/epk-web-copy.py.
+export const EPK_PDF = "/assets/DJ_LETHAL_SKILLZ_EPK-web.pdf";
 // EPK p.2, under "BOOK DJ LETHAL SKILLZ"
 export const BOOKINGS_EMAIL = "bookings@djlethalskillz.com";
 

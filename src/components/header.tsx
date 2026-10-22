@@ -18,7 +18,7 @@ const chapters = [
   { n: "B", href: "/bandcamp", label: "Bandcamp", note: "Albums and tracks, as released on Bandcamp." },
 ];
 
-const EPK = "/assets/DJ_LETHAL_SKILLZ_EPK.pdf";
+const EPK = "/assets/DJ_LETHAL_SKILLZ_EPK-web.pdf";
 
 export default function Header() {
   const [open, setOpen] = useState(false);

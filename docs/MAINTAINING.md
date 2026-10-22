@@ -28,6 +28,10 @@ Short, practical notes for the owner and for AI assistants working on this site.
 - Everything in `public/` is deployed and publicly downloadable. Asset logs, QA notes and source originals that no page uses live under `archive/`, which is not served, with the same relative path they would have under `public/` (e.g. `archive/assets/speaking/ASSET_LOG.md`).
 - Moved there on 2026-10-22 (lock amendment A10): `assets/{bandcamp,producer,speaking}/ASSET_LOG.md`, `assets/speaking/SPEAKING_LOOP_QA.txt` and the unused 11 MB hero source photo `assets/sky-0104.jpg`. Nothing was deleted.
 
+## EPK PDF
+- `public/assets/DJ_LETHAL_SKILLZ_EPK.pdf` is the original (5.4 MB) and is never edited. Visitors download the web copy `DJ_LETHAL_SKILLZ_EPK-web.pdf` (1.4 MB), linked from the header and `/book` (`EPK_PDF` in `src/lib/epk.ts`).
+- When the EPK changes: replace the original, then rebuild the copy with `python scripts/epk-web-copy.py public/assets/DJ_LETHAL_SKILLZ_EPK.pdf public/assets/DJ_LETHAL_SKILLZ_EPK-web.pdf` (needs `pip install pymupdf pillow`), compare the pages side by side, and update the size in the `/book` "Download EPK" label.
+
 ## Fonts
 - Body text uses the system sans-serif stack. `globals.css` declares Switzer first, but its remote `@import` is dropped from the built CSS, so Switzer only shows where a visitor has it installed (finding C-01).
 - Switzer is not self-hosted on purpose: its licence (ITF Free Font License 2.0, §02) forbids making the font files available through a repository or publicly accessible server other than for your own site, and this GitHub repository is public. Revisit only if the repository becomes private or the fonts are added at build time outside the repository.

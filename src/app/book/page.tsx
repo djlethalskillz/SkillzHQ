@@ -152,7 +152,7 @@ export default function BookPage() {
                 rel="noopener noreferrer"
                 className="mt-8 inline-flex min-h-11 items-center gap-2 font-arch-mono text-[11px] uppercase tracking-[0.3em] text-white/75 transition-colors hover:text-accent"
               >
-                Download EPK (PDF, 5.1 MB) <span aria-hidden="true">↓</span>
+                Download EPK (PDF, 1.4 MB) <span aria-hidden="true">↓</span>
               </a>
             </div>
           </section>
