@@ -20,7 +20,7 @@ Public records as resolved on 2026-10-21 (Cloudflare DNS-over-HTTPS). The Proxy 
 | Name | Type | Points to (public answer) | Proxy | Why |
 |---|---|---|---|---|
 | `djlethalskillz.com` | A / AAAA | Origin: GitHub Pages (`185.199.108.153`–`185.199.111.153`). Public answer is Cloudflare (`172.67.193.141`, `104.21.49.211`, `2606:4700:…`) because it is proxied | **Proxied — must stay proxied** | The Worker routes only run on proxied traffic (section 3) |
-| `www` | CNAME | `djlethalskillz.github.io` | DNS-only today; **proxy it as part of D-02** (section 6) | GitHub answers `301` to the apex |
+| `www` | CNAME | `djlethalskillz.github.io` | **Proxied** (since 2026-10-22, D-02) | Visitors get Cloudflare's certificate; `www` answers `301` to the apex through Cloudflare |
 | `djlethalskillz.com` | MX | `route1/2/3.mx.cloudflare.net` | n/a (MX is never proxied) | Cloudflare Email Routing |
 | `djlethalskillz.com` | TXT | `v=spf1 include:_spf.mx.cloudflare.net ~all`; `google-site-verification=…` | n/a | Email Routing SPF; Search Console ownership |
 | `send` | MX | `feedback-smtp.ap-northeast-1.amazonses.com` | n/a | Resend bounce handling |
@@ -73,12 +73,13 @@ Notes:
 
 - GitHub Pages' certificate for the apex and `www` was issued during a DNS-only window on 2026-10-21 and **expires 2027-01-19**. While the apex is proxied, GitHub cannot renew it (its check sees Cloudflare, not GitHub: `bad_authz`).
 - Visitors are not affected directly: they see Cloudflare's edge certificate. What breaks is the hop from Cloudflare to GitHub once GitHub's certificate expires, if Cloudflare is strict about it.
-- **Plan (D-02), to finish before about December 2026:**
-  1. Cloudflare → SSL/TLS → Overview → encryption mode **Full** (not "Full (strict)"). Full encrypts the hop to GitHub but accepts an expired or mismatched origin certificate, so the site keeps working after 2027-01-19.
-  2. Set `www` to **Proxied**, so visitors to `www` also get Cloudflare's certificate instead of GitHub's expiring one.
-  3. Run the checks in section 7, plus `curl -sI https://www.djlethalskillz.com/` → `301` to the apex.
-- Expected side effect: GitHub Pages settings will show a certificate warning after the expiry. The site keeps working.
-- The step-by-step clicks, risks and rollback are in the D-02 decision record. The alternative, moving the Worker to its own hostname such as `api.djlethalskillz.com`, needs a lock amendment.
+- **D-02 done 2026-10-22 (owner):**
+  1. Cloudflare → SSL/TLS → encryption mode **Full** (Custom SSL/TLS; not "Full (strict)", never "Flexible"). Full encrypts the hop to GitHub but accepts an expired or mismatched origin certificate, so the site keeps working after 2027-01-19.
+  2. `www` is **Proxied**. Visitors to `www` now get Cloudflare's edge certificate (Google Trust Services, renewed automatically by Cloudflare) instead of GitHub's.
+  3. Verified the same day: apex `200` (`Server: cloudflare`); `https://www…` and `http://www…` → one `301` to `https://djlethalskillz.com/` (`Server: cloudflare`), no loop; both form probes pass (section 7).
+- Never change the mode to **Full (strict)** (every page would fail with error 526 once GitHub's certificate expires) or **Flexible** (redirect loop with GitHub's "Enforce HTTPS").
+- **Expected on 2027-01-19:** GitHub Pages settings show a certificate warning for the custom domain, and "Enforce HTTPS" may grey out. Visitors are unaffected. Check that `curl -sI http://djlethalskillz.com/` still redirects to https; if not, turn on Cloudflare **Always Use HTTPS**.
+- Undo (only if a check fails): `www` back to DNS only, then the encryption mode back to its previous value. Never make the apex DNS-only. The alternative long-term design, moving the Worker to its own hostname such as `api.djlethalskillz.com`, needs a lock amendment.
 
 ## 7. Post-release check (sends no mail)
 

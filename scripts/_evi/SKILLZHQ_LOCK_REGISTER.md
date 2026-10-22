@@ -2,7 +2,7 @@
 
 Status: **APPROVED by the owner 2026-10-22** (FINISH brief §2). In force from that date.
 Supersedes: the v1.2.1 whole-site lock (`RELEASE_MANIFEST.md` on `archive-deploy-artifacts` @ `fe056b2`, site `b7b3337`, 2026-08-16), which is **RETIRED** (owner, 2026-10-21; see "Retired" at the end).
-Baseline: the 2026-10-22 follow-up release (`release/2026-10-22-followup`). Hashes are taken at its code-final commit `35eabb5`; the release's last commit changes only docs and this register. Previous baseline: `0d32e39` (combined release; its hash lists stay alongside for comparison).
+Baseline: the 2026-10-22 follow-up release, live as `80a7b4d` since 2026-10-22 (rollback target `0d32e39`). Hashes are taken at its code-final commit `35eabb5`; the release's last commit changes only docs and this register. Previous baseline: `0d32e39` (combined release; its hash lists stay alongside for comparison).
 
 This register restates each chapter's own lock record against the current code. It does not replace those records (`CHECKPOINT_*.md`, `HERO2_VISUAL_LOCK_SPEC.md`, `scripts/_evi/*_PRODUCTION_LOCK.md`); where they disagree, the chapter's record plus any amendment below wins. Lock dates: Hero 2026-08-13, DJ and Architecture 2026-08-14, Turntablism and Speaking 2026-08-15, Producer, Fragments, Book Skillz and Watch/Listen 2026-08-16.
 
@@ -25,9 +25,9 @@ Source: the owner's brief "SKILLZHQ — COMBINED RELEASE: LANE A + LANE B", §1.
 | A7 | Generated sitemap (`src/app/sitemap.ts`) replaces `public/sitemap.xml` | Owner adopts Lane B `733bb91`; generated to avoid hand-kept dates | `src/app/sitemap.ts` | None |
 | A8 | The two in-chapter "Book Skillz" buttons (Speaking and Producer) go to `/book` instead of `#book` | Owner decision 2026-10-22 (FINISH brief §3a): every Book link on the site leads to the same page | `src/components/what-i-do.tsx` (href and `next/link` only) | L4 Speaking, L5 Producer (chapter CTA target) |
 | A9 | `fetchPriority="high"` on the Hero vinyl-logo backdrop `<img>` (the mobile LCP element). `src`, `srcSet` (512w/1024w) and `sizes` unchanged; no visual change | Owner decision 2026-10-22 (FINISH brief §3b; finding D-03) | `src/components/hero.tsx` (one attribute) | L1 Hero (composition untouched; loading hint only) |
-| A10 | Internal files moved out of `public/` (no longer served) into `archive/` with the same relative path: `assets/sky-0104.jpg` (11 MB, unused hero source photo), `assets/{bandcamp,producer,speaking}/ASSET_LOG.md`, `assets/speaking/SPEAKING_LOOP_QA.txt`. `site.heroBackground` (never read) set to `null` so it no longer points at a served path. Nothing deleted | Owner decision 2026-10-22 (FINISH brief §3d; SEO F07, finding A-03) | `archive/assets/**`, `src/lib/site.ts`, `src/lib/bandcamp.ts` (comment), `docs/MAINTAINING.md` | L1 Hero (historical artifact `sky-0104.jpg`, preserved per `CHECKPOINT_HERO2.md:49`, now unserved); L4 Speaking and L5 Producer asset folders (records only) |
+| A10 | Internal files moved out of `public/` (no longer served) into `archive/` with the same relative path: `assets/sky-0104.jpg` (11 MB, unused hero source photo), `assets/{bandcamp,producer,speaking}/ASSET_LOG.md`, `assets/speaking/SPEAKING_LOOP_QA.txt`. `site.heroBackground` (never read) set to `null` so it no longer points at a served path. Nothing deleted | Owner decision 2026-10-22 (FINISH brief §3d; SEO F07, finding D-05) | `archive/assets/**`, `src/lib/site.ts`, `src/lib/bandcamp.ts` (comment), `docs/MAINTAINING.md` | L1 Hero (historical artifact `sky-0104.jpg`, preserved per `CHECKPOINT_HERO2.md:49`, now unserved); L4 Speaking and L5 Producer asset folders (records only) |
 
-Amendments A8 onward were approved by the owner on 2026-10-22 for the follow-up release (FINISH brief §3) and take effect when it ships.
+Amendments A8 onward were approved by the owner on 2026-10-22 for the follow-up release (FINISH brief §3) and shipped in `80a7b4d` (2026-10-22).
 
 ## Allowed-change classes (used below)
 
