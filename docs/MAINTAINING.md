@@ -21,8 +21,21 @@ Short, practical notes for the owner and for AI assistants working on this site.
 2. Add an entry at the top of `CRATES` in `src/lib/life-archive.ts`: next `number` (two digits), the official title verbatim (`title` + `accent`), `youtubeId`, `start` only if the source URL has one, `year`/`place` **only** when they appear in the source material, `note` only as owner-approved first-person copy.
 3. That one entry also builds the film's own page `/life-archive/<number>` (title, description from the note, canonical, Open Graph image = the still, one `VideoObject`), adds it to the `/life-archive` ItemList and to `sitemap.xml` (generated at build by `src/app/sitemap.ts`, lastmod = build date). Nothing else to edit for those.
 4. Update the page description in `src/app/life-archive/page.tsx` (it lists the titles by hand).
-5. Record the still and its source in an asset register (the one cited in `src/lib/life-archive.ts` does not exist yet — create `archive/assets/life-archive/ASSET_LOG.md` (asset logs live under `archive/`, which is not served), or keep it outside `public/` so it isn't served).
+5. Record the still and its source in an asset register. The one cited in `src/lib/life-archive.ts` does not exist yet: create `archive/assets/life-archive/ASSET_LOG.md` (see "Asset records" below).
 6. Build (`npm run build`), check `/life-archive` and `/life-archive/<number>` at 375 and 1440 px, flip to the new record with the keyboard, play the film from both pages.
+
+## Asset records
+- Everything in `public/` is deployed and publicly downloadable. Asset logs, QA notes and source originals that no page uses live under `archive/`, which is not served, with the same relative path they would have under `public/` (e.g. `archive/assets/speaking/ASSET_LOG.md`).
+- Moved there on 2026-10-22 (lock amendment A10): `assets/{bandcamp,producer,speaking}/ASSET_LOG.md`, `assets/speaking/SPEAKING_LOOP_QA.txt` and the unused 11 MB hero source photo `assets/sky-0104.jpg`. Nothing was deleted.
+
+## Fonts
+- Body text uses the system sans-serif stack. `globals.css` declares Switzer first, but its remote `@import` is dropped from the built CSS, so Switzer only shows where a visitor has it installed (finding C-01).
+- Switzer is not self-hosted on purpose: its licence (ITF Free Font License 2.0, §02) forbids making the font files available through a repository or publicly accessible server other than for your own site, and this GitHub repository is public. Revisit only if the repository becomes private or the fonts are added at build time outside the repository.
+
+## Development and dependencies
+- `npm run dev` listens on `127.0.0.1` only. To test from a phone on the same network, run `npx next dev --hostname 0.0.0.0` deliberately and stop it afterwards.
+- `next` and `eslint-config-next` are pinned to the same exact version (16.3.8 since 2026-10-22). Bump them together, then run the full release checklist.
+- `npm audit` still reports high advisories in ESLint's own dependencies (`eslint-config-next` → `fast-glob`/`micromatch`/`braces`). They are development-only and never shipped; the only offered fix is a breaking downgrade, so they are accepted until `eslint-config-next` updates them.
 
 ## Release checklist
 - `npm run build`, `npx tsc --noEmit`, `npx eslint src` — 0 errors.

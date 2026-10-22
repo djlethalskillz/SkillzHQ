@@ -124,6 +124,6 @@ Also check after a site release: `https://djlethalskillz.com/book`, one film pag
 - `.github/workflows/form-monitor.yml` runs daily at 02:17 UTC and can be started by hand: GitHub → Actions → **Form monitor** → **Run workflow**. It needs no secrets.
 - The job fails if any check in section 7 does not match exactly. The run log shows the expected and actual status and body for each check.
 - **Who gets the email:** GitHub emails a failed scheduled run to the person who created the workflow, or to whoever last changed its `cron` line. That person needs Actions email notifications on (GitHub → Settings → Notifications → System → Actions).
-- **Scheduled runs only start from the default branch.** The monitor starts working once this file is on the default branch.
+- **Scheduled runs only start from the default branch.** The default branch is `master` (changed from `main` on 2026-10-22, when the monitor first ran green). Keep it `master`: on any other default branch the monitor silently stops and its Run workflow button disappears.
 - **60-day pause:** this repository is public, and GitHub automatically disables scheduled workflows in a public repository after 60 days with no repository activity. To re-enable: GitHub → Actions → **Form monitor** (left sidebar) → **Enable workflow**, or `gh workflow enable form-monitor.yml`. Any push also counts as activity.
 - A failing monitor does not take anything down. It only reports.
