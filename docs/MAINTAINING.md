@@ -3,7 +3,7 @@
 Short, practical notes for the owner and for AI assistants working on this site. Lock records and approvals always win over this file.
 
 ## Before changing anything
-- Production locks: `scripts/_evi/*PRODUCTION_LOCK*.md`, `CHECKPOINT_*.md`, `HERO2_VISUAL_LOCK_SPEC.md`. Locked chapters (Hero, What I Do chapters, Fragments, Book Skillz + enquiry worker, Watch/Listen) change only for a genuine production bug or an owner-approved lock amendment.
+- Production locks: start with the per-chapter lock register `scripts/_evi/SKILLZHQ_LOCK_REGISTER.md` (approved 2026-10-22: files, SHA-256, allowed changes, owner amendments). It restates the chapter records `scripts/_evi/*PRODUCTION_LOCK*.md`, `CHECKPOINT_*.md` and `HERO2_VISUAL_LOCK_SPEC.md`. The v1.2.1 whole-site lock is retired. Locked chapters (Hero, What I Do chapters, Fragments, Book Skillz + enquiry worker, Watch/Listen) change only for a genuine production bug or an owner-approved lock amendment.
 - Book Skillz amendment (owner, 2026-10-21): the booking path is `/book`, an EPK-style page around the unchanged `<Booking />` form. Site-wide Book links go there; the form also stays on the HQ at `/#book`. The fallback address appears on `/book` and in the form's error message only.
 - `/book` copy comes from the EPK, verbatim, in `src/lib/epk.ts`, with each line's EPK page cited in a comment. Change it only when the EPK changes; never add a line that the EPK doesn't print.
 - No placeholders on the live site: unknown facts are left out (UI and structured data), never shown as `[VERIFY]`, `DRAFT` or empty fields.
