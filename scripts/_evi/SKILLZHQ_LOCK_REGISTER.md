@@ -24,8 +24,9 @@ Source: the owner's brief "SKILLZHQ — COMBINED RELEASE: LANE A + LANE B", §1.
 | A5 | Archive → Fragments link at the archive close | Owner adopts Lane A `5c3dd52` | `src/components/life-archive.tsx` | None (archive side only; Fragments L6 untouched) |
 | A6 | Booking form error message text changed (part of A1) | As A1 | `src/components/booking.tsx` | **L7** copy |
 | A7 | Generated sitemap (`src/app/sitemap.ts`) replaces `public/sitemap.xml` | Owner adopts Lane B `733bb91`; generated to avoid hand-kept dates | `src/app/sitemap.ts` | None |
+| A8 | The two in-chapter "Book Skillz" buttons (Speaking and Producer) go to `/book` instead of `#book` | Owner decision 2026-10-22 (FINISH brief §3a): every Book link on the site leads to the same page | `src/components/what-i-do.tsx` (href and `next/link` only) | L4 Speaking, L5 Producer (chapter CTA target) |
 
-Not amended (still locked): `what-i-do.tsx` (L2–L5), whose two in-chapter "Book Skillz" buttons keep `#book`, and the Hero (L1) `fetchpriority` question. Both are listed as open owner questions in the 2026-10-21 audit.
+Amendments A8 onward were approved by the owner on 2026-10-22 for the follow-up release (FINISH brief §3) and take effect when it ships.
 
 ## Allowed-change classes (used below)
 

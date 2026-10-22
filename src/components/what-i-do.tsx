@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Reveal } from "@/components/reveal";
 import { SectionHeader } from "@/components/section-header";
 import { FragmentsChapter } from "@/components/fragments";
@@ -575,12 +576,12 @@ function SpeakingChapter() {
 
       {/* BOOK SKILLZ — same destination as every discipline */}
       <div className="mt-14 flex md:mt-20">
-        <a
-          href="#book"
+        <Link
+          href="/book"
           className="rounded-full bg-accent px-8 py-4 font-semibold uppercase tracking-wider text-black transition-colors hover:bg-white"
         >
           Book Skillz
-        </a>
+        </Link>
       </div>
     </div>
   );
@@ -737,12 +738,12 @@ function ProducerChapter() {
 
       {/* BOOK SKILLZ — same destination as every discipline */}
       <div className="mt-14 flex md:mt-20">
-        <a
-          href="#book"
+        <Link
+          href="/book"
           className="rounded-full bg-accent px-8 py-4 font-semibold uppercase tracking-wider text-black transition-colors hover:bg-white"
         >
           Book Skillz
-        </a>
+        </Link>
       </div>
     </div>
   );
