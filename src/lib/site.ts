@@ -46,8 +46,9 @@ export const site = {
       WebP 2x derivative; canonical 4624×3468 PNG kept untouched as source of truth. */
   hero2Master: "/assets/skillz-hero2-master-2x.webp" as string | null,
 
-  /** Hero background photograph — the approved SKY_0104 source image. */
-  heroBackground: "/assets/sky-0104.jpg" as string | null,
+  /** Hero background photograph — the approved SKY_0104 source image. Not rendered by
+      Hero 2; the source file is kept, unserved, at archive/assets/sky-0104.jpg. */
+  heroBackground: null as string | null,
 
   /** Foreground figure — transparent cutout of Skillz, layered over the type. */
   heroImage: {

@@ -21,7 +21,7 @@ Short, practical notes for the owner and for AI assistants working on this site.
 2. Add an entry at the top of `CRATES` in `src/lib/life-archive.ts`: next `number` (two digits), the official title verbatim (`title` + `accent`), `youtubeId`, `start` only if the source URL has one, `year`/`place` **only** when they appear in the source material, `note` only as owner-approved first-person copy.
 3. That one entry also builds the film's own page `/life-archive/<number>` (title, description from the note, canonical, Open Graph image = the still, one `VideoObject`), adds it to the `/life-archive` ItemList and to `sitemap.xml` (generated at build by `src/app/sitemap.ts`, lastmod = build date). Nothing else to edit for those.
 4. Update the page description in `src/app/life-archive/page.tsx` (it lists the titles by hand).
-5. Record the still and its source in an asset register (the one cited in `src/lib/life-archive.ts` does not exist yet — create `public/assets/life-archive/ASSET_LOG.md`, or keep it outside `public/` so it isn't served).
+5. Record the still and its source in an asset register (the one cited in `src/lib/life-archive.ts` does not exist yet — create `archive/assets/life-archive/ASSET_LOG.md` (asset logs live under `archive/`, which is not served), or keep it outside `public/` so it isn't served).
 6. Build (`npm run build`), check `/life-archive` and `/life-archive/<number>` at 375 and 1440 px, flip to the new record with the keyboard, play the film from both pages.
 
 ## Release checklist

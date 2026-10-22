@@ -10,7 +10,7 @@
  * Covers are the release artwork, stored at /assets/bandcamp/<id>.webp: the owner's
  * own file where it was confirmed identical to the Bandcamp cover (720px), otherwise
  * the cover Bandcamp shows on the artist page (350px, never upscaled). Provenance:
- * public/assets/bandcamp/ASSET_LOG.md. Tone is the cover's own most saturated colour.
+ * archive/assets/bandcamp/ASSET_LOG.md. Tone is the cover's own most saturated colour.
  * A new release is added by hand at the top: its id comes from Share/Embed on
  * the release page.
  */
