@@ -84,7 +84,7 @@ Amendments A8 onward were approved by the owner on 2026-10-22 for the follow-up 
 |---|---|---|
 | `.github/workflows/deploy.yml` | `ad84f22f431649f36bf11ebd7b7656dca9ca19d463080ec13007ebdafe4fea6b` | Any push to `main`/`master` deploys. Changes need owner approval |
 | `next.config.ts` | `fbccc3b492f6631e93c15f6c9afc20416c9f26af07635d3ebbb8094b5eee2c68` | `output: "export"` is what keeps the site serverless |
-| `package.json` | `7ad9f318b22d1cba5e4727f250ec7e5d22cd641ff704d93d91a1c821f92be71c` | Dependency bumps: build + full QA (next 16.3.8 proposed) |
+| `package.json` | `7ad9f318b22d1cba5e4727f250ec7e5d22cd641ff704d93d91a1c821f92be71c` | Dependency bumps: build + full QA. `next` and `eslint-config-next` 16.3.8 since the 2026-10-22 follow-up release; `npm run dev` binds to 127.0.0.1 |
 
 ## Retired
 
