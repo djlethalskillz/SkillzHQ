@@ -46,6 +46,14 @@ Short, practical notes for the owner and for AI assistants working on this site.
 - `next` and `eslint-config-next` are pinned to the same exact version (16.3.8 since 2026-10-22). Bump them together, then run the full release checklist.
 - `npm audit` still reports high advisories in ESLint's own dependencies (`eslint-config-next` → `fast-glob`/`micromatch`/`braces`). They are development-only and never shipped; the only offered fix is a breaking downgrade, so they are accepted until `eslint-config-next` updates them.
 
+## Visual safety net: `npm run qa` (local only)
+- `npm run qa` builds the site, serves `out/` on `localhost:4100` (`qa/serve.mjs`; `/api/*` answers 503, so nothing reaches the live forms) and runs Playwright in the installed Google Chrome, desktop (1280) and mobile (375):
+  - `qa/locked-chapters.spec.ts`: a screenshot baseline for every locked chapter in the lock register: Hero, the chapter list, DJ, Turntablism, Speaking, Producer and Fragments (each opened), Book Skillz on the HQ, `/book`, Watch/Listen, and the footer (Anthem + Follow). Reduced motion, CSS animations off, videos and iframes masked.
+  - `qa/axe.spec.ts`: axe-core (WCAG 2.0/2.1 A + AA) on every route, zero violations allowed.
+- A failing screenshot means a locked chapter looks different. Open `test-results/` (expected, actual and diff images). If the change is an owner-approved amendment, re-baseline with `npm run qa:update` and commit the new images in `qa/locked-chapters.spec.ts-snapshots/` with the amendment; otherwise fix the change.
+- Baselines are per platform (`-win32`) and were made on Windows with Chrome. On another OS or a very different Chrome version, re-baseline first on an unchanged build.
+- It is not part of the deploy workflow on purpose: run it before every release.
+
 ## Release checklist
 - `npm run build`, `npx tsc --noEmit`, `npx eslint src` — 0 errors.
 - No horizontal overflow at 320 / 375 / 768 / 1440.
