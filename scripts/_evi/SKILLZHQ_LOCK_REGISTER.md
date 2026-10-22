@@ -2,11 +2,11 @@
 
 Status: **APPROVED by the owner 2026-10-22** (FINISH brief §2). In force from that date.
 Supersedes: the v1.2.1 whole-site lock (`RELEASE_MANIFEST.md` on `archive-deploy-artifacts` @ `fe056b2`, site `b7b3337`, 2026-08-16), which is **RETIRED** (owner, 2026-10-21; see "Retired" at the end).
-Baseline: the 2026-10-22 follow-up release, live as `80a7b4d` since 2026-10-22 (rollback target `0d32e39`). Hashes are taken at its code-final commit `35eabb5`; the release's last commit changes only docs and this register. Previous baseline: `0d32e39` (combined release; its hash lists stay alongside for comparison).
+Baseline: the 2026-10-22 autopilot release (`release/2026-10-22-autopilot`, on top of `3b7d8a6`; rollback target `3b7d8a6`). Hashes are taken at its code-final commit `49af940`; the release's last commit changes only this register and its hash lists. Earlier baselines (`0d32e39`, `35eabb5`) keep their hash lists alongside for comparison.
 
 This register restates each chapter's own lock record against the current code. It does not replace those records (`CHECKPOINT_*.md`, `HERO2_VISUAL_LOCK_SPEC.md`, `scripts/_evi/*_PRODUCTION_LOCK.md`); where they disagree, the chapter's record plus any amendment below wins. Lock dates: Hero 2026-08-13, DJ and Architecture 2026-08-14, Turntablism and Speaking 2026-08-15, Producer, Fragments, Book Skillz and Watch/Listen 2026-08-16.
 
-- **Hashes:** SHA-256 of each file's content at the baseline commit, read from git objects, not a working tree. Full list: `scripts/_evi/lock-hashes-35eabb5.csv`; asset-folder aggregates: `scripts/_evi/lock-hashes-35eabb5-folders.csv`. A folder's aggregate is the SHA-256 of its sorted `<sha256>  <path>` lines (one per file, newline-terminated), so adding, removing or changing any file in it changes the aggregate.
+- **Hashes:** SHA-256 of each file's content at the baseline commit, read from git objects, not a working tree. Full list: `scripts/_evi/lock-hashes-49af940.csv`; asset-folder aggregates: `scripts/_evi/lock-hashes-49af940-folders.csv`. A folder's aggregate is the SHA-256 of its sorted `<sha256>  <path>` lines (one per file, newline-terminated), so adding, removing or changing any file in it changes the aggregate.
 - **How to check:** `node scripts/_evi/lock-hashes.mjs . <commit> <out.csv>`, then diff against the CSVs.
 - **How to change a locked chapter:** a genuine production bug (BUG), or a written owner amendment added to the table below (what, why, date, files, what it overrides). Then re-issue the hashes from the shipped commit.
 
@@ -45,9 +45,9 @@ Amendments A8–A10 were approved by the owner on 2026-10-22 for the follow-up r
 
 ## Locked chapters
 
-| # | Chapter | Files (SHA-256 at `35eabb5`) | Assets (folder aggregate) | Allowed changes |
+| # | Chapter | Files (SHA-256 at `49af940`) | Assets (folder aggregate) | Allowed changes |
 |---|---|---|---|---|
-| L1 | **Hero 2** (`#landing`) | `src/components/hero.tsx` `3bae04b6033e9bca2f36e9f70cf739ec0c3ee87b4cbb5b575bec9fd9478274cc` | `public/assets/` top level (56 files: `hero2-*`, `skillz-vinyl-logo-backdrop-*`, OG image, logos) `fe3aaba5329741763c1fc340a24e2237526b9ce45fa93683ee086ce32498ae5f` | BUG, CSS. AMEND for composition, layers, text or assets. Amended: A9 (`fetchPriority` on the backdrop) |
+| L1 | **Hero 2** (`#landing`) | `src/components/hero.tsx` `3bae04b6033e9bca2f36e9f70cf739ec0c3ee87b4cbb5b575bec9fd9478274cc` | `public/assets/` top level (57 files incl. the EPK and its web copy: `hero2-*`, `skillz-vinyl-logo-backdrop-*`, OG image, logos) `b0a9856aad0b5bee5fa95ec0849e055b95060287f7143269e7305fa20abe9c50` | BUG, CSS. AMEND for composition, layers, text or assets. Amended: A9 (`fetchPriority` on the backdrop) |
 | L2 | **DJ** chapter + expanding-chapter pattern | `src/components/what-i-do.tsx` `a4d1ee268bdac6cc5a1a9a7a3ef4be7f91fcac03851cbe9285e5467955fe077b` (shared with L3–L6 entry); `src/lib/site.ts` `518842fd2544f33bde55a8eb33c68652ddf8a33822aacba40e7355c5f7237c86` (`djArchive`) | `public/assets/cells/` `ccdeb930a3a6bf3d2a2b8d16a3c243be1a891e5a1c80b01801e360a5ed9110c6` | BUG; AMEND |
 | L3 | **Turntablism** | `what-i-do.tsx`, `site.ts` (as above) | `public/assets/turntablism/` `1c2c975c744180ac41994d51dcf8f9cdaeb49db91762152b440a95c51c792401` | BUG only (`CHECKPOINT_TURNTABLISM.md:238`); AMEND |
 | L4 | **Speaking** | `what-i-do.tsx`, `site.ts` (as above) | `public/assets/speaking/` `966829716da1661a09e18fb6ba90df9cd5db1fdaa2b0095659d986ed987d3944` | BUG only (`CHECKPOINT_SPEAKING.md:326-327`) plus the explicit prohibitions at `:173`; AMEND |
@@ -59,15 +59,15 @@ Amendments A8–A10 were approved by the owner on 2026-10-22 for the follow-up r
 
 ## Shared DNA (a change here is a change to every locked chapter)
 
-| File | SHA-256 at `35eabb5` | Allowed changes |
+| File | SHA-256 at `49af940` | Allowed changes |
 |---|---|---|
 | `src/app/globals.css` | `e11a24739bfca2cb3435e5198d45748ba302dc1b0c3afdc570ee2794d7225bda` | Existing rules: AMEND. New, scoped rules for OPEN pages: OPEN, reviewed for leakage. Switzer font (C-01): AMEND |
-| `src/app/layout.tsx` | `d97eb6d3256948feec8fcb54d727bee26ab94245c7245bc50b8da2654e17152e` | Fonts and shell (header, footer, grain, progress): AMEND. **JSON-LD metadata: OPEN** (owner decision 2026-10-21: E-02 is outside the font lock) |
+| `src/app/layout.tsx` | `85b52de2f1fd52cada7500e5452717fff61d8f3084900101390b4b4a14c946e4` | Fonts and shell (header, footer, grain, progress): AMEND. **JSON-LD metadata: OPEN** (owner decision 2026-10-21: E-02 is outside the font lock) |
 | `src/components/reveal.tsx` | `edb8cfeb614b1c5b513d927fafaa89d0362defd07ab35c2ea34eedad09e8cb5f` | AMEND |
 | `src/components/film-facade.tsx` | `4d2b73c98b3eca655db8de04adec7135d6610e0ddb578d162da806b1bae9f94e` | AMEND (used by L8, the booking film and the archive) |
 | `src/components/section-header.tsx` | `6b19e3e0410f9f4e9dc5957fcea6a85c052bde39611f62af2c07ab17ca329142` | AMEND (every chapter slate) |
 | `src/lib/site.ts` | `518842fd2544f33bde55a8eb33c68652ddf8a33822aacba40e7355c5f7237c86` | Per key: the owning chapter's class applies. Keys used only by OPEN pages: OPEN |
-| `src/app/page.tsx` | `d3127692a5f9952786229b420699169cbd618693776baff30ce82faabd9c3bda` | Chapter order (L9 IA directive): AMEND |
+| `src/app/page.tsx` | `01c7dd43774c1b687aaff6f216745593d5090459d6dfe762219a8f5473f9bec0` | Chapter order (L9 IA directive): AMEND |
 
 ## Open (not locked): normal review + QA
 
@@ -82,11 +82,11 @@ Amendments A8–A10 were approved by the owner on 2026-10-22 for the follow-up r
 
 ## Change-controlled infrastructure
 
-| File | SHA-256 at `35eabb5` | Rule |
+| File | SHA-256 at `49af940` | Rule |
 |---|---|---|
-| `.github/workflows/deploy.yml` | `ad84f22f431649f36bf11ebd7b7656dca9ca19d463080ec13007ebdafe4fea6b` | Any push to `main`/`master` deploys. Changes need owner approval |
+| `.github/workflows/deploy.yml` | `0127d756c88a2742cffaf31dcaaaf14f9c326eb25920b6401aaaffcd0f145515` | Any push to `main`/`master` deploys. Changes need owner approval |
 | `next.config.ts` | `fbccc3b492f6631e93c15f6c9afc20416c9f26af07635d3ebbb8094b5eee2c68` | `output: "export"` is what keeps the site serverless |
-| `package.json` | `ba0abba84927b83f081c6ea26f3f36aad4e921f88a5636e5e6982e368d0831cb` | Dependency bumps: build + full QA. `next` and `eslint-config-next` 16.3.8 since the 2026-10-22 follow-up release; `npm run dev` binds to 127.0.0.1 |
+| `package.json` | `4291052c71213c41a288d9d8ffbad64084194dc9b014a31254fddbd54619a5b7` | Dependency bumps: build + full QA. `next` and `eslint-config-next` 16.3.8 since the 2026-10-22 follow-up release; `npm run dev` binds to 127.0.0.1 |
 
 ## Retired
 
