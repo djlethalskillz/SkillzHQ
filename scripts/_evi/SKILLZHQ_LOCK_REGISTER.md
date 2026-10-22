@@ -25,6 +25,7 @@ Source: the owner's brief "SKILLZHQ — COMBINED RELEASE: LANE A + LANE B", §1.
 | A6 | Booking form error message text changed (part of A1) | As A1 | `src/components/booking.tsx` | **L7** copy |
 | A7 | Generated sitemap (`src/app/sitemap.ts`) replaces `public/sitemap.xml` | Owner adopts Lane B `733bb91`; generated to avoid hand-kept dates | `src/app/sitemap.ts` | None |
 | A8 | The two in-chapter "Book Skillz" buttons (Speaking and Producer) go to `/book` instead of `#book` | Owner decision 2026-10-22 (FINISH brief §3a): every Book link on the site leads to the same page | `src/components/what-i-do.tsx` (href and `next/link` only) | L4 Speaking, L5 Producer (chapter CTA target) |
+| A9 | `fetchPriority="high"` on the Hero vinyl-logo backdrop `<img>` (the mobile LCP element). `src`, `srcSet` (512w/1024w) and `sizes` unchanged; no visual change | Owner decision 2026-10-22 (FINISH brief §3b; finding D-03) | `src/components/hero.tsx` (one attribute) | L1 Hero (composition untouched; loading hint only) |
 
 Amendments A8 onward were approved by the owner on 2026-10-22 for the follow-up release (FINISH brief §3) and take effect when it ships.
 
@@ -43,7 +44,7 @@ Amendments A8 onward were approved by the owner on 2026-10-22 for the follow-up 
 
 | # | Chapter | Files (SHA-256 at `0d32e39`) | Assets (folder aggregate) | Allowed changes |
 |---|---|---|---|---|
-| L1 | **Hero 2** (`#landing`) | `src/components/hero.tsx` `b7d562bf2b4930bec082ed7c32dc2726769a11023c0fef892ef96b4abafede77` | `public/assets/` top level (57 files: `hero2-*`, `skillz-vinyl-logo-backdrop-*`, OG image, logos) `587cec474a27c9d683a74b0636ebc0ddc2217c42573e52a0f407090109b4a7f7` | BUG, CSS. AMEND for composition, layers, text or assets. **Pending owner decision:** `fetchpriority="high"` on the vinyl-logo backdrop (D-03, the mobile LCP element) |
+| L1 | **Hero 2** (`#landing`) | `src/components/hero.tsx` `b7d562bf2b4930bec082ed7c32dc2726769a11023c0fef892ef96b4abafede77` | `public/assets/` top level (57 files: `hero2-*`, `skillz-vinyl-logo-backdrop-*`, OG image, logos) `587cec474a27c9d683a74b0636ebc0ddc2217c42573e52a0f407090109b4a7f7` | BUG, CSS. AMEND for composition, layers, text or assets. Amended: A9 (`fetchPriority` on the backdrop) |
 | L2 | **DJ** chapter + expanding-chapter pattern | `src/components/what-i-do.tsx` `179683c5321d899a44f6a741f114c7173f19cb622f030874c22a9d2ab17dea4d` (shared with L3–L6 entry); `src/lib/site.ts` `cec4ecc8d5418a59a44220f3670f039e96f756e5fb999a0e62de7b07951cb210` (`djArchive`) | `public/assets/cells/` `ccdeb930a3a6bf3d2a2b8d16a3c243be1a891e5a1c80b01801e360a5ed9110c6` | BUG; AMEND |
 | L3 | **Turntablism** | `what-i-do.tsx`, `site.ts` (as above) | `public/assets/turntablism/` `1c2c975c744180ac41994d51dcf8f9cdaeb49db91762152b440a95c51c792401` | BUG only (`CHECKPOINT_TURNTABLISM.md:238`); AMEND |
 | L4 | **Speaking** | `what-i-do.tsx`, `site.ts` (as above) | `public/assets/speaking/` `21399e3d4d603f0befddedeb229211ae81668c588988fa18a598f1b4426ca186` | BUG only (`CHECKPOINT_SPEAKING.md:326-327`) plus the explicit prohibitions at `:173`; AMEND |

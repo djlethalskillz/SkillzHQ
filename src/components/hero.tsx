@@ -363,6 +363,7 @@ export function Hero() {
         style={{ transform: "scale(1.05)" }}
         aria-hidden="true"
         decoding="async"
+        fetchPriority="high"
       />
 
       <div
