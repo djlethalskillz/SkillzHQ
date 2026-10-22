@@ -32,6 +32,11 @@ Short, practical notes for the owner and for AI assistants working on this site.
 - `public/assets/DJ_LETHAL_SKILLZ_EPK.pdf` is the original (5.4 MB) and is never edited. Visitors download the web copy `DJ_LETHAL_SKILLZ_EPK-web.pdf` (1.4 MB), linked from the header and `/book` (`EPK_PDF` in `src/lib/epk.ts`).
 - When the EPK changes: replace the original, then rebuild the copy with `python scripts/epk-web-copy.py public/assets/DJ_LETHAL_SKILLZ_EPK.pdf public/assets/DJ_LETHAL_SKILLZ_EPK-web.pdf` (needs `pip install pymupdf pillow`), compare the pages side by side, and update the size in the `/book` "Download EPK" label.
 
+## Share images (Open Graph)
+- Home, `/book` and `/bandcamp` have their own 1200×630 share images in `public/assets/og/`, set in each page's `metadata` (`openGraph.images` and `twitter.images`). Film pages use their own still; `/life-archive` and the 404 use the site default `assets/djlethalskillz-og-image.jpg` from `src/app/layout.tsx`.
+- They are screenshots of the built pages at 1200×630 with reduced motion and the site menu hidden, so they only ever show the site's own photos and type. If one of those page openings changes, re-shoot it the same way and keep the file name.
+- A page's `openGraph` replaces the layout's as a whole: when you set an image on a page, repeat its title, description, url, siteName and type there.
+
 ## Fonts
 - Body text uses the system sans-serif stack. `globals.css` declares Switzer first, but its remote `@import` is dropped from the built CSS, so Switzer only shows where a visitor has it installed (finding C-01).
 - Switzer is not self-hosted on purpose: its licence (ITF Free Font License 2.0, §02) forbids making the font files available through a repository or publicly accessible server other than for your own site, and this GitHub repository is public. Revisit only if the repository becomes private or the fonts are added at build time outside the repository.

@@ -20,10 +20,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://djlethalskillz.com/assets/djlethalskillz-og-image.jpg",
+        url: "https://djlethalskillz.com/assets/og/og-bandcamp.jpg",
         width: 1200,
         height: 630,
-        alt: "DJ Lethal Skillz",
+        alt: "Bandcamp catalogue of DJ Lethal Skillz, with the album Above the Clouds on the deck",
       },
     ],
   },
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Bandcamp · DJ Lethal Skillz",
     description,
-    images: ["https://djlethalskillz.com/assets/djlethalskillz-og-image.jpg"],
+    images: ["https://djlethalskillz.com/assets/og/og-bandcamp.jpg"],
   },
 };
 
